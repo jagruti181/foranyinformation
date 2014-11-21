@@ -302,6 +302,33 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
         
         return $query;
     }
+    
+    
+    function frontendsignup($email,$password) 
+    {
+         $password=md5($password);   
+        $query=$this->db->query("SELECT `id` FROM `user` WHERE `email`='$email'");
+        if($query->num_rows == 0)
+        {
+            $this->db->query("INSERT INTO `user`(`firstname`, `lastname`, `password`, `email`, `website`, `contact`, `address`, `city`, `pincode`, `dob`, `accesslevel`, `facebookuserid`, `status`, `photo`, `phoneno`, `google`, `state`, `country`, `deletestatus`) VALUES (NULL,NULL,'$password','$email',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0)");
+            $user=$this->db->insert_id();
+            $newdata = array(
+                'email'     => $email,
+                'password' => $password,
+                'logged_in' => true,
+                'id'=> $user
+            );
+
+            $this->session->set_userdata($newdata);
+            
+           return $newdata;
+        }
+        else
+         return false;
+        
+        
+    }
+    
     function signup($email,$password) 
     {
          $password=md5($password);   
@@ -356,14 +383,13 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
 
     }
     function authenticate() {
-        $is_logged_in = $this->session->userdata( 'logged_in' );
+        $is_logged_in = $this->session->userdata('logged_in');
         //print_r($is_logged_in);
-        if ( $is_logged_in !== 'true' || !isset( $is_logged_in ) ) {
+        if ( $is_logged_in != 'true' || !isset($is_logged_in) ) {
             return false;
         } //$is_logged_in !== 'true' || !isset( $is_logged_in )
         else {
-            $userid = $this->session->userdata( 'id' );
-         return $userid;
+            return $this->session->userdata('id');
         }
     }
     

@@ -247,7 +247,7 @@ class Category_model extends CI_Model
     
     function getallparentcategories()
 	{
-		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`tab2`.`name` as `parent`,`category`.`logo` 
+		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`status`,`tab2`.`name` as `parent`,`category`.`logo` 
         FROM `category` 
 		LEFT JOIN `category` as `tab2` ON `tab2`.`id`=`category`.`parent`
         WHERE `category`.`parent`=0")->result();

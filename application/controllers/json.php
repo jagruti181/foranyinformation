@@ -15,11 +15,29 @@ class Json extends CI_Controller
         $data['message']=$this->category_model->getallparentcategories();
 		$this->load->view('json',$data);
     }
+    public function login()
+    {
+        $email=$this->input->get("email");
+        $password=$this->input->get("password");
+        $data['message']=$this->user_model->login($email,$password);
+        $this->load->view('json',$data);
+    }
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        
+		$this->load->view('json',true);
+    }
+    public function authenticate()
+    {
+        $data['message']=$this->user_model->authenticate();
+		$this->load->view('json',$data);
+    }
     public function signup()
     {
         $email=$this->input->get_post("email");
         $password=$this->input->get_post("password");
-        $data['message']=$this->user_model->signup($email,$password);
+        $data['message']=$this->user_model->frontendsignup($email,$password);
         $this->load->view('json',$data);
         
     }
