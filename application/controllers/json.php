@@ -15,6 +15,17 @@ class Json extends CI_Controller
         $data['message']=$this->category_model->getallparentcategories();
 		$this->load->view('json',$data);
     }
+    public function enquiryuser()
+    {
+        $name=$this->input->get("name");
+        $listing=$this->input->get("listing");
+        $email=$this->input->get("email");
+        $phone=$this->input->get("phone");
+        $type=$this->input->get("type");
+        $comment=$this->input->get("comment");
+        $data['message']=$this->enquiry_model->enquiryuser($name,$listing,$email,$phone,$type,$comment);
+        $this->load->view('json',$data);
+    }
     public function login()
     {
         $email=$this->input->get("email");

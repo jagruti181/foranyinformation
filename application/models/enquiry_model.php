@@ -3,8 +3,34 @@ if ( !defined( 'BASEPATH' ) )
 	exit( 'No direct script access allowed' );
 class Enquiry_model extends CI_Model
 {
+    
+    
+//    enquiry function jagruti with extrafields
+    
 	
-	public function create($name,$listing,$email,$phone)
+	public function enquiryuser($name,$listing,$email,$phone,$type,$comment)
+	{
+        $user=$this->user_model->frontendsignup($email,'');
+        
+		$data  = array(
+			'name' => $name,
+			'listing' => $listing,
+			'email' => $email,
+			'phone' => $phone,
+            'type'=> $type,
+            'comment' => $comment
+		);
+		$query=$this->db->insert( 'enquiry', $data );
+		$id=$this->db->insert_id();
+		
+		if(!$query)
+			return  0;
+		else
+			return  1;
+	}
+    
+    
+    public function create($name,$listing,$email,$phone)
 	{
 		$data  = array(
 			'name' => $name,
