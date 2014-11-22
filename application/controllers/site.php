@@ -404,6 +404,7 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 		$data[ 'status' ] =$this->category_model->getstatusdropdown();
 		$data['category']=$this->category_model->getcategorydropdown();
+		$data['typeofimage']=$this->category_model->gettypeofimagedropdown();
 		$data[ 'page' ] = 'createcategory';
 		$data[ 'title' ] = 'Create category';
 		$this->load->view( 'template', $data );	
@@ -417,11 +418,13 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('parent','parent','trim|');
 		$this->form_validation->set_rules('status','status','trim|');
 		$this->form_validation->set_rules('logo','logo','trim|');
+		$this->form_validation->set_rules('typeofimage','typeofimage','trim|');
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
 			$data[ 'status' ] =$this->category_model->getstatusdropdown();
 			$data['category']=$this->category_model->getcategorydropdown();
+            $data['typeofimage']=$this->category_model->gettypeofimagedropdown();
 			$data[ 'page' ] = 'createcategory';
 			$data[ 'title' ] = 'Create category';
 			$this->load->view('template',$data);
@@ -432,7 +435,20 @@ class Site extends CI_Controller
 			$parent=$this->input->post('parent');
 			$status=$this->input->post('status');
 			$logo=$this->input->post('logo');
-			if($this->category_model->createcategory($name,$parent,$status,$logo)==0)
+			$typeofimage=$this->input->post('typeofimage');
+            
+            $config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+			$this->load->library('upload', $config);
+			$filename="image";
+			$image="";
+			if (  $this->upload->do_upload($filename))
+			{
+				$uploaddata = $this->upload->data();
+				$image=$uploaddata['file_name'];
+			}
+            
+			if($this->category_model->createcategory($name,$parent,$status,$logo,$image,$typeofimage)==0)
 			$data['alerterror']="New category could not be created.";
 			else
 			$data['alertsuccess']="category  created Successfully.";
@@ -450,6 +466,7 @@ class Site extends CI_Controller
 		$data['before']=$this->category_model->beforeeditcategory($this->input->get('id'));
 		$data['category']=$this->category_model->getcategorydropdown();
 		$data[ 'status' ] =$this->category_model->getstatusdropdown();
+		$data['typeofimage']=$this->category_model->gettypeofimagedropdown();
 		$data['page']='editcategory';
 		$data['title']='Edit category';
 		$this->load->view('template',$data);
@@ -462,11 +479,13 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('parent','parent','trim|');
 		$this->form_validation->set_rules('status','status','trim|');
 		$this->form_validation->set_rules('logo','logo','trim|');
+		$this->form_validation->set_rules('typeofimage','typeofimage','trim|');
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
 			$data[ 'status' ] =$this->category_model->getstatusdropdown();
 			$data['category']=$this->category_model->getcategorydropdown();
+            $data['typeofimage']=$this->category_model->gettypeofimagedropdown();
 			$data['before']=$this->category_model->beforeeditcategory($this->input->post('id'));
 			$data['page']='editcategory';
 			$data['title']='Edit category';
@@ -479,8 +498,26 @@ class Site extends CI_Controller
 			$parent=$this->input->post('parent');
 			$status=$this->input->post('status');
 			$logo=$this->input->post('logo');
+			$typeofimage=$this->input->post('typeofimage');
 			
-			if($this->category_model->editcategory($id,$name,$parent,$status,$logo)==0)
+            $config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+			$this->load->library('upload', $config);
+			$filename="image";
+			$image="";
+			if (  $this->upload->do_upload($filename))
+			{
+				$uploaddata = $this->upload->data();
+				$image=$uploaddata['file_name'];
+			}
+            
+            if($image=="")
+            {
+                $image=$this->category_model->getcategoryimagebyid($id);
+                $image=$image->image;
+            }
+            
+			if($this->category_model->editcategory($id,$name,$parent,$status,$logo,$image,$typeofimage)==0)
 			$data['alerterror']="category Editing was unsuccesful";
 			else
 			$data['alertsuccess']="category edited Successfully.";
@@ -1125,6 +1162,8 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
+		$data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
+        $data['category']=$this->category_model->getcategorydropdown();
 		$data[ 'page' ] = 'createenquiry';
 		$data[ 'title' ] = 'Create enquiry';
 		$this->load->view( 'template', $data );	
@@ -1138,11 +1177,16 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('listing','listing','trim');
 		$this->form_validation->set_rules('email','Email','trim|valid_email');
 		$this->form_validation->set_rules('phone','phone','trim');
+		$this->form_validation->set_rules('category','category','trim');
+		$this->form_validation->set_rules('typeofenquiry','typeofenquiry','trim');
+		$this->form_validation->set_rules('comment','comment','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
 			$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
+            $data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
+            $data['category']=$this->category_model->getcategorydropdown();
             $data[ 'page' ] = 'createenquiry';
             $data[ 'title' ] = 'Create enquiry';
             $this->load->view( 'template', $data );		
@@ -1153,8 +1197,11 @@ class Site extends CI_Controller
 			$listing=$this->input->post('listing');
 			$email=$this->input->post('email');
 			$phone=$this->input->post('phone');
+			$category=$this->input->post('category');
+			$typeofenquiry=$this->input->post('typeofenquiry');
+			$comment=$this->input->post('comment');
             
-			if($this->enquiry_model->create($name,$listing,$email,$phone)==0)
+			if($this->enquiry_model->create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment)==0)
 			$data['alerterror']="New enquiry could not be created.";
 			else
 			$data['alertsuccess']="enquiry created Successfully.";
@@ -1172,6 +1219,8 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
+        $data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
+        $data['category']=$this->category_model->getcategorydropdown();
 		$data['before']=$this->enquiry_model->beforeedit($this->input->get('id'));
 		$data['page']='editenquiry';
 		$data['title']='Edit enquiry';
@@ -1186,12 +1235,17 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('listing','listing','trim');
 		$this->form_validation->set_rules('email','Email','trim|valid_email');
 		$this->form_validation->set_rules('phone','phone','trim');
+		$this->form_validation->set_rules('category','category','trim');
+		$this->form_validation->set_rules('typeofenquiry','typeofenquiry','trim');
+		$this->form_validation->set_rules('comment','comment','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
 			$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
             $data['before']=$this->enquiry_model->beforeedit($this->input->get('id'));
+            $data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
+            $data['category']=$this->category_model->getcategorydropdown();
             $data['page']='editenquiry';
             $data['title']='Edit enquiry';
             $this->load->view('template',$data);
@@ -1204,8 +1258,11 @@ class Site extends CI_Controller
 			$listing=$this->input->post('listing');
 			$email=$this->input->post('email');
 			$phone=$this->input->post('phone');
+			$category=$this->input->post('category');
+			$typeofenquiry=$this->input->post('typeofenquiry');
+			$comment=$this->input->post('comment');
             
-			if($this->enquiry_model->edit($id,$name,$listing,$email,$phone)==0)
+			if($this->enquiry_model->edit($id,$name,$listing,$email,$phone,$category,$typeofenquiry,$comment)==0)
 			$data['alerterror']="enquiry Editing was unsuccesful";
 			else
 			$data['alertsuccess']="enquiry edited Successfully.";

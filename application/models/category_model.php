@@ -4,13 +4,15 @@ if ( !defined( 'BASEPATH' ) )
 class Category_model extends CI_Model
 {
 	//category
-	public function createcategory($name,$parent,$status,$logo)
+	public function createcategory($name,$parent,$status,$logo,$image,$typeofimage)
 	{
 		$data  = array(
 			'name' => $name,
 			'parent' => $parent,
 			'status' => $status,
-			'logo' => $logo
+			'logo' => $logo,
+			'image' => $image,
+			'typeofimage' => $typeofimage
 		);
 		$query=$this->db->insert( 'category', $data );
 		
@@ -60,6 +62,20 @@ class Category_model extends CI_Model
 			);
 		return $status;
 	}
+	public function gettypeofimagedropdown()
+	{
+		$typeofimage= array(
+			 "" => "SELECT TYPE",
+			 "1" => "Tag",
+			 "2" => "Image",
+			);
+		return $typeofimage;
+	}
+    public function getcategoryimagebyid($id)
+	{
+		$query=$this->db->query("SELECT `image` FROM `category` WHERE `id`='$id'")->row();
+		return $query;
+	}
     function viewmaincategory()
 	{
 		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`logo`,`category`.`status`,`tab2`.`name` as `parent` FROM `category` 
@@ -92,13 +108,15 @@ class Category_model extends CI_Model
 		return $query;
 	}
 	
-	public function editcategory( $id,$name,$parent,$status,$logo)
+	public function editcategory( $id,$name,$parent,$status,$logo,$image,$typeofimage)
 	{
 		$data = array(
 			'name' => $name,
 			'parent' => $parent,
 			'status' => $status,
-			'logo' => $logo
+			'logo' => $logo,
+			'image' => $image,
+			'typeofimage' => $typeofimage
 		
 		);
 		$this->db->where( 'id', $id );

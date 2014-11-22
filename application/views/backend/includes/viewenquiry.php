@@ -17,6 +17,7 @@
 					<!--<th>Id</th>-->
 					<th>Name</th>
 					<th>Listing</th>
+					<th>Category</th>
 					<td>Email</td>
 					<td>Phone No</td>
 					<td>Timestamp</td>
@@ -29,6 +30,7 @@
 						<!--<td><?php echo $row->id;?></td>-->
 						<td><?php echo $row->name;?></td>
 						<td><?php echo $row->listingname;?></td>
+						<td><?php echo $row->categoryname;?></td>
 						<td><?php echo $row->email;?></td>
 						<td><?php echo $row->phone;?></td>
 						<td><?php echo $row->timestamp;?></td>

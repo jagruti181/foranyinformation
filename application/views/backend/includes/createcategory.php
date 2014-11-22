@@ -20,6 +20,15 @@
 								 
 							?>
 						</div>
+					</div>	
+					<div class="form-group">
+						<label class="col-sm-2 control-label" >Type Of Image</label>
+						<div class="col-sm-4">
+						   <?php 
+								echo form_dropdown('typeofimage',$typeofimage,set_value('typeofimage'),'id="typeofimage" onchange="changeimageortag()" class="form-control populate placeholder "');
+								 
+							?>
+						</div>
 					</div>
 <!--
 					<div class=" form-group">
@@ -33,7 +42,7 @@
 					</div>
 -->
 					
-					<div class="form-group">
+					<div class="form-group" style="display:none" id="ontagselect">
 						User Font Awesome Icons >> 
 						Example : fa fa-money fa-3x
 						<label class="col-sm-2 control-label">Logo(in tag)</label>
@@ -41,6 +50,13 @@
 						  <input type="text" id="normal-field" class="form-control" name="logo" value="<?php echo set_value('logo');?>">
 						</div>
 					</div>
+					
+                    <div class=" form-group" style="display:none" id="onimageselect">
+                      <label class="col-sm-2 control-label" for="normal-field">Image</label>
+                      <div class="col-sm-4">
+                        <input type="file" id="normal-field" class="form-control" name="image" value="<?php echo set_value('image');?>">
+                      </div>
+                    </div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">&nbsp;</label>
 						<div class="col-sm-4">	
@@ -52,3 +68,20 @@
 		</section>
     </div>
 </div>
+<script type="text/javascript">
+     var nodata=9;
+    function changeimageortag() {
+        console.log($('#typeofimage').val());
+        if($('#typeofimage').val()==1)
+        {
+            $("#ontagselect").show();
+            $("#onimageselect").hide();
+        }
+        else if( $('#typeofimage').val()==2)
+        {
+            $("#onimageselect").show();
+            $("#ontagselect").hide();
+        }
+       
+    }
+</script>

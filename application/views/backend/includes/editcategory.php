@@ -27,6 +27,16 @@
 							?>
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label" >Type Of Image</label>
+						<div class="col-sm-4">
+						   <?php 
+								echo form_dropdown('typeofimage',$typeofimage,set_value('typeofimage',$before->typeofimage),'id="typeofimage" onchange="changeimageortag()" class="form-control populate placeholder "');
+								 
+							?>
+						</div>
+					</div>
 <!--
 					<div class=" form-group">
 					  <label class="col-sm-2 control-label">Status</label>
@@ -38,7 +48,10 @@
 					  </div>
 					</div>
 -->
-					
+					<?php
+                        if($before->image=="")
+                        {
+                     ?>
 					<div class="form-group">
 						User Font Awesome Icons >> 
 						Example : fa fa-money fa-3x
@@ -47,6 +60,29 @@
 						  <input type="text" id="normal-field" class="form-control" name="logo" value="<?php echo set_value('logo',$before->logo);?>">
 						</div>
 					</div>
+                    <?php
+                    }
+                    else
+                    {
+                    ?>
+                    
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">Image</label>
+				  <div class="col-sm-4">
+					<input type="file" id="normal-field" class="form-control" name="image" value="<?php echo set_value('image',$before->image);?>">
+					<?php if($before->image == "")
+						 { }
+						 else
+						 { ?>
+							<img src="<?php echo base_url('uploads')."/".$before->image; ?>" width="140px" height="140px">
+						<?php }
+					?>
+				  </div>
+				</div>
+
+                    <?php
+                    }
+                    ?>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">&nbsp;</label>
 						<div class="col-sm-4">	
@@ -58,3 +94,21 @@
 		</section>
     </div>
 </div>
+
+<script type="text/javascript">
+     var nodata=9;
+    function changeimageortag() {
+        console.log($('#typeofimage').val());
+        if($('#typeofimage').val()==1)
+        {
+            $("#ontagselect").show();
+            $("#onimageselect").hide();
+        }
+        else if( $('#typeofimage').val()==2)
+        {
+            $("#onimageselect").show();
+            $("#ontagselect").hide();
+        }
+       
+    }
+</script>

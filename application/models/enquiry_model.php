@@ -30,13 +30,16 @@ class Enquiry_model extends CI_Model
 	}
     
     
-    public function create($name,$listing,$email,$phone)
+    public function create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment)
 	{
 		$data  = array(
 			'name' => $name,
 			'listing' => $listing,
 			'email' => $email,
 			'phone' => $phone,
+			'category' => $category,
+			'type' => $typeofenquiry,
+			'comment' => $comment,
             'timestamp'=>NULL
 		);
 		$query=$this->db->insert( 'enquiry', $data );
@@ -49,9 +52,10 @@ class Enquiry_model extends CI_Model
 	}
 	function viewenquiry()
 	{
-		$query="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`listing`.`name` AS `listingname`
+		$query="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`listing`.`name` AS `listingname`, `enquiry`.`type`, `category`.`name` AS `categoryname`
         FROM `enquiry` 
-        INNER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing`
+        LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing`
+        LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
         WHERE `enquiry`.`deletestatus`=1 ";
 	   
 		$query=$this->db->query($query)->result();
@@ -110,13 +114,16 @@ class Enquiry_model extends CI_Model
 		return $query;
 	}
 	
-	public function edit($id,$name,$listing,$email,$phone)
+	public function edit($id,$name,$listing,$email,$phone,$category,$typeofenquiry,$comment)
 	{
 		$data  = array(
 			'name' => $name,
 			'listing' => $listing,
 			'email' => $email,
 			'phone' => $phone,
+			'category' => $category,
+			'type' => $typeofenquiry,
+			'comment' => $comment,
             'timestamp'=>NULL
 		);
 		
@@ -127,6 +134,16 @@ class Enquiry_model extends CI_Model
 	function deleteenquiry($id)
 	{
 		$query=$this->db->query("DELETE FROM `enquiry` WHERE `id`='$id'");
+	}
+    
+	public function gettypeofenquirydropdown()
+	{
+		$typeofenquiry= array(
+			 "" => "SELECT TYPE",
+			 "1" => "Listing",
+			 "2" => "Category",
+			);
+		return $typeofenquiry;
 	}
 	function changepassword($id,$password)
 	{

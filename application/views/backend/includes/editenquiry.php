@@ -14,6 +14,18 @@
 				</div>
 				
 				<div class=" form-group">
+				  <label class="col-sm-2 control-label">Type Of Enquiry</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('typeofenquiry',$typeofenquiry,set_value('typeofenquiry',$before->type),'onchange="changetypeofenquiry()" class="chzn-select form-control" 	data-placeholder="Choose a Accesslevel..." id="typeofenquiry"');
+					?>
+				  </div>
+				</div>
+				<?php
+                    if($before->type=="1")
+                    {?>
+				<div class=" form-group">
 				  <label class="col-sm-2 control-label">Listing</label>
 				  <div class="col-sm-4">
 					<?php
@@ -22,7 +34,17 @@
 					?>
 				  </div>
 				</div>
-				
+				<?php } else {?>
+				<div class=" form-group"  id="categoryid">
+				  <label class="col-sm-2 control-label">category</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('category',$category,set_value('category',$before->category),'class="chzn-select form-control" 	data-placeholder="Choose a Accesslevel..."');
+					?>
+				  </div>
+				</div>
+				<?php } ?>
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Email</label>
 				  <div class="col-sm-4">

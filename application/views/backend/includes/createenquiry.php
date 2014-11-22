@@ -21,11 +21,29 @@
 				</div>
 				
 				<div class=" form-group">
+				  <label class="col-sm-2 control-label">Type Of Enquiry</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('typeofenquiry',$typeofenquiry,set_value('typeofenquiry'),'onchange="changetypeofenquiry()" class="chzn-select form-control" 	data-placeholder="Choose a Accesslevel..." id="typeofenquiry"');
+					?>
+				  </div>
+				</div>
+				<div class=" form-group" style="display:none;" id="listingid">
 				  <label class="col-sm-2 control-label">Listing</label>
 				  <div class="col-sm-4">
 					<?php
 						
 						echo form_dropdown('listing',$listing,set_value('listing'),'class="chzn-select form-control" 	data-placeholder="Choose a Accesslevel..."');
+					?>
+				  </div>
+				</div>
+				<div class=" form-group" style="display:none;" id="categoryid">
+				  <label class="col-sm-2 control-label">category</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('category',$category,set_value('category'),'class="chzn-select form-control" 	data-placeholder="Choose a Accesslevel..."');
 					?>
 				  </div>
 				</div>
@@ -43,6 +61,12 @@
 					<input type="number" id="normal-field" class="form-control" name="phone" value="<?php echo set_value('phone');?>">
 				  </div>
 				</div>
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">Comment</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control" name="comment" value="<?php echo set_value('comment');?>">
+				  </div>
+				</div>
 				
 				
 				<div class=" form-group">
@@ -57,3 +81,26 @@
 		</section>
 	</div>
 </div>
+
+<script type="text/javascript">
+     var nodata=9;
+    function changetypeofenquiry() {
+        console.log($('#typeofenquiry').val());
+        if($('#typeofenquiry').val()==1)
+        {
+            $("#listingid").show();
+            $("#categoryid").hide();
+        }
+        else if( $('#typeofenquiry').val()==2)
+        {
+            $("#categoryid").show();
+            $("#listingid").hide();
+        }
+        else
+        {
+            $("#categoryid").hide();
+            $("#listingid").hide();
+        }
+       
+    }
+</script>
