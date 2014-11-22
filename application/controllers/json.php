@@ -74,6 +74,12 @@ class Json extends CI_Controller
 		$this->load->view('json',$data);
     }
     
+    public function getcategory()
+    {
+        $data['message']=$this->category_model->getcategory();
+		$this->load->view('json',$data);
+    }
+    
     public function getfilter()
     {
         $id=$this->input->get_post('id');
