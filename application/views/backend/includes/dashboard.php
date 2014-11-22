@@ -5,24 +5,44 @@
             <form >
 					<div class="form-group">
 						<div class="col-sm-6">
-						  <input type="number" id="normal-field" class="form-control" name="name" value="<?php echo set_value('name');?>"><br>
+						  <input type="number" id="normal-field" class="form-control number" name="number" value="<?php echo set_value('number');?>" ><br>
 						  </div>
 						  <div class="col-sm-6">
-						  <button type="submit" class="btn btn-info">Enter</button>
+						  <button type="submit" class="btn btn-info myformsubmit">Enter</button>
 						</div>
 					</div>	
 				</form>
        
                 <script>
-                    $(document).ready(function() {
-                        $(".myformsubmit").click( function() {
-                            var fromdate=$(".fromdate").val();
-                            var todate=$(".todate").val();
-                            var reporttype=$(".reporttype").val();
-                            window.open("<?php echo site_url('report/submitmonthlysalesreport');?>?fromdate="+fromdate+"&todate="+todate+"&reporttype="+reporttype,'_blank');
-                            return false;
+                    $(".myformsubmit").click( function() {
+                        alert($('.number').val());
+                     $.getJSON(
+                            "<?php echo base_url(); ?>index.php/site/submitnumber/" + $('.number').val(), {
+                                id: "123"
+                            },
+                            function (data) {
+                                //  alert(data);
+                                console.log(data);
+                                nodata=data;
+                                // $("#store").html(data);
+//                                changestoretable(data);
+
+                            }
+
+                        );
                         });
-                    });
+                    
+                    
+//                    $(".myformsubmit").click( function() {
+//                            var number=$(".number").val();
+//                            console.log(number);
+//                            alert("hello".number);
+////                            window.open("<?php echo site_url('site/submitnumber');?>?number="+number);
+////                            return false;
+//                        });
+//                    $(document).ready(function() {
+//                        
+//                    });
                 </script>
         </section>
     </div>
