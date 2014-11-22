@@ -190,7 +190,13 @@ class Category_model extends CI_Model
 	public function getcategory()
 	{
 		$query=$this->db->query("SELECT * FROM `category`  ORDER BY `name` ASC")->result();
-		
+		return $query;
+	}
+	public function getcategoryfront()
+	{
+		$query['category']=$this->db->query("SELECT * FROM `category`  ORDER BY `name` ASC")->result();
+		$query['modeofpayment']=$this->modeofpayment_model->viewmodeofpayment();
+        $query['city']=$this->city_model->viewcity();
 		
 		return $query;
 	}

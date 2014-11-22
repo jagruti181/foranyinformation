@@ -76,7 +76,7 @@ class Json extends CI_Controller
     
     public function getcategory()
     {
-        $data['message']=$this->category_model->getcategory();
+        $data['message']=$this->category_model->getcategoryfront();
 		$this->load->view('json',$data);
     }
     
