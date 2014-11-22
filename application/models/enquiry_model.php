@@ -30,7 +30,7 @@ class Enquiry_model extends CI_Model
 	}
     
     
-    public function create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment)
+    public function create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment,$user)
 	{
 		$data  = array(
 			'name' => $name,
@@ -40,6 +40,7 @@ class Enquiry_model extends CI_Model
 			'category' => $category,
 			'type' => $typeofenquiry,
 			'comment' => $comment,
+			'user' => $user,
             'timestamp'=>NULL
 		);
 		$query=$this->db->insert( 'enquiry', $data );
@@ -52,10 +53,11 @@ class Enquiry_model extends CI_Model
 	}
 	function viewenquiry()
 	{
-		$query="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`listing`.`name` AS `listingname`, `enquiry`.`type`, `category`.`name` AS `categoryname`
+		$query="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`user`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`listing`.`name` AS `listingname`, `enquiry`.`type`, `category`.`name` AS `categoryname`,`user`.`firstname`,`user`.`lastname`
         FROM `enquiry` 
         LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing`
         LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
+        LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user`
         WHERE `enquiry`.`deletestatus`=1 ";
 	   
 		$query=$this->db->query($query)->result();
@@ -114,7 +116,7 @@ class Enquiry_model extends CI_Model
 		return $query;
 	}
 	
-	public function edit($id,$name,$listing,$email,$phone,$category,$typeofenquiry,$comment)
+	public function edit($id,$name,$listing,$email,$phone,$category,$typeofenquiry,$comment,$user)
 	{
 		$data  = array(
 			'name' => $name,
@@ -124,6 +126,7 @@ class Enquiry_model extends CI_Model
 			'category' => $category,
 			'type' => $typeofenquiry,
 			'comment' => $comment,
+			'user' => $user,
             'timestamp'=>NULL
 		);
 		
@@ -226,6 +229,73 @@ class Enquiry_model extends CI_Model
 		);
 		$query2=$this->db->insert( 'userlog', $data2 );
 	}
+    
+     public function getdetailsorcreate($number)
+	{
+		$query="SELECT * FROM `user` WHERE  `contact` ='$number'";
+		$userpresentornot=$this->db->query($query);
+         if($userpresentornot->num_rows()==0)
+         {
+             $queryinsert=$this->db->query("INSERT INTO `user`(`contact`) VALUES('$number')");
+             $userid=$this->db->insert_id();
+             $queryselect="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`enquiry`. `category`,`enquiry`. `type`, `enquiry`.`comment`,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname` ,`user`.`firstname`,`user`.`lastname`
+FROM `enquiry`
+LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
+LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing` 
+LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user` 
+WHERE  `enquiry`.`user` ='$userid'";
+		     $queryselect=$this->db->query($queryselect);
+             $data['allenquiries']=$queryselect->result();
+             $userdetailsquery=$this->db->query("SELECT * FROM `user` WHERE `id`='$userid'");
+             $data['userdetail']=$userdetailsquery->row();
+             return $data;
+         }
+         else
+         {
+             $userpresentornot=$userpresentornot->row();
+             $userid=$userpresentornot->id;
+             $queryselect="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`enquiry`. `category`,`enquiry`. `type`, `enquiry`.`comment`,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname` ,`user`.`firstname`,`user`.`lastname`
+FROM `enquiry`
+LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
+LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing` 
+LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user` 
+WHERE  `enquiry`.`user` ='$userid'";
+		     $queryselect=$this->db->query($queryselect);
+             $data['allenquiries']=$queryselect->result();
+             $userdetailsquery=$this->db->query("SELECT * FROM `user` WHERE `id`='$userid'");
+             $data['userdetail']=$userdetailsquery->row();
+             return $data;
+         }
+	}
+//     public function getdetailsorcreate($number)
+//	{
+//		$query="SELECT * FROM `enquiry` WHERE  `phone` ='$number'";
+//		$enquirypresentornot=$this->db->query($query);
+//         if($enquirypresentornot->num_rows()==0)
+//         {
+//             $queryinsert=$this->db->query("INSERT INTO `enquiry`(`phone`) VALUES('$number')");
+//             $enquiryid=$this->db->insert_id();
+//             $queryselect="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`enquiry`. `category`,`enquiry`. `type`, `enquiry`.`comment`,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname` 
+//FROM `enquiry`
+//LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
+//LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing` WHERE  `enquiry`.`id` ='$enquiryid'";
+//		     $queryselect=$this->db->query($queryselect);
+//             $data['allenquiries']=$queryselect->result();
+//             $data['oneenquirydetail']=$queryselect->row();
+//             return $data;
+//         }
+//         else
+//         {
+//             $queryselect="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`enquiry`. `category`,`enquiry`. `type`, `enquiry`.`comment`,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname` 
+//FROM `enquiry`
+//LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
+//LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing` WHERE  `enquiry`.`phone` ='$number'";
+//		     $queryselect=$this->db->query($queryselect);
+//             $data['allenquiries']=$queryselect->result();
+//             $data['oneenquirydetail']=$queryselect->row();
+//             return $data;
+//         }
+//	}
     
 }
 ?>

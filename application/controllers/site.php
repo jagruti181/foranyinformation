@@ -25,6 +25,8 @@ class Site extends CI_Controller
 		//$access = array("1","2");
 //		$access = array("1","2");
 //		$this->checkaccess($access);
+        $data['category']=$this->category_model->getcategorydropdown();
+		$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
 		$data[ 'page' ] = 'dashboard';
 		$data[ 'title' ] = 'Welcome';
 		$this->load->view( 'template', $data );	
@@ -1164,6 +1166,7 @@ class Site extends CI_Controller
 		$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
 		$data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
         $data['category']=$this->category_model->getcategorydropdown();
+		$data[ 'user' ] =$this->listing_model->getuserdropdown();
 		$data[ 'page' ] = 'createenquiry';
 		$data[ 'title' ] = 'Create enquiry';
 		$this->load->view( 'template', $data );	
@@ -1180,6 +1183,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('category','category','trim');
 		$this->form_validation->set_rules('typeofenquiry','typeofenquiry','trim');
 		$this->form_validation->set_rules('comment','comment','trim');
+		$this->form_validation->set_rules('user','user','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -1187,6 +1191,7 @@ class Site extends CI_Controller
 			$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
             $data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
             $data['category']=$this->category_model->getcategorydropdown();
+            $data[ 'user' ] =$this->listing_model->getuserdropdown();
             $data[ 'page' ] = 'createenquiry';
             $data[ 'title' ] = 'Create enquiry';
             $this->load->view( 'template', $data );		
@@ -1200,8 +1205,9 @@ class Site extends CI_Controller
 			$category=$this->input->post('category');
 			$typeofenquiry=$this->input->post('typeofenquiry');
 			$comment=$this->input->post('comment');
+			$user=$this->input->post('user');
             
-			if($this->enquiry_model->create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment)==0)
+			if($this->enquiry_model->create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment,$user)==0)
 			$data['alerterror']="New enquiry could not be created.";
 			else
 			$data['alertsuccess']="enquiry created Successfully.";
@@ -1222,6 +1228,7 @@ class Site extends CI_Controller
         $data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
         $data['category']=$this->category_model->getcategorydropdown();
 		$data['before']=$this->enquiry_model->beforeedit($this->input->get('id'));
+		$data[ 'user' ] =$this->listing_model->getuserdropdown();
 		$data['page']='editenquiry';
 		$data['title']='Edit enquiry';
 		$this->load->view('template',$data);
@@ -1238,6 +1245,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('category','category','trim');
 		$this->form_validation->set_rules('typeofenquiry','typeofenquiry','trim');
 		$this->form_validation->set_rules('comment','comment','trim');
+		$this->form_validation->set_rules('user','user','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -1246,6 +1254,7 @@ class Site extends CI_Controller
             $data['before']=$this->enquiry_model->beforeedit($this->input->get('id'));
             $data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
             $data['category']=$this->category_model->getcategorydropdown();
+            $data[ 'user' ] =$this->listing_model->getuserdropdown();
             $data['page']='editenquiry';
             $data['title']='Edit enquiry';
             $this->load->view('template',$data);
@@ -1261,8 +1270,9 @@ class Site extends CI_Controller
 			$category=$this->input->post('category');
 			$typeofenquiry=$this->input->post('typeofenquiry');
 			$comment=$this->input->post('comment');
+			$user=$this->input->post('user');
             
-			if($this->enquiry_model->edit($id,$name,$listing,$email,$phone,$category,$typeofenquiry,$comment)==0)
+			if($this->enquiry_model->edit($id,$name,$listing,$email,$phone,$category,$typeofenquiry,$comment,$user)==0)
 			$data['alerterror']="enquiry Editing was unsuccesful";
 			else
 			$data['alertsuccess']="enquiry edited Successfully.";
@@ -2121,6 +2131,14 @@ class Site extends CI_Controller
         $this->email->send();
 
         echo $this->email->print_debugger();
+    }
+    public function submitnumber()
+    {
+        $number=$this->input->get_post("number");
+        $data1=$this->enquiry_model->getdetailsorcreate($number);
+        $data["message"]=$data1;
+//        print_r($data);
+        $this->load->view("json",$data);
     }
     
 }
