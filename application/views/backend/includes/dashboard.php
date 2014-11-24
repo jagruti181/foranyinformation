@@ -15,8 +15,8 @@
 </div>
 <br>
  <div class="row">
-        <div class="col-md-8">
-           <div class="col-md-4">
+        <div class="col-md-6">
+           <div class="col-md-6">
                 <section class="panel2">
                     <div id="formcategory" class="form-group">
                                  <?php
@@ -27,7 +27,7 @@
                       </div>
                 </section>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <section class="panel3">
                     <div id="formcategory" class="form-group">
                                    <?php
@@ -40,14 +40,14 @@
                 </section>
             </div>
      </div>
-     <div  class="col-md-4">
-        <div class="col-lg-8 col-sm-8">
+     <div  class="col-md-3">
+        <div class="col-lg-6 col-sm-6">
             <section class="panel2">
                 <div id="user" class="form-group">
-                            <div class="col-sm-8 userdetails">
-
+                  <div class="userdetails">
+                    
                   </div>
-                  </div>
+                </div>
             </section>
         </div>
      </div>
@@ -58,9 +58,9 @@
     <div class="col-lg-8 col-sm-8">
         <section class="panel2">
             <div id="enquiries" class="form-group">
-						<div class="col-sm-8 allenquiries">
-                 
-              </div>
+				<div class="col-sm-8 allenquiries">
+                    
+                </div>
               </div>
         </section>
     </div>
@@ -77,6 +77,7 @@
                 nodata = data;
                 // $("#store").html(data);
                 allenquiries(data);
+                userdetails(data);
 
             }
         );
@@ -96,10 +97,26 @@
 //            $("#enquiries .allenquiries").append(data['allenquiries'][i].id);
              $("#enquiries .allenquiries").append("<div class='well'><div>Listing:"+listingname+"</div><div>Category:"+categoryname+"</div><div>Comment:"+comment+"</div></div>");
         }
-        for (var key in userdetail) {
-  console.log(key);
-}
+//        for (var key in userdetail) {
+//  console.log(key);
+//}
 //        console.log(data(userdetail.id));
+
+    };
+    function userdetails(data) {
+        $("#user .userdetails").html("");
+            console.log(data['userdetail'].id);
+            var id=data['userdetail'].id;
+            var address=data['userdetail'].address;
+            var city=data['userdetail'].city;
+            var contact=data['userdetail'].contact;
+            var dob=data['userdetail'].dob;
+            var email=data['userdetail'].email;
+            var firstname=data['userdetail'].firstname;
+            var pincode=data['userdetail'].pincode;
+             $("#user .userdetails").append("<table><tr><td>Name:</td><td><input type='text' name='name' value='"+firstname+"' class='form-control'><input type='hidden' name='id' value='"+id+"' class='form-control'></td></tr><tr><td>Address:</td><td><input type='text' name='address' value='"+address+"' class='form-control'></td></tr><tr><td>City:</td><td><input type='text' name='city' value='"+city+"' class='form-control'></td></tr><tr><td>Contact:</td><td><input type='text' name='contact' value='"+contact+"' class='form-control'></td></tr><tr><td>DOB:</td><td><input type='date' class='form-control dob' name='dob' value='"+dob+"'></td></tr><tr><td>Email:</td><td><input type='email' name='email' value='"+email+"' class='form-control'></td></tr><tr><td>Pincode:</td><td><input type='text' name='pincode' value='"+pincode+"' class='form-control'></td></tr><tr><td><a class='btn btn-info uderdetailsformsubmit'>Submit</a></td><td></td></tr></table>");
+        
+//             $("#user .userdetails").append("<div>Name:"+firstname+"</div><div>Address:"+address+"</div><div>City:"+city+"</div><div>Contact:"+contact+"</div><div>DOB:"+dob+"</div><div>Email:"+email+"</div><div>Pincode:"+pincode+"</div>");
 
     };
 </script>
