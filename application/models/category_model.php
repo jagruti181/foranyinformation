@@ -197,7 +197,9 @@ class Category_model extends CI_Model
 		$query['category']=$this->db->query("SELECT * FROM `category`  ORDER BY `name` ASC")->result();
 		$query['modeofpayment']=$this->modeofpayment_model->viewmodeofpayment();
         $query['city']=$this->city_model->viewcity();
-		
+        $query['type']=$this->frontend_model->type();
+        $query['isverified']=$this->listing_model->getisverifieddropdown();
+        $query['daysofoperations']=$this->modeofpayment_model->getdaysofoperationforlistingdropdown();
 		return $query;
 	}
 //	public function getstatusdropdown()
