@@ -2140,6 +2140,17 @@ class Site extends CI_Controller
 //        print_r($data);
         $this->load->view("json",$data);
     }
+    public function submitcategoryenquiry()
+    {
+        $category=$this->input->get_post("categoryvalue");
+        $userid=$this->input->get_post("userid");
+        echo $category;
+        echo $userid;
+        $data1=$this->enquiry_model->addcategorytoenquiry($category);
+        $data["message"]=$data1;
+//        print_r($data);
+        $this->load->view("json",$data);
+    }
     
 }
 ?>
