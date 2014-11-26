@@ -9,7 +9,11 @@ class Json extends CI_Controller
 		$data["message"]=$this->product_model->savequantity($product,$quantity);
 		$this->load->view("json",$data);
 	}
-    
+    function type ()
+    {
+        $data["message"]=$this->frontend_model->type();
+		$this->load->view("json",$data);
+    }
     public function getallparentcategories()
     {
         $data['message']=$this->category_model->getallparentcategories();

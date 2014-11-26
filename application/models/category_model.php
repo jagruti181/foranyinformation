@@ -198,8 +198,8 @@ class Category_model extends CI_Model
 		$query['modeofpayment']=$this->modeofpayment_model->viewmodeofpayment();
         $query['city']=$this->city_model->viewcity();
         $query['type']=$this->frontend_model->type();
-        $query['isverified']=$this->listing_model->getisverifieddropdown();
-        $query['daysofoperations']=$this->modeofpayment_model->getdaysofoperationforlistingdropdown();
+        $query['isverified']=$this->frontend_model->isverified();
+        $query['daysofoperations']=$this->frontend_model->getdaysofoperation();
 		return $query;
 	}
 //	public function getstatusdropdown()
