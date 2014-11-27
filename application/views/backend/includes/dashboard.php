@@ -15,20 +15,27 @@
 </div>
 <br>
  <div class="row">
-        <div class="col-md-6 formcategory" style="display:none;">
 <!--
-          <div>
-              For alert
-          </div>
+       <div class="row">
+             
+       </div>
 -->
+       <div class="alert alert-success"  style="display:none;" id="messageadded">
+           Enquiry Added Successfully
+       </div>
+       <div class="alert alert-success"  style="display:none;" id="messageaddedforusercreation">
+           User Updated Successfully
+       </div>
+        <div class="col-md-6 formcategory" style="display:none;">
+          
           <div class="row">
            <div class="col-md-6">
                 <section class="panel2">
                     <div id="formcategory" class="form-group">
-                                <input type="text" name="categoryid" id="categoryid" class="categoryclass">
+                                <input type="hidden" name="categoryid" id="categoryid" class="categoryclass">
                                  <?php
 
-                            echo form_dropdown('category',$category,set_value('category'),'id="select2" class="chzn-select form-control categoryvalue" 	data-placeholder="Choose a Category..."');
+                            echo form_dropdown('category',$category,set_value('category'),' class="chzn-select form-control categoryvalue" 	data-placeholder="Choose a Category..."');
                         ?><br>
                             <a class="btn btn-info categoryformsubmit">Enter</a>
                       </div>
@@ -39,7 +46,7 @@
                     <div id="formcategory" class="form-group">
                                    <?php
 
-                            echo form_dropdown('listing',$listing,set_value('listing'),'id="select1" class="chzn-select form-control" 	data-placeholder="Choose a Listing..."');
+                            echo form_dropdown('listing',$listing,set_value('listing'),' class="chzn-select form-control listingvalue" 	data-placeholder="Choose a Listing..."');
                         ?>
                            <br>
                             <a class="btn btn-info listingformsubmit">Enter</a>
@@ -68,6 +75,9 @@
                   <div class="userdetails">
                     
                   </div>
+                </div>
+                <div class="submitbuttonforuserdetails" style="display:none;">
+                    <a class='btn btn-info userdetailsformsubmit' id='userdetailsformsubmitid'>Submit</a>
                 </div>
             </section>
         </div>
@@ -109,6 +119,7 @@
     
     $(".categoryformsubmit").click(function () {
         console.log( $(".userdetailid").val());
+        console.log( $(".categoryvalue").val());
         $.getJSON(
             "<?php echo base_url(); ?>index.php/site/submitcategoryenquiry", {
                 categoryvalue: $(".categoryvalue").val(),
@@ -116,10 +127,74 @@
             },
             function (data) {
                 console.log(data);
+                console.log("incategoryformsubmit");
                 nodata = data;
+                $("#messageadded").show();
+                $("#messageaddedforusercreation").hide();
                 // $("#store").html(data);
-                allenquiries(data);
-                userdetails(data);
+//                alert(data);
+//                allenquiries(data);
+//                userdetails(data);
+                
+
+            }
+        );
+        return false;
+    });
+    
+    $(".listingformsubmit").click(function () {
+        console.log( $(".userdetailid").val());
+        console.log( $(".listingvalue").val());
+        $.getJSON(
+            "<?php echo base_url(); ?>index.php/site/submitlistingenquiry", {
+                listingvalue: $(".listingvalue").val(),
+                userid: $(".userdetailid").val()
+            },
+            function (data) {
+                console.log(data);
+                console.log("inlistingformsubmit");
+                nodata = data;
+                $("#messageadded").show();
+                $("#messageaddedforusercreation").hide();
+                // $("#store").html(data);
+//                alert(data);
+//                allenquiries(data);
+//                userdetails(data);
+                
+
+            }
+        );
+        return false;
+    });
+    
+    $("#userdetailsformsubmitid").click(function () {
+        console.log( $(".userdetailid").val());
+        alert("hello");
+//        console.log( $(".listingvalue").val());
+        $.getJSON(
+            "<?php echo base_url(); ?>index.php/site/submituserdetails", {
+//                listingvalue: $(".listingvalue").val(),
+                userid: $(".userdetailid").val(),
+                username: $(".userdetailname").val(),
+                useraddress: $(".userdetailaddress").val(),
+                usercity: $(".userdetailcity").val(),
+                usercontact: $(".userdetailcontact").val(),
+                userdob: $(".userdetaildob").val(),
+                useremail: $(".userdetailemail").val(),
+                userpincode: $(".userdetailpincode").val()
+                
+            },
+            function (data) {
+                console.log(data);
+                console.log("inuserdetailsformsubmit");
+                nodata = data;
+                $("#messageadded").hide();
+                $("#messageaddedforusercreation").show();
+                // $("#store").html(data);
+//                alert(data);
+//                allenquiries(data);
+//                userdetails(data);
+                
 
             }
         );
@@ -148,6 +223,7 @@
 
     };
     function userdetails(data) {
+        $(".submitbuttonforuserdetails").show();
         $("#user .userdetails").html("");
             console.log(data['userdetail'].id);
             var id=data['userdetail'].id;
@@ -159,7 +235,8 @@
             var firstname=data['userdetail'].firstname;
             var pincode=data['userdetail'].pincode;
             document.getElementById("categoryid").value = id;
-             $("#user .userdetails").append("<table><tr><td>Name:</td><td><input type='text' name='name' value='"+firstname+"' class='form-control'><input type='hidden' name='id' value='"+id+"' class='form-control userdetailid'></td></tr><tr><td>Address:</td><td><input type='text' name='address' value='"+address+"' class='form-control'></td></tr><tr><td>City:</td><td><input type='text' name='city' value='"+city+"' class='form-control'></td></tr><tr><td>Contact:</td><td><input type='text' name='contact' value='"+contact+"' class='form-control'></td></tr><tr><td>DOB:</td><td><input type='date' class='form-control dob' name='dob' value='"+dob+"'></td></tr><tr><td>Email:</td><td><input type='email' name='email' value='"+email+"' class='form-control'></td></tr><tr><td>Pincode:</td><td><input type='text' name='pincode' value='"+pincode+"' class='form-control'></td></tr><tr><td><a class='btn btn-info uderdetailsformsubmit'>Submit</a></td><td></td></tr></table>");
+             $("#user .userdetails").append("<table><tr><td>Name:</td><td><input type='text' name='name' value='"+firstname+"' class='form-control userdetailname'><input type='hidden' name='id' value='"+id+"' class='form-control userdetailid'></td></tr><tr><td>Address:</td><td><input type='text' name='address' value='"+address+"' class='form-control userdetailaddress'></td></tr><tr><td>City:</td><td><input type='text' name='city' value='"+city+"' class='form-control userdetailcity'></td></tr><tr><td>Contact:</td><td><input type='text' name='contact' value='"+contact+"' class='form-control userdetailcontact'></td></tr><tr><td>DOB:</td><td><input type='date' class='form-control userdetaildob' name='dob' value='"+dob+"'></td></tr><tr><td>Email:</td><td><input type='email' name='email' value='"+email+"' class='form-control userdetailemail'></td></tr><tr><td>Pincode:</td><td><input type='text' name='pincode' value='"+pincode+"' class='form-control userdetailpincode'></td></tr></table>");
+//        <tr><td><a class='btn btn-info userdetailsformsubmit' id='userdetailsformsubmitid'>Submit</a></td><td></td></tr>
         
 //             $("#user .userdetails").append("<div>Name:"+firstname+"</div><div>Address:"+address+"</div><div>City:"+city+"</div><div>Contact:"+contact+"</div><div>DOB:"+dob+"</div><div>Email:"+email+"</div><div>Pincode:"+pincode+"</div>");
 

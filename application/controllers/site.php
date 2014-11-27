@@ -2146,7 +2146,36 @@ class Site extends CI_Controller
         $userid=$this->input->get_post("userid");
 //        echo $category;
 //        echo $userid;
-        $data1=$this->enquiry_model->addcategorytoenquiry($category);
+        $data1=$this->enquiry_model->addcategorytoenquiry($userid,$category);
+        $data["message"]=$data1;
+//        print_r($data);
+        $this->load->view("json",$data);
+    }
+    public function submitlistingenquiry()
+    {
+        $listing=$this->input->get_post("listingvalue");
+        $userid=$this->input->get_post("userid");
+//        echo $listing;
+//        echo $userid;
+        $data1=$this->enquiry_model->addlistingtoenquiry($userid,$listing);
+        $data["message"]=$data1;
+//        print_r($data);
+        $this->load->view("json",$data);
+    }
+    
+    public function submituserdetails()
+    {
+        $userid=$this->input->get_post("userid");
+        $username=$this->input->get_post("username");
+        $useraddress=$this->input->get_post("useraddress");
+        $usercity=$this->input->get_post("usercity");
+        $usercontact=$this->input->get_post("usercontact");
+        $userdob=$this->input->get_post("userdob");
+        $useremail=$this->input->get_post("useremail");
+        $userpincode=$this->input->get_post("userpincode");
+//        echo $listing;
+//        echo $userid;
+        $data1=$this->enquiry_model->adduserdetails($userid,$username,$useraddress,$usercity,$usercontact,$userdob,$useremail,$userpincode);
         $data["message"]=$data1;
 //        print_r($data);
         $this->load->view("json",$data);

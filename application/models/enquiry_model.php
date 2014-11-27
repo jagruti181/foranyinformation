@@ -275,12 +275,61 @@ WHERE  `enquiry`.`user` ='$userid'";
 		$data  = array(
 			'category' => $category,
 			'type' => 2,
-			'user' => $user,
-            'timestamp'=>NULL
+			'user' => $user
 		);
+        $queryselect =$this->db->where($data);
+        $queryselect = $this->db->get('enquiry');
+        $num = $queryselect->num_rows();
+        if($num==0)
+        {
 		$query=$this->db->insert( 'enquiry', $data );
-		$id=$this->db->insert_id();
-		
+        }
+        
+//		$id=$this->db->insert_id();
+//		
+//		if(!$query)
+//			return  0;
+//		else
+			return  1;
+	}
+    
+    public function addlistingtoenquiry($user,$listing)
+	{
+		$data  = array(
+			'listing' => $listing,
+			'type' => 1,
+			'user' => $user
+		);
+        $queryselect =$this->db->where($data);
+        $queryselect = $this->db->get('enquiry');
+        $num = $queryselect->num_rows();
+        if($num==0)
+        {
+		$query=$this->db->insert( 'enquiry', $data );
+        }
+        
+//		$id=$this->db->insert_id();
+//		
+//		if(!$query)
+//			return  0;
+//		else
+			return  1;
+	}
+    public function adduserdetails($userid,$username,$useraddress,$usercity,$usercontact,$userdob,$useremail,$userpincode)
+	{
+		$data  = array(
+			'firstname' => $username,
+			'address' => $useraddress,
+			'city' => $usercity,
+			'contact' => $usercontact,
+			'dob' => $userdob,
+			'email' => $useremail,
+			'pincode' => $userpincode
+		);
+        
+        $query=$this->db->where( 'id', $userid );
+		$query=$this->db->update( 'user', $data );
+       
 		if(!$query)
 			return  0;
 		else
