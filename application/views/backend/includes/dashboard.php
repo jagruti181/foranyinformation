@@ -16,12 +16,16 @@
 <br>
  <div class="row">
         <div class="col-md-6 formcategory" style="display:none;">
+<!--
           <div>
               For alert
           </div>
+-->
+          <div class="row">
            <div class="col-md-6">
                 <section class="panel2">
                     <div id="formcategory" class="form-group">
+                                <input type="text" name="categoryid" id="categoryid" class="categoryclass">
                                  <?php
 
                             echo form_dropdown('category',$category,set_value('category'),'id="select2" class="chzn-select form-control categoryvalue" 	data-placeholder="Choose a Category..."');
@@ -42,8 +46,22 @@
                       </div>
                 </section>
             </div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <section class="panel2">
+                        <div id="enquiries" class="form-group">
+                            <div class="col-sm-12 allenquiries">
+
+                            </div>
+                          </div>
+                    </section>
+                </div>
+            </div>
      </div>
-     <div  class="col-md-3">
+     <div  class="col-md-6">
         <div class="col-lg-6 col-sm-6">
             <section class="panel2">
                 <div id="user" class="form-group">
@@ -57,6 +75,7 @@
 </div>
 <br>
 <div>
+<!--
 <div class="row">
     <div class="col-lg-8 col-sm-8">
         <section class="panel2">
@@ -68,6 +87,7 @@
         </section>
     </div>
 </div>
+-->
 </div>
 <script>
     $(".myformsubmit").click(function () {
@@ -88,6 +108,7 @@
     });
     
     $(".categoryformsubmit").click(function () {
+        console.log( $(".userdetailid").val());
         $.getJSON(
             "<?php echo base_url(); ?>index.php/site/submitcategoryenquiry", {
                 categoryvalue: $(".categoryvalue").val(),
@@ -102,7 +123,7 @@
 
             }
         );
-//        return false;
+        return false;
     });
     
     
@@ -137,6 +158,7 @@
             var email=data['userdetail'].email;
             var firstname=data['userdetail'].firstname;
             var pincode=data['userdetail'].pincode;
+            document.getElementById("categoryid").value = id;
              $("#user .userdetails").append("<table><tr><td>Name:</td><td><input type='text' name='name' value='"+firstname+"' class='form-control'><input type='hidden' name='id' value='"+id+"' class='form-control userdetailid'></td></tr><tr><td>Address:</td><td><input type='text' name='address' value='"+address+"' class='form-control'></td></tr><tr><td>City:</td><td><input type='text' name='city' value='"+city+"' class='form-control'></td></tr><tr><td>Contact:</td><td><input type='text' name='contact' value='"+contact+"' class='form-control'></td></tr><tr><td>DOB:</td><td><input type='date' class='form-control dob' name='dob' value='"+dob+"'></td></tr><tr><td>Email:</td><td><input type='email' name='email' value='"+email+"' class='form-control'></td></tr><tr><td>Pincode:</td><td><input type='text' name='pincode' value='"+pincode+"' class='form-control'></td></tr><tr><td><a class='btn btn-info uderdetailsformsubmit'>Submit</a></td><td></td></tr></table>");
         
 //             $("#user .userdetails").append("<div>Name:"+firstname+"</div><div>Address:"+address+"</div><div>City:"+city+"</div><div>Contact:"+contact+"</div><div>DOB:"+dob+"</div><div>Email:"+email+"</div><div>Pincode:"+pincode+"</div>");

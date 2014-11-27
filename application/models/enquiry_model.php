@@ -51,6 +51,7 @@ class Enquiry_model extends CI_Model
 		else
 			return  1;
 	}
+    
 	function viewenquiry()
 	{
 		$query="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`user`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`listing`.`name` AS `listingname`, `enquiry`.`type`, `category`.`name` AS `categoryname`,`user`.`firstname`,`user`.`lastname`
@@ -267,6 +268,26 @@ WHERE  `enquiry`.`user` ='$userid'";
              return $data;
          }
 	}
+    
+    
+    public function addcategorytoenquiry($user,$category)
+	{
+		$data  = array(
+			'category' => $category,
+			'type' => 2,
+			'user' => $user,
+            'timestamp'=>NULL
+		);
+		$query=$this->db->insert( 'enquiry', $data );
+		$id=$this->db->insert_id();
+		
+		if(!$query)
+			return  0;
+		else
+			return  1;
+	}
+    
+    
 //     public function getdetailsorcreate($number)
 //	{
 //		$query="SELECT * FROM `enquiry` WHERE  `phone` ='$number'";
