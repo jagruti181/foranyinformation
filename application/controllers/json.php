@@ -25,8 +25,8 @@ class Json extends CI_Controller
 //        print_r($data);
             $name=$data['name'];
 			$user=$data['user'];
-			$lat=$data['lat'];
-			$long=$data['long'];
+			$lat=$data['latitude'];
+			$long=$data['longitude'];
             $address=$data['address'];
             $city=$data['city'];
             $pincode=$data['pincode'];
@@ -36,12 +36,12 @@ class Json extends CI_Controller
 			$contact=$data['contact'];
 			$email=$data['email'];
             $website=$data['website'];
-			$facebookuserid=$data['facebookuserid'];
+			$facebookuserid=$data['facebook'];
 			$googleplus=$data['googleplus'];
 			$twitter=$data['twitter'];
 			$yearofestablishment=$data['yearofestablishment'];
-			$timeofoperation_start=$data['timeofoperation_start'];
-			$timeofoperation_end=$data['timeofoperation_end'];
+			$timeofoperation_start=$data['timeofoperationstart'];
+			$timeofoperation_end=$data['timeofoperationend'];
 			$type=$data['type'];
 			$credits=$data['credits'];
 			$isverified=$data['isverified'];
@@ -52,7 +52,7 @@ class Json extends CI_Controller
             $daysofoperation=$data['daysofoperation'];
             $logo=$data['logo'];
             
-			if($this->listing_model->createlisting($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)==0)
+			if($this->frontend_model->createlisting($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)==0)
 			$data['message']="0";
 			else
 			$data['message']="1";
