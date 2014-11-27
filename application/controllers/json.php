@@ -19,6 +19,47 @@ class Json extends CI_Controller
         $data['message']=$this->category_model->getallparentcategories();
 		$this->load->view('json',$data);
     }
+    function createlisting()
+	{
+        $data = json_decode(file_get_contents('php://input'), true);
+//        print_r($data);
+            $name=$data['name'];
+			$user=$data['user'];
+			$lat=$data['lat'];
+			$long=$data['long'];
+            $address=$data['address'];
+            $city=$data['city'];
+            $pincode=$data['pincode'];
+            $state=$data['state'];
+			$country=$data['country'];
+            $description=$data['description'];
+			$contact=$data['contact'];
+			$email=$data['email'];
+            $website=$data['website'];
+			$facebookuserid=$data['facebookuserid'];
+			$googleplus=$data['googleplus'];
+			$twitter=$data['twitter'];
+			$yearofestablishment=$data['yearofestablishment'];
+			$timeofoperation_start=$data['timeofoperation_start'];
+			$timeofoperation_end=$data['timeofoperation_end'];
+			$type=$data['type'];
+			$credits=$data['credits'];
+			$isverified=$data['isverified'];
+			$video=$data['video'];
+            
+            $category=$data['category'];
+            $modeofpayment=$data['modeofpayment'];
+            $daysofoperation=$data['daysofoperation'];
+            $logo=$data['logo'];
+            
+			if($this->listing_model->createlisting($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)==0)
+			$data['message']="0";
+			else
+			$data['message']="1";
+        
+        $this->load->view('json',$data);
+		
+	}
     public function enquiryuser()
     {
         $name=$this->input->get("name");

@@ -38,6 +38,60 @@ class Frontend_model extends CI_Model
 		
 		return $query;
 	}
+    
+    public function createlisting($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)
+	{
+		$data  = array(
+			'name' => $name,
+			'user' => $user,
+			'lat' => $lat,
+			'long' => $long,
+            'address'=>$address,
+            'city'=>$city,
+            'pincode'=>$pincode,
+            'state' => $state,
+            'country' => $country,
+            'description' => $description,
+			'contactno' => $contact,
+			'email' => $email,
+            'website'=> $website,
+			'facebook' => $facebookuserid,
+            'googleplus' => $googleplus,
+            'twitter' => $twitter,
+            'yearofestablishment' => $yearofestablishment,
+            'timeofoperation_start' => $timeofoperation_start,
+            'timeofoperation_end' => $timeofoperation_end,
+            'type' => $type,
+            'credits' => $credits,
+            'isverified' => $isverified,
+            'video' => $video,
+            'logo' => $logo
+		);
+		$query=$this->db->insert( 'listing', $data );
+		$listingid=$this->db->insert_id();
+        $categoryarray=explode(",", $category);
+        $modeofpaymentarray=explode(",", $modeofpayment);
+        $daysofoperationarray=explode(",", $daysofoperation);
+        foreach($categoryarray as $cat)
+        {
+           $this->listing_model->createcategorybylisting($cat,$listingid);
+        }
+        foreach($modeofpaymentarray as $mop)
+        {
+           $this->listing_model->createmodeofpaymentbylisting($mop,$listingid);
+        }
+        foreach($daysofoperationarray as $doo)
+        {
+           $this->listing_model->createdaysofoperationbylisting($doo,$listingid);
+        }
+//		print_r($category);
+//        print_r($modeofpayment);
+//        print_r($daysofoperation);
+		if(!$query)
+			return  0;
+		else
+			return  1;
+	}
 // All frontends dropdown or other functions
     
 }
