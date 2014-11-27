@@ -11,41 +11,35 @@
 			<header class="panel-heading">
                 specialoffer Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<!--<th>Id</th>-->
-					<th>Name</th>
-					<th>Category</th>
-					<td>Email</td>
-					<td>Phone No</td>
-					<td>Timestamp</td>
-					<th> Actions </th>
-				</tr>
-			</thead>
-			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
-						<td><?php echo $row->name;?></td>
-						<td><?php echo $row->categoryname;?></td>
-						<td><?php echo $row->email;?></td>
-						<td><?php echo $row->phone;?></td>
-						<td><?php echo $row->timestamp;?></td>
-						
-						<td>
-							<a href="<?php echo site_url('site/editspecialoffer?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<a href="<?php echo site_url('site/deletespecialoffer?id=').$row->id; ?>" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this item?');">
-								<i class="icon-trash "></i>
-							</a> 
-						
-						</td>
-					</tr>
-					<?php } ?>
-			</tbody>
-			</table>
+			<div class="drawchintantable">
+                <?php $this->chintantable->createsearch("Special Offers List");?>
+                <table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
+                <thead>
+                    <tr>
+                        <th data-field="id">Id</th>
+                        <th data-field="categoryname">category</th>
+                        <th data-field="email">Email</th>
+                        <th data-field="phone">Phone No</th>
+                        <th data-field="timestamp">Timestamp</th>
+                        <th data-field="action"> Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+                </table>
+                   <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
+           <script>
+            function drawtable(resultrow) {
+//                if(!resultrow.address)
+//                {
+//                    resultrow.address="";
+//                }
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.categoryname + "</td><td>" + resultrow.email + "</td><td>" + resultrow.phone + "</td><td>" + resultrow.timestamp + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editspecialoffer?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletespecialoffer?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
 	</div>
 </div>

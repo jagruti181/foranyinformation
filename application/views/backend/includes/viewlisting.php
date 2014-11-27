@@ -11,39 +11,35 @@
 			<header class="panel-heading">
                 Listing Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<!--<th>Id</th>-->
-					<th>Name</th>
-					<th>Address</th>
-					<td>Email</td>
-					<td>Contact No</td>
-					<th> Actions </th>
-				</tr>
-			</thead>
-			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
-						<td><?php echo $row->name;?></td>
-						<td><?php echo $row->address;?></td>
-						<td><?php echo $row->email;?></td>
-						<td><?php echo $row->contactno;?></td>
-						
-						<td>
-							<a href="<?php echo site_url('site/editlisting?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<a href="<?php echo site_url('site/deletelisting?id=').$row->id; ?>" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this item?');">
-								<i class="icon-trash "></i>
-							</a> 
-						
-						</td>
-					</tr>
-					<?php } ?>
-			</tbody>
-			</table>
+			<div class="drawchintantable">
+                <?php $this->chintantable->createsearch("Listing Details");?>
+                <table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
+                <thead>
+                    <tr>
+                        <th data-field="id">Id</th>
+                        <th data-field="name">Name</th>
+                        <th data-field="address">Address</th>
+                        <th data-field="email">Email</th>
+                        <th data-field="contactno">Contact No</th>
+                        <th data-field="action"> Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+                </table>
+                   <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
+		<script>
+            function drawtable(resultrow) {
+                if(!resultrow.address)
+                {
+                    resultrow.address="";
+                }
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.address + "</td><td>" + resultrow.email + "</td><td>" + resultrow.contactno + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editlisting?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletelisting?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
 	</div>
 </div>

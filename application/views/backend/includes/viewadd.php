@@ -11,44 +11,36 @@
 			<header class="panel-heading">
                 Add Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<!--<th>Id</th>-->
-					<th>Name</th>
-					<th>Position</th>
-					<th>From Timestamp</th>
-					<th>To Timestamp</th>
-					<th>Details</th>
-<!--					<th>Image</th>-->
-					<td>Timestamp</td>
-					<th> Actions </th>
-				</tr>
-			</thead>
-			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
-						<td><?php echo $row->name;?></td>
-						<td><?php echo $row->positionname;?></td>
-						<td><?php echo $row->fromtimestamp;?></td>
-						<td><?php echo $row->totimestamp;?></td>
-						<td><?php echo $row->details;?></td>
-						<td><?php echo $row->timestamp;?></td>
-						
-						<td>
-							<a href="<?php echo site_url('site/editadd?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<a href="<?php echo site_url('site/deleteadd?id=').$row->id; ?>" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this item?');">
-								<i class="icon-trash "></i>
-							</a> 
-						
-						</td>
-					</tr>
-					<?php } ?>
-			</tbody>
-			</table>
+			<div class="drawchintantable">
+                <?php $this->chintantable->createsearch("Adds List");?>
+                <table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
+                <thead>
+                    <tr>
+                        <th data-field="id">Id</th>
+                        <th data-field="name">Name</th>
+                        <th data-field="positionname">Position</th>
+                        <th data-field="fromtimestamp">From Timestamp</th>
+                        <th data-field="totimestamp">toTimestamp</th>
+                        <th data-field="details">Details</th>
+                        <th data-field="action"> Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+                </table>
+                   <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
+		<script>
+            function drawtable(resultrow) {
+//                if(!resultrow.address)
+//                {
+//                    resultrow.address="";
+//                }
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.positionname + "</td><td>" + resultrow.fromtimestamp + "</td><td>" + resultrow.totimestamp + "</td><td>" + resultrow.details + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editadd?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteadd?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
 	</div>
 </div>

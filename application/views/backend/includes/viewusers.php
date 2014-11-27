@@ -11,47 +11,32 @@
 			<header class="panel-heading">
                 User Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<!--<th>Id</th>-->
-					<th>Name</th>
-					<th>Access Level</th>
-					<td>Email</td>
-					<td>Contact No</td>
-					<td><i class=" icon-edit"></i>Status</td>
-					<th> Actions </th>
-				</tr>
-			</thead>
-			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
-						<td><?php echo $row->firstname.' '.$row->lastname;?></td>
-						<td><?php echo $row->accesslevel;?></td>
-						<td><?php echo $row->email;?></td>
-						<td><?php echo $row->contact;?></td>
-						<td><?php if($row->status==1) { ?>
-							<a href="<?php echo site_url('site/changeuserstatus?id=').$row->id; ?>" class="label label-success label-mini">Enable</a>
-						<?php } else { ?>
-							<a href="<?php echo site_url('site/changeuserstatus?id=').$row->id; ?>" class="label label-danger label-mini">Disable</a>
-						<?php } ?>
-						</td>
-						<td>
-							<a href="<?php echo site_url('site/edituser?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<?php if($row->status==0) { ?>
-							<a href="<?php echo site_url('site/deleteuser?id=').$row->id; ?>" class="btn btn-danger btn-xs">
-								<i class="icon-trash "></i>
-							</a> 
-							<?php } ?>
-						
-						</td>
-					</tr>
-					<?php } ?>
-			</tbody>
-			</table>
+			<div class="drawchintantable">
+                <?php $this->chintantable->createsearch("Users List");?>
+                <table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
+                <thead>
+                    <tr>
+                        <th data-field="id">Id</th>
+                        <th data-field="firstname">Firstname</th>
+                        <th data-field="lastname">Lastname</th>
+                        <th data-field="accesslevel">Accesslevel</th>
+                        <th data-field="email">Email</th>
+                        <th data-field="contact">Contact</th>
+                        <th data-field="action"> Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+                </table>
+                   <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
+		<script>
+            function drawtable(resultrow) {
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.firstname + "</td><td>" + resultrow.lastname + "</td><td>" + resultrow.accesslevel + "</td><td>" + resultrow.email + "</td><td>" + resultrow.contact + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/edituser?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteuser?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
 	</div>
 </div>

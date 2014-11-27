@@ -110,15 +110,98 @@ class Site extends CI_Controller
 			$this->load->view("redirect",$data);
 		}
 	}
-	function viewusers()
+//	function viewusers()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$data['table']=$this->user_model->viewusers();
+//		$data['page']='viewusers';
+//		$data['title']='View Users';
+//		$this->load->view('template',$data);
+//	}
+    
+    
+    function viewusers()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->user_model->viewusers();
 		$data['page']='viewusers';
-		$data['title']='View Users';
+        
+        
+        $data['base_url'] = site_url("site/viewuserjson");
+        
+        
+		$data['title']='View user';
 		$this->load->view('template',$data);
-	}
+	} 
+    
+    function viewuserjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT DISTINCT `user`.`id` as `id`,`user`.`firstname` as `firstname`,`user`.`lastname` as `lastname`,`accesslevel`.`name` as `accesslevel`	,`user`.`email` as `email`,`user`.`contact` as `contact`,`user`.`status` as `status`,`user`.`accesslevel` as `access`
+//		FROM `user`
+//	   INNER JOIN `accesslevel` ON `user`.`accesslevel`=`accesslevel`.`id` 
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`user`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        $elements[1]=new stdClass();
+        $elements[1]->field="`user`.`firstname`";
+        $elements[1]->sort="1";
+        $elements[1]->header="First Name";
+        $elements[1]->alias="firstname";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`user`.`lastname`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Last Name";
+        $elements[2]->alias="lastname";
+        
+        $elements[3]=new stdClass();
+        $elements[3]->field="`accesslevel`.`name`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Accesslevel";
+        $elements[3]->alias="accesslevel";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`user`.`email`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Email";
+        $elements[4]->alias="email";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`user`.`contact`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Contact";
+        $elements[5]->alias="contact";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `user` INNER JOIN `accesslevel` ON `user`.`accesslevel`=`accesslevel`.`id`");
+        
+		$this->load->view("json",$data);
+	} 
+    
     
 	function edituser()
 	{
@@ -781,15 +864,95 @@ class Site extends CI_Controller
   //listing
     
    
-	function viewlisting()
+//	function viewlisting()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$data['table']=$this->listing_model->viewlisting();
+//		$data['page']='viewlisting';
+//		$data['title']='View listing';
+//		$this->load->view('template',$data);
+//	}
+    
+    
+    function viewlisting()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->listing_model->viewlisting();
 		$data['page']='viewlisting';
+        
+        
+        $data['base_url'] = site_url("site/viewlistingjson");
+        
+        
 		$data['title']='View listing';
 		$this->load->view('template',$data);
-	}
+	} 
+    
+    function viewlistingjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT DISTINCT `user`.`id` as `id`,`user`.`firstname` as `firstname`,`user`.`lastname` as `lastname`,`accesslevel`.`name` as `accesslevel`	,`user`.`email` as `email`,`user`.`contact` as `contact`,`user`.`status` as `status`,`user`.`accesslevel` as `access`
+//		FROM `user`
+//	   INNER JOIN `accesslevel` ON `user`.`accesslevel`=`accesslevel`.`id` 
+        
+//        SELECT `id`, `name`, `user`, `lat`, `long`, `address`, `city`, `pincode`, `state`, `country`, `description`, `logo`, `contactno`, `email`, `website`, `facebook`, `twitter`, `googleplus`, `yearofestablishment`, `timeofoperation_start`, `timeofoperation_end`, `type`, `credits`, `isverified`, `video`, `deletestatus` FROM `listing` 
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`listing`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        $elements[1]=new stdClass();
+        $elements[1]->field="`listing`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Name";
+        $elements[1]->alias="name";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`listing`.`address`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Address";
+        $elements[2]->alias="lastname";
+        
+        $elements[3]=new stdClass();
+        $elements[3]->field="`listing`.`email`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Email";
+        $elements[3]->alias="email";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`listing`.`contactno`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Contact No";
+        $elements[4]->alias="contactno";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements," FROM `listing`");
+        
+		$this->load->view("json",$data);
+	} 
+    
+    
     
 	public function createlisting()
 	{
@@ -1298,15 +1461,97 @@ class Site extends CI_Controller
     
     //specialoffers
     
-	function viewspecialoffer()
+//	function viewspecialoffer()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$data['table']=$this->specialoffer_model->viewspecialoffer();
+//		$data['page']='viewspecialoffer';
+//		$data['title']='View specialoffer';
+//		$this->load->view('template',$data);
+//	}
+    
+    function viewspecialoffer()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->specialoffer_model->viewspecialoffer();
 		$data['page']='viewspecialoffer';
+        
+        
+        $data['base_url'] = site_url("site/viewspecialofferjson");
+        
+        
 		$data['title']='View specialoffer';
 		$this->load->view('template',$data);
-	}
+	} 
+    
+    function viewspecialofferjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+//        SELECT `billing`.`id`, `billing`.`listing`, `billing`.`user`, `billing`.`timestamp`, `billing`.`paymenttype`, `billing`.`amount`, `billing`.`period`, `billing`.`credits`, `billing`.`payedto`, `billing`.`deletestatus` ,`user`.`firstname`,`user`.`lastname`,`listing`.`name` AS `listingname`,`paymenttype`.`name` AS `paymenttypename`
+//FROM `billing` 
+//INNER JOIN `user` ON `user`.`id` = `billing`.`user`
+//INNER JOIN `listing` ON `listing`.`id` = `billing`.`listing`
+//INNER JOIN `paymenttype` ON `paymenttype`.`id` = `billing`.`paymenttype`
+        
+//        SELECT `specialoffer`.`id`, `specialoffer`.`name`, `specialoffer`.`category`, `specialoffer`.`email`, `specialoffer`.`phone`, `specialoffer`.`timestamp`, `specialoffer`.`deletestatus`,`category`.`name` AS `categoryname` 
+//        FROM `specialoffer` 
+//        LEFT OUTER JOIN `category` ON `category`.`id`=`specialoffer`.`category`
+            
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`specialoffer`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        $elements[1]=new stdClass();
+        $elements[1]->field="`category`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Category";
+        $elements[1]->alias="categoryname";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`specialoffer`.`email`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Email";
+        $elements[2]->alias="email";
+        
+        $elements[3]=new stdClass();
+        $elements[3]->field="`specialoffer`.`phone`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Phone No";
+        $elements[3]->alias="phone";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`specialoffer`.`timestamp`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Timestamp";
+        $elements[4]->alias="timestamp";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"  FROM `specialoffer` LEFT OUTER JOIN `category` ON `category`.`id`=`specialoffer`.`category`");
+        
+		$this->load->view("json",$data);
+	} 
+    
+    
     
 	public function createspecialoffer()
 	{
@@ -1525,15 +1770,109 @@ class Site extends CI_Controller
     
     //billing
     
-	function viewbilling()
+//	function viewbilling()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$data['table']=$this->billing_model->viewbilling();
+//		$data['page']='viewbilling';
+//		$data['title']='View billing';
+//		$this->load->view('template',$data);
+//	}
+    
+    
+    function viewbilling()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->billing_model->viewbilling();
 		$data['page']='viewbilling';
+        
+        
+        $data['base_url'] = site_url("site/viewbillingjson");
+        
+        
 		$data['title']='View billing';
 		$this->load->view('template',$data);
-	}
+	} 
+    
+    function viewbillingjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+//        SELECT `billing`.`id`, `billing`.`listing`, `billing`.`user`, `billing`.`timestamp`, `billing`.`paymenttype`, `billing`.`amount`, `billing`.`period`, `billing`.`credits`, `billing`.`payedto`, `billing`.`deletestatus` ,`user`.`firstname`,`user`.`lastname`,`listing`.`name` AS `listingname`,`paymenttype`.`name` AS `paymenttypename`
+//FROM `billing` 
+//INNER JOIN `user` ON `user`.`id` = `billing`.`user`
+//INNER JOIN `listing` ON `listing`.`id` = `billing`.`listing`
+//INNER JOIN `paymenttype` ON `paymenttype`.`id` = `billing`.`paymenttype`
+        
+//        SELECT `id`, `name`, `user`, `lat`, `long`, `address`, `city`, `pincode`, `state`, `country`, `description`, `logo`, `contactno`, `email`, `website`, `facebook`, `twitter`, `googleplus`, `yearofestablishment`, `timeofoperation_start`, `timeofoperation_end`, `type`, `credits`, `isverified`, `video`, `deletestatus` FROM `listing` 
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`billing`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        $elements[1]=new stdClass();
+        $elements[1]->field="`listing`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Listing";
+        $elements[1]->alias="listingname";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`user`.`firstname`";
+        $elements[2]->sort="1";
+        $elements[2]->header="User";
+        $elements[2]->alias="firstname";
+        
+        $elements[3]=new stdClass();
+        $elements[3]->field="`paymenttype`.`name`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Payment Type";
+        $elements[3]->alias="paymenttype";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`billing`.`amount`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Amount";
+        $elements[4]->alias="amount";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`billing`.`period`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Period";
+        $elements[5]->alias="period";
+        
+        $elements[6]=new stdClass();
+        $elements[6]->field="`billing`.`credits`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Credits";
+        $elements[6]->alias="credits";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements," FROM `billing` INNER JOIN `user` ON `user`.`id` = `billing`.`user` INNER JOIN `listing` ON `listing`.`id` = `billing`.`listing` INNER JOIN `paymenttype` ON `paymenttype`.`id` = `billing`.`paymenttype`");
+        
+		$this->load->view("json",$data);
+	} 
+    
+    
+    
     
 	public function createbilling()
 	{
@@ -1775,15 +2114,102 @@ class Site extends CI_Controller
     
     //add
     
-	function viewadd()
+//	function viewadd()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$data['table']=$this->add_model->viewadd();
+//		$data['page']='viewadd';
+//		$data['title']='View add';
+//		$this->load->view('template',$data);
+//	}
+    
+    
+    function viewadd()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->add_model->viewadd();
 		$data['page']='viewadd';
+        
+        
+        $data['base_url'] = site_url("site/viewaddjson");
+        
+        
 		$data['title']='View add';
 		$this->load->view('template',$data);
-	}
+	} 
+    
+    function viewaddjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT `specialoffer`.`id`, `specialoffer`.`name`, `specialoffer`.`category`, `specialoffer`.`email`, `specialoffer`.`phone`, `specialoffer`.`timestamp`, `specialoffer`.`deletestatus`,`category`.`name` AS `categoryname` 
+//        FROM `specialoffer` 
+//        LEFT OUTER JOIN `category` ON `category`.`id`=`specialoffer`.`category`
+            
+//        SELECT `add`.`id`, `add`.`name`, `add`.`image`, `add`.`position`, `add`.`timestamp`, `add`.`fromtimestamp`, `add`.`totimestamp`, `add`.`details`, `add`.`deletestatus`,`position`.`name`as `positionname` 
+//        FROM `add`
+//        INNER JOIN `position` ON `position`.`id`=`add`.`position`
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`add`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        $elements[1]=new stdClass();
+        $elements[1]->field="`add`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Add Name";
+        $elements[1]->alias="name";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`position`.`name`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Position";
+        $elements[2]->alias="positionname";
+        
+        $elements[3]=new stdClass();
+        $elements[3]->field="`add`.`fromtimestamp`";
+        $elements[3]->sort="1";
+        $elements[3]->header="fromtimestamp";
+        $elements[3]->alias="fromtimestamp";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`add`.`totimestamp`";
+        $elements[4]->sort="1";
+        $elements[4]->header="ToTimestamp";
+        $elements[4]->alias="totimestamp";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`add`.`details`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Details";
+        $elements[5]->alias="details";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"  FROM `add` INNER JOIN `position` ON `position`.`id`=`add`.`position`");
+        
+		$this->load->view("json",$data);
+	} 
+    
     
 	public function createadd()
 	{

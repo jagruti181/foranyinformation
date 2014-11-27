@@ -11,43 +11,37 @@
 			<header class="panel-heading">
                 Billing Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<!--<th>Id</th>-->
-					<th>Listing</th>
-					<th>User</th>
-					<td>Payment Type</td>
-					<td>Amount</td>
-					<td>Period</td>
-					<td>Credits</td>
-					<th> Actions </th>
-				</tr>
-			</thead>
-			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
-						<td><?php echo $row->listingname;?></td>
-						<td><?php echo $row->firstname." ".$row->lastname;?></td>
-						<td><?php echo $row->paymenttypename;?></td>
-						<td><?php echo $row->amount;?></td>
-						<td><?php echo $row->period;?></td>
-						<td><?php echo $row->credits;?></td>
-						
-						<td>
-							<a href="<?php echo site_url('site/editbilling?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<a href="<?php echo site_url('site/deletebilling?id=').$row->id; ?>" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this item?');">
-								<i class="icon-trash "></i>
-							</a> 
-						
-						</td>
-					</tr>
-					<?php } ?>
-			</tbody>
-			</table>
+			<div class="drawchintantable">
+                <?php $this->chintantable->createsearch("Billing List");?>
+                <table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
+                <thead>
+                    <tr>
+                        <th data-field="id">Id</th>
+                        <th data-field="listingname">Listing</th>
+                        <th data-field="firstname">User</th>
+                        <th data-field="paymenttype">Paymenttype</th>
+                        <th data-field="amount">Amount</th>
+                        <th data-field="period">Period</th>
+                        <th data-field="credits">Credits</th>
+                        <th data-field="action"> Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+                </table>
+                   <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
+		<script>
+            function drawtable(resultrow) {
+                if(!resultrow.address)
+                {
+                    resultrow.address="";
+                }
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.listingname + "</td><td>" + resultrow.firstname + "</td><td>" + resultrow.paymenttype + "</td><td>" + resultrow.amount + "</td><td>" + resultrow.period + "</td><td>" + resultrow.credits + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editbilling?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletebilling?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
 	</div>
 </div>
