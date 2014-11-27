@@ -39,7 +39,7 @@ class Frontend_model extends CI_Model
 		return $query;
 	}
     
-    public function createlisting($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)
+    public function createlisting($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$video,$logo,$category,$modeofpayment,$daysofoperation)
 	{
 		$data  = array(
 			'name' => $name,
@@ -63,30 +63,23 @@ class Frontend_model extends CI_Model
             'timeofoperation_end' => $timeofoperation_end,
             'type' => $type,
             'credits' => $credits,
-            'isverified' => $isverified,
             'video' => $video,
             'logo' => $logo
 		);
 		$query=$this->db->insert( 'listing', $data );
 		$listingid=$this->db->insert_id();
-        $categoryarray=explode(",", $category);
-        $modeofpaymentarray=explode(",", $modeofpayment);
-        $daysofoperationarray=explode(",", $daysofoperation);
-        foreach($categoryarray as $cat)
+        foreach($category AS $key=>$value)
         {
-           $this->listing_model->createcategorybylisting($cat,$listingid);
+           $this->listing_model->createcategorybylisting($value,$listingid);
         }
-        foreach($modeofpaymentarray as $mop)
+        foreach($modeofpayment AS $key=>$value)
         {
-           $this->listing_model->createmodeofpaymentbylisting($mop,$listingid);
+           $this->listing_model->createmodeofpaymentbylisting($value,$listingid);
         }
-        foreach($daysofoperationarray as $doo)
+        foreach($daysofoperation AS $key=>$value)
         {
-           $this->listing_model->createdaysofoperationbylisting($doo,$listingid);
+           $this->listing_model->createdaysofoperationbylisting($value,$listingid);
         }
-//		print_r($category);
-//        print_r($modeofpayment);
-//        print_r($daysofoperation);
 		if(!$query)
 			return  0;
 		else
