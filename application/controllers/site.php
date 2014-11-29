@@ -531,6 +531,31 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $image=$this->image_lib->dest_image;
+                    //return false;
+                }
+                
+                
 			}
             
 			if($this->category_model->createcategory($name,$parent,$status,$logo,$image,$typeofimage)==0)
@@ -600,6 +625,29 @@ class Site extends CI_Controller
             {
                 $image=$this->category_model->getcategoryimagebyid($id);
                 $image=$image->image;
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $image=$this->image_lib->dest_image;
+                    //return false;
+                }
             }
             
 			if($this->category_model->editcategory($id,$name,$parent,$status,$logo,$image,$typeofimage)==0)
@@ -1055,6 +1103,30 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$logo=$uploaddata['file_name'];
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $logo=$this->image_lib->dest_image;
+                    //return false;
+                }
+                
 			}
             
 			if($this->listing_model->create($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)==0)
@@ -1177,6 +1249,30 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$logo=$uploaddata['file_name'];
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $logo=$this->image_lib->dest_image;
+                    //return false;
+                }
+                
 			}
             if($logo=="")
             {
@@ -1312,15 +1408,110 @@ class Site extends CI_Controller
     
     //enquiry
     
-	function viewenquiry()
+//	function viewenquiry()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$data['table']=$this->enquiry_model->viewenquiry();
+//		$data['page']='viewenquiry';
+//		$data['title']='View enquiry';
+//		$this->load->view('template',$data);
+//	}
+    
+    
+    
+    function viewenquiry()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->enquiry_model->viewenquiry();
 		$data['page']='viewenquiry';
-		$data['title']='View enquiry';
+        
+        
+        $data['base_url'] = site_url("site/viewenquiryjson");
+        
+        
+		$data['title']='View Enquiry';
 		$this->load->view('template',$data);
-	}
+	} 
+    
+    function viewenquiryjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+//        SELECT `add`.`id`, `add`.`name`, `add`.`image`, `add`.`position`, `add`.`timestamp`, `add`.`fromtimestamp`, `add`.`totimestamp`, `add`.`details`, `add`.`deletestatus`,`position`.`name`as `positionname` 
+//        FROM `add`
+//        INNER JOIN `position` ON `position`.`id`=`add`.`position`
+        
+//        SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`user`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`listing`.`name` AS `listingname`, `enquiry`.`type`, `category`.`name` AS `categoryname`,`user`.`firstname`,`user`.`lastname`
+//        FROM `enquiry` 
+//        LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing`
+//        LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
+//        LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user`
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`enquiry`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        $elements[1]=new stdClass();
+        $elements[1]->field="`enquiry`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Enquiry Name";
+        $elements[1]->alias="name";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`listing`.`name`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Listing";
+        $elements[2]->alias="listingname";
+        
+        $elements[3]=new stdClass();
+        $elements[3]->field="`category`.`name`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Category";
+        $elements[3]->alias="categoryname";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`listing`.`email`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Email";
+        $elements[4]->alias="email";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`enquiry`.`phone`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Phone No";
+        $elements[5]->alias="phone";
+        
+        $elements[6]=new stdClass();
+        $elements[6]->field="`enquiry`.`timestamp`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Timestamp";
+        $elements[6]->alias="timestamp";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements," FROM `enquiry` LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing`  LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category` LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user`");
+        
+		$this->load->view("json",$data);
+	} 
+    
     
 	public function createenquiry()
 	{
@@ -2255,6 +2446,30 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $image=$this->image_lib->dest_image;
+                    //return false;
+                }
+                
 			}
 			if($this->add_model->create($name,$position,$fromtimestamp,$totimestamp,$details,$image)==0)
 			$data['alerterror']="New Add could not be created.";
@@ -2314,6 +2529,30 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $image=$this->image_lib->dest_image;
+                    //return false;
+                }
+                
 			}
             
             if($image=="")
@@ -2499,15 +2738,16 @@ class Site extends CI_Controller
 	}
      //email
     
-    public function sendmail()
+    public function sendmailtoavi()
     {
-        $email=$this->input->get('email');
+        $email='avinash@wohlig.com';
         $this->load->library('email');
         //$email='patiljagruti181@gmail.com,jagruti@wohlig.com';
         $this->email->from('avinash@wohlig.com', 'For Any Information');
         $this->email->to($email);
         $this->email->subject('Email Test');
-        $this->email->message('Email From For Any Information');
+        $data['link']='google.com';
+        $this->email->message($this->load->view('emailmsg',$data,true));
 
         $this->email->send();
 
@@ -2607,5 +2847,14 @@ class Site extends CI_Controller
         $this->load->view("json",$data);
     }
     
+	function viewtree()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+//		$data['table']=$this->add_model->viewadd();
+		$data['page']='viewtree';
+		$data['title']='View Tree';
+		$this->load->view('template',$data);
+	}
 }
 ?>

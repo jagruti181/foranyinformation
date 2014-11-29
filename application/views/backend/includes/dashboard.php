@@ -35,7 +35,7 @@
                                 <input type="hidden" name="categoryid" id="categoryid" class="categoryclass">
                                  <?php
 
-                            echo form_dropdown('category',$category,set_value('category'),' class="chzn-select form-control categoryvalue" 	data-placeholder="Choose a Category..."');
+                            echo form_dropdown('category',$category,set_value('category'),'id="select1" class="chzn-select form-control categoryvalue" 	data-placeholder="Choose a Category..."');
                         ?><br>
                             <a class="btn btn-info categoryformsubmit">Enter</a>
                       </div>
@@ -46,7 +46,7 @@
                     <div id="formcategory" class="form-group">
                                    <?php
 
-                            echo form_dropdown('listing',$listing,set_value('listing'),' class="chzn-select form-control listingvalue" 	data-placeholder="Choose a Listing..."');
+                            echo form_dropdown('listing',$listing,set_value('listing'),'id="select2" class="chzn-select form-control listingvalue" 	data-placeholder="Choose a Listing..."');
                         ?>
                            <br>
                             <a class="btn btn-info listingformsubmit">Enter</a>
@@ -119,10 +119,10 @@
     
     $(".categoryformsubmit").click(function () {
         console.log( $(".userdetailid").val());
-        console.log( $(".categoryvalue").val());
+        console.log( $("#select1").val());
         $.getJSON(
             "<?php echo base_url(); ?>index.php/site/submitcategoryenquiry", {
-                categoryvalue: $(".categoryvalue").val(),
+                categoryvalue: $("#select1").val(),
                 userid: $(".userdetailid").val()
             },
             function (data) {
@@ -144,10 +144,10 @@
     
     $(".listingformsubmit").click(function () {
         console.log( $(".userdetailid").val());
-        console.log( $(".listingvalue").val());
+        console.log( $("#select2").val());
         $.getJSON(
             "<?php echo base_url(); ?>index.php/site/submitlistingenquiry", {
-                listingvalue: $(".listingvalue").val(),
+                listingvalue: $("#select2").val(),
                 userid: $(".userdetailid").val()
             },
             function (data) {

@@ -9,6 +9,8 @@
     <link href="<?php echo base_url('assets/assets/font-awesome/css/font-awesome.css'); ?>" rel="stylesheet" />
     <!-- Custom styles for this template -->
     <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/css/jqtree.css'); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/css/style.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/css/style-responsive.css'); ?>" rel="stylesheet" />
 	<link href="<?php echo base_url('assets/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css'); ?>" rel="stylesheet" type="text/css" media="screen"/>
     <link rel="stylesheet" href="<?php echo base_url('assets/css/owl.carousel.css'); ?>" type="text/css">
@@ -26,6 +28,8 @@
 	 <script src="<?php echo base_url('assets/js/sparkline-chart.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/easy-pie-chart.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/select2.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/jstree.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/tree.jquery.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/chintantable.js'); ?>"></script>
 <script>
 $(document).ready(function(){
