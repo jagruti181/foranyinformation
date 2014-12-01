@@ -42,13 +42,13 @@ class Category_model extends CI_Model
 
 	function viewonebrandcategories($id)
 	{
-		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`parent` as `parent`,`category`.`status` FROM `category`
+		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`image`,`category`.`logo`,`category`.`parent` as `parent`,`category`.`status` FROM `category`
         WHERE `category`.`id` IN(SELECT `brandcategory`.`categoryid` FROM `brandcategory` WHERE `brandcategory`.`brandid` IN(SELECT `brand`.`id` FROM `brand` WHERE `brand`.`id`='$id'))")->result();
 		return $query;
 	}
     function viewcategory()
 	{
-		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`logo`,`tab2`.`name` as `parent` FROM `category` 
+		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`logo`,`category`.`image`,`tab2`.`name` as `parent` FROM `category` 
 		LEFT JOIN `category` as `tab2` ON `tab2`.`id`=`category`.`parent`
 		ORDER BY `category`.`id` ASC")->result();
 		return $query;

@@ -30,21 +30,18 @@ class Enquiry_model extends CI_Model
 	}
     
     
-    public function create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment,$user)
+    public function create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment)
 	{
 		$data  = array(
 			'name' => $name,
-			'listing' => $listing,
 			'email' => $email,
 			'phone' => $phone,
-			'category' => $category,
-			'type' => $typeofenquiry,
-			'comment' => $comment,
-			'user' => $user,
             'timestamp'=>NULL
 		);
 		$query=$this->db->insert( 'enquiry', $data );
-		$id=$this->db->insert_id();
+		$enquiryid=$this->db->insert_id();
+        
+        $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `category`, `comment`) VALUES ('$enquiryid','$typeofenquiry','$listing','$category','$comment')");
 		
 		if(!$query)
 			return  0;
@@ -54,11 +51,10 @@ class Enquiry_model extends CI_Model
     
 	function viewenquiry()
 	{
-		$query="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`user`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`listing`.`name` AS `listingname`, `enquiry`.`type`, `category`.`name` AS `categoryname`,`user`.`firstname`,`user`.`lastname`
+		$query="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`user`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`listing`.`name` AS `listingname`, `enquiry`.`type`, `category`.`name` AS `categoryname`
         FROM `enquiry` 
         LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing`
         LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
-        LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user`
         WHERE `enquiry`.`deletestatus`=1 ";
 	   
 		$query=$this->db->query($query)->result();
@@ -117,17 +113,12 @@ class Enquiry_model extends CI_Model
 		return $query;
 	}
 	
-	public function edit($id,$name,$listing,$email,$phone,$category,$typeofenquiry,$comment,$user)
+	public function edit($id,$name,$email,$phone)
 	{
 		$data  = array(
 			'name' => $name,
-			'listing' => $listing,
 			'email' => $email,
 			'phone' => $phone,
-			'category' => $category,
-			'type' => $typeofenquiry,
-			'comment' => $comment,
-			'user' => $user,
             'timestamp'=>NULL
 		);
 		

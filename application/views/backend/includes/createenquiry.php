@@ -14,6 +14,7 @@
 			<div class="panel-body">
 			  <form class="form-horizontal tasi-form" method="post" action="<?php echo site_url('site/createenquirysubmit');?>" enctype= "multipart/form-data">
 			  
+<!--
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label">user</label>
 				  <div class="col-sm-4">
@@ -23,6 +24,7 @@
 					?>
 				  </div>
 				</div>
+-->
 				
 				<div class="form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Name</label>

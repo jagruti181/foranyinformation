@@ -1461,35 +1461,24 @@ class Site extends CI_Controller
         $elements[1]->header="Enquiry Name";
         $elements[1]->alias="name";
         
+        
         $elements[2]=new stdClass();
-        $elements[2]->field="`listing`.`name`";
+        $elements[2]->field="`enquiry`.`email`";
         $elements[2]->sort="1";
-        $elements[2]->header="Listing";
-        $elements[2]->alias="listingname";
+        $elements[2]->header="Email";
+        $elements[2]->alias="email";
         
         $elements[3]=new stdClass();
-        $elements[3]->field="`category`.`name`";
+        $elements[3]->field="`enquiry`.`phone`";
         $elements[3]->sort="1";
-        $elements[3]->header="Category";
-        $elements[3]->alias="categoryname";
+        $elements[3]->header="Phone No";
+        $elements[3]->alias="phone";
         
         $elements[4]=new stdClass();
-        $elements[4]->field="`listing`.`email`";
+        $elements[4]->field="`enquiry`.`timestamp`";
         $elements[4]->sort="1";
-        $elements[4]->header="Email";
-        $elements[4]->alias="email";
-        
-        $elements[5]=new stdClass();
-        $elements[5]->field="`enquiry`.`phone`";
-        $elements[5]->sort="1";
-        $elements[5]->header="Phone No";
-        $elements[5]->alias="phone";
-        
-        $elements[6]=new stdClass();
-        $elements[6]->field="`enquiry`.`timestamp`";
-        $elements[6]->sort="1";
-        $elements[6]->header="Timestamp";
-        $elements[6]->alias="timestamp";
+        $elements[4]->header="Timestamp";
+        $elements[4]->alias="timestamp";
         
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
@@ -1507,7 +1496,7 @@ class Site extends CI_Controller
             $orderorder="ASC";
         }
        
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements," FROM `enquiry` LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing`  LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category` LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements," FROM `enquiry`");
         
 		$this->load->view("json",$data);
 	} 
@@ -1537,7 +1526,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('category','category','trim');
 		$this->form_validation->set_rules('typeofenquiry','typeofenquiry','trim');
 		$this->form_validation->set_rules('comment','comment','trim');
-		$this->form_validation->set_rules('user','user','trim');
+//		$this->form_validation->set_rules('user','user','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -1559,14 +1548,14 @@ class Site extends CI_Controller
 			$category=$this->input->post('category');
 			$typeofenquiry=$this->input->post('typeofenquiry');
 			$comment=$this->input->post('comment');
-			$user=$this->input->post('user');
+//			$user=$this->input->post('user');
             
-			if($this->enquiry_model->create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment,$user)==0)
+			if($this->enquiry_model->create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment)==0)
 			$data['alerterror']="New enquiry could not be created.";
 			else
 			$data['alertsuccess']="enquiry created Successfully.";
 			
-			$data['table']=$this->enquiry_model->viewenquiry();
+//			$data['table']=$this->enquiry_model->viewenquiry();
 			$data['redirect']="site/viewenquiry";
 			//$data['other']="template=$template";
 			$this->load->view("redirect",$data);
@@ -1593,13 +1582,13 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$this->form_validation->set_rules('name','Name','trim|required|max_length[30]');
-		$this->form_validation->set_rules('listing','listing','trim');
+//		$this->form_validation->set_rules('listing','listing','trim');
 		$this->form_validation->set_rules('email','Email','trim|valid_email');
 		$this->form_validation->set_rules('phone','phone','trim');
-		$this->form_validation->set_rules('category','category','trim');
-		$this->form_validation->set_rules('typeofenquiry','typeofenquiry','trim');
-		$this->form_validation->set_rules('comment','comment','trim');
-		$this->form_validation->set_rules('user','user','trim');
+//		$this->form_validation->set_rules('category','category','trim');
+//		$this->form_validation->set_rules('typeofenquiry','typeofenquiry','trim');
+//		$this->form_validation->set_rules('comment','comment','trim');
+//		$this->form_validation->set_rules('user','user','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -1626,7 +1615,7 @@ class Site extends CI_Controller
 			$comment=$this->input->post('comment');
 			$user=$this->input->post('user');
             
-			if($this->enquiry_model->edit($id,$name,$listing,$email,$phone,$category,$typeofenquiry,$comment,$user)==0)
+			if($this->enquiry_model->edit($id,$name,$email,$phone)==0)
 			$data['alerterror']="enquiry Editing was unsuccesful";
 			else
 			$data['alertsuccess']="enquiry edited Successfully.";

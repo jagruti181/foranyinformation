@@ -12,6 +12,7 @@
 					<input type="text" id="normal-field" class="form-control" name="name" value="<?php echo set_value('name',$before->name);?>">
 				  </div>
 				</div>
+<!--
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label">user</label>
 				  <div class="col-sm-4">
@@ -21,6 +22,8 @@
 					?>
 				  </div>
 				</div>
+-->
+<!--
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label">Type Of Enquiry</label>
 				  <div class="col-sm-4">
@@ -30,9 +33,12 @@
 					?>
 				  </div>
 				</div>
+-->
 				<?php
-                    if($before->type=="1")
-                    {?>
+//                    if($before->type=="1")
+//                    {
+                  ?>
+<!--
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label">Listing</label>
 				  <div class="col-sm-4">
@@ -42,7 +48,11 @@
 					?>
 				  </div>
 				</div>
-				<?php } else {?>
+-->
+				<?php
+//} else {
+                  ?>
+<!--
 				<div class=" form-group"  id="categoryid">
 				  <label class="col-sm-2 control-label">category</label>
 				  <div class="col-sm-4">
@@ -52,7 +62,11 @@
 					?>
 				  </div>
 				</div>
-				<?php } ?>
+-->
+				<?php 
+//} 
+                  ?>
+            
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Email</label>
 				  <div class="col-sm-4">
