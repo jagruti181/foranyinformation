@@ -175,5 +175,10 @@ class Json extends CI_Controller
         $data['message']=$this->city_model->viewcity();
 		$this->load->view('json',$data);
     }
+    public function alladd()
+    {
+        $data['message']=$this->add_model->alladd();
+		$this->load->view('json',$data);
+    }
 }
 ?>

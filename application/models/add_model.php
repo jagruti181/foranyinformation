@@ -63,6 +63,11 @@ class add_model extends CI_Model
 		$query=$this->db->query("SELECT `image` FROM `add` WHERE `id`='$id'")->row();
 		return $query;
 	}
+	public function alladd()
+	{
+		$query=$this->db->query("SELECT * FROM `add`")->result();
+		return $query;
+	}
 	public function getisverifieddropdown()
 	{
 		$isverified= array(
