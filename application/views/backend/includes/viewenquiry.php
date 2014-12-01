@@ -17,7 +17,7 @@
                 <thead>
                     <tr>
                         <th data-field="id">Id</th>
-                        <th data-field="name">Name</th>
+<!--                        <th data-field="name">Name</th>-->
                         <th data-field="listingname">Listing</th>
                         <th data-field="categoryname">Category</th>
                         <th data-field="email">Email</th>
