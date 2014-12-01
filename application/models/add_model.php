@@ -65,9 +65,19 @@ class add_model extends CI_Model
 	}
 	public function alladd()
 	{
-		$query=$this->db->query("SELECT * FROM `add`")->result();
-		return $query;
+        $position=$this->db->query("SELECT `position` FROM `add` group BY `position`")->result();
+        for($i=0;$i<sizeof($position);$i++)
+        {
+            $position[$i]->adds=$this->addbyposition($position[$i]->position);
+        }
+		
+		return $position;
 	}
+    public function addbyposition($position)
+    {
+        $adds=$this->db->query("SELECT * FROM `add` WHERE `position` = '$position'")->result();
+        return $adds;
+    }
 	public function getisverifieddropdown()
 	{
 		$isverified= array(

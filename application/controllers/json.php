@@ -177,7 +177,8 @@ class Json extends CI_Controller
     }
     public function alladd()
     {
-        $data['message']=$this->add_model->alladd();
+        $position=$this->input->get_post('position');
+        $data['message']=$this->add_model->alladd($position);
 		$this->load->view('json',$data);
     }
 }
