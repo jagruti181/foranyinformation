@@ -1408,15 +1408,15 @@ class Site extends CI_Controller
     
     //enquiry
     
-//	function viewenquiry()
-//	{
-//		$access = array("1");
-//		$this->checkaccess($access);
-//		$data['table']=$this->enquiry_model->viewenquiry();
-//		$data['page']='viewenquiry';
-//		$data['title']='View enquiry';
-//		$this->load->view('template',$data);
-//	}
+	function viewenquirylistingcategory()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data['table']=$this->enquiry_model->viewenquirylistingcategory($this->input->get('id'));
+		$data['page']='viewenquirylistingcategory';
+		$data['title']='View All Enquiries';
+		$this->load->view('template',$data);
+	}
     
     
     
@@ -1513,6 +1513,68 @@ class Site extends CI_Controller
 		$data[ 'page' ] = 'createenquiry';
 		$data[ 'title' ] = 'Create enquiry';
 		$this->load->view( 'template', $data );	
+	}
+    
+	public function createenquirylistingcategory()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
+		$data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
+        $data['category']=$this->category_model->getcategorydropdown();
+//		$data[ 'user' ] =$this->listing_model->getuserdropdown();
+		$data[ 'page' ] = 'createenquirylistingcategory';
+		$data[ 'title' ] = 'Create Enquiry Listing Category';
+		$this->load->view( 'template', $data );	
+	}
+    
+	function createenquirylistingcategorysubmit()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+//		$this->form_validation->set_rules('name','Name','trim|required|max_length[30]');
+		$this->form_validation->set_rules('listing','listing','trim');
+//		$this->form_validation->set_rules('email','Email','trim|valid_email');
+//		$this->form_validation->set_rules('phone','phone','trim');
+		$this->form_validation->set_rules('category','category','trim');
+		$this->form_validation->set_rules('typeofenquiry','typeofenquiry','trim');
+		$this->form_validation->set_rules('comment','comment','trim');
+//		$this->form_validation->set_rules('user','user','trim');
+        
+		if($this->form_validation->run() == FALSE)	
+		{
+            $id=$this->input->get('id');
+			$data['alerterror'] = validation_errors();
+			$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
+            $data['typeofenquiry']=$this->enquiry_model->gettypeofenquirydropdown();
+            $data['category']=$this->category_model->getcategorydropdown();
+    //		$data[ 'user' ] =$this->listing_model->getuserdropdown();
+            $data[ 'page' ] = 'createenquirylistingcategory';
+            $data[ 'title' ] = 'Create Enquiry Listing Category';
+            $this->load->view( 'template', $data );		
+		}
+		else
+		{
+//            $name=$this->input->post('name');
+            $enquiryid=$this->input->post('id');
+			$listing=$this->input->post('listing');
+//			$email=$this->input->post('email');
+//			$phone=$this->input->post('phone');
+			$category=$this->input->post('category');
+			$typeofenquiry=$this->input->post('typeofenquiry');
+			$comment=$this->input->post('comment');
+//			$user=$this->input->post('user');
+            
+			if($this->enquiry_model->createlistingcategory($enquiryid,$listing,$category,$typeofenquiry,$comment)==0)
+			$data['alerterror']="New enquiry Listing could not be created.";
+			else
+			$data['alertsuccess']="enquiry Listing created Successfully.";
+			
+//			$data['table']=$this->enquiry_model->viewenquiry();
+			$data['redirect']="site/viewenquirylistingcategory?id=".$enquiryid;
+			//$data['other']="template=$template";
+			$this->load->view("redirect",$data);
+		}
 	}
     
 	function createenquirysubmit()
@@ -1636,6 +1698,17 @@ class Site extends CI_Controller
 		$data['alertsuccess']="enquiry Deleted Successfully";
 		$data['page']='viewenquiry';
 		$data['title']='View enquiry';
+		$this->load->view('template',$data);
+	}
+	function deleteenquirylistingcategory()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->enquiry_model->deleteenquirylistingcategory($this->input->get('enquirylistingcategoryid'));
+		$data['table']=$this->enquiry_model->viewenquirylistingcategory($this->input->get('id'));
+		$data['alertsuccess']="Enquiry Listing Deleted Successfully";
+		$data['page']='viewenquirylistingcategory';
+		$data['title']='View Listing or Category Enquiries';
 		$this->load->view('template',$data);
 	}
     
@@ -2798,10 +2871,10 @@ class Site extends CI_Controller
     public function submitcategoryenquiry()
     {
         $category=$this->input->get_post("categoryvalue");
-        $userid=$this->input->get_post("userid");
+        $enquiryid=$this->input->get_post("userid");
 //        echo $category;
 //        echo $userid;
-        $data1=$this->enquiry_model->addcategorytoenquiry($userid,$category);
+        $data1=$this->enquiry_model->addcategorytoenquiry($enquiryid,$category);
         $data["message"]=$data1;
 //        print_r($data);
         $this->load->view("json",$data);
@@ -2809,10 +2882,10 @@ class Site extends CI_Controller
     public function submitlistingenquiry()
     {
         $listing=$this->input->get_post("listingvalue");
-        $userid=$this->input->get_post("userid");
+        $enquiryid=$this->input->get_post("userid");
 //        echo $listing;
 //        echo $userid;
-        $data1=$this->enquiry_model->addlistingtoenquiry($userid,$listing);
+        $data1=$this->enquiry_model->addlistingtoenquiry($enquiryid,$listing);
         $data["message"]=$data1;
 //        print_r($data);
         $this->load->view("json",$data);
@@ -2820,17 +2893,13 @@ class Site extends CI_Controller
     
     public function submituserdetails()
     {
-        $userid=$this->input->get_post("userid");
-        $username=$this->input->get_post("username");
-        $useraddress=$this->input->get_post("useraddress");
-        $usercity=$this->input->get_post("usercity");
-        $usercontact=$this->input->get_post("usercontact");
-        $userdob=$this->input->get_post("userdob");
-        $useremail=$this->input->get_post("useremail");
-        $userpincode=$this->input->get_post("userpincode");
+        $enquiryid=$this->input->get_post("userid");
+        $name=$this->input->get_post("username");
+        $phone=$this->input->get_post("userphone");
+        $email=$this->input->get_post("useremail");
 //        echo $listing;
 //        echo $userid;
-        $data1=$this->enquiry_model->adduserdetails($userid,$username,$useraddress,$usercity,$usercontact,$userdob,$useremail,$userpincode);
+        $data1=$this->enquiry_model->adduserdetails($enquiryid,$name,$phone,$email);
         $data["message"]=$data1;
 //        print_r($data);
         $this->load->view("json",$data);
@@ -2845,5 +2914,24 @@ class Site extends CI_Controller
 		$data['title']='View Tree';
 		$this->load->view('template',$data);
 	}
+	function viewcategorytree()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+//		$data['table']=$this->add_model->viewadd();
+		$data['table']=$this->category_model->viewparentcategory();
+		$data['page']='viewcategorytree';
+		$data['title']='View Tree';
+		$this->load->view('template',$data);
+	}
+    
+    public function getsubcategorybyparent()
+    {
+        $categoryid=$this->input->get_post("categoryid");
+        $data1=$this->category_model->getsubcategorybyparent($categoryid);
+        $data["message"]=$data1;
+//        print_r($data);
+        $this->load->view("json",$data);
+    }
 }
 ?>

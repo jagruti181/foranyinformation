@@ -48,6 +48,24 @@ class Enquiry_model extends CI_Model
 		else
 			return  1;
 	}
+    public function createlistingcategory($enquiryid,$listing,$category,$typeofenquiry,$comment)
+	{
+//		$data  = array(
+//			'name' => $name,
+//			'email' => $email,
+//			'phone' => $phone,
+//            'timestamp'=>NULL
+//		);
+//		$query=$this->db->insert( 'enquiry', $data );
+//		$enquiryid=$this->db->insert_id();
+//        
+        $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `category`, `comment`) VALUES ('$enquiryid','$typeofenquiry','$listing','$category','$comment')");
+		
+		if(!$queryenquirylistingcategory)
+			return  0;
+		else
+			return  1;
+	}
     
 	function viewenquiry()
 	{
@@ -56,6 +74,17 @@ class Enquiry_model extends CI_Model
         LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing`
         LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
         WHERE `enquiry`.`deletestatus`=1 ";
+	   
+		$query=$this->db->query($query)->result();
+		return $query;
+	}
+	function viewenquirylistingcategory($id)
+	{
+		$query="SELECT `enquirylistingcategory`.`id`, `enquirylistingcategory`.`enquiryid`, `enquirylistingcategory`.`typeofenquiry`, `enquirylistingcategory`.`listing`, `enquirylistingcategory`.`category`,`enquirylistingcategory`. `comment`, `enquirylistingcategory`.`timestamp` ,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname`
+        FROM `enquirylistingcategory` 
+        LEFT OUTER JOIN `listing` ON `enquirylistingcategory`.`listing`=`listing`.`id`
+        LEFT OUTER JOIN `category` ON `enquirylistingcategory`.`category`=`category`.`id`
+        WHERE `enquirylistingcategory`.`enquiryid`='$id'";
 	   
 		$query=$this->db->query($query)->result();
 		return $query;
@@ -129,6 +158,10 @@ class Enquiry_model extends CI_Model
 	function deleteenquiry($id)
 	{
 		$query=$this->db->query("DELETE FROM `enquiry` WHERE `id`='$id'");
+	}
+	function deleteenquirylistingcategory($id)
+	{
+		$query=$this->db->query("DELETE FROM `enquirylistingcategory` WHERE `id`='$id'");
 	}
     
 	public function gettypeofenquirydropdown()
@@ -224,56 +257,95 @@ class Enquiry_model extends CI_Model
     
      public function getdetailsorcreate($number)
 	{
-		$query="SELECT * FROM `user` WHERE  `contact` ='$number'";
-		$userpresentornot=$this->db->query($query);
-         if($userpresentornot->num_rows()==0)
+		$query="SELECT * FROM `enquiry` WHERE  `phone` ='$number'";
+		$enquirypresentornot=$this->db->query($query);
+         if($enquirypresentornot->num_rows()==0)
          {
-             $queryinsert=$this->db->query("INSERT INTO `user`(`contact`) VALUES('$number')");
-             $userid=$this->db->insert_id();
-             $queryselect="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`enquiry`. `category`,`enquiry`. `type`, `enquiry`.`comment`,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname` ,`user`.`firstname`,`user`.`lastname`
-FROM `enquiry`
-LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
-LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing` 
-LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user` 
-WHERE  `enquiry`.`user` ='$userid'";
+             $queryinsert=$this->db->query("INSERT INTO `enquiry`(`phone`) VALUES('$number')");
+             $enquiryid=$this->db->insert_id();
+             $queryselect="SELECT `enquirylistingcategory`.`id`, `enquirylistingcategory`.`enquiryid`, `enquirylistingcategory`.`typeofenquiry`, `enquirylistingcategory`.`listing`, `enquirylistingcategory`.`category`,`enquirylistingcategory`. `comment`, `enquirylistingcategory`.`timestamp` ,IFNULL(`category`.`name`,'NA') AS `categoryname`,IFNULL(`listing`.`name`,'NA') AS `listingname`
+        FROM `enquirylistingcategory` 
+        LEFT OUTER JOIN `listing` ON `enquirylistingcategory`.`listing`=`listing`.`id`
+        INNER JOIN `enquiry` ON `enquirylistingcategory`.`enquiryid`=`enquiry`.`id`
+        LEFT OUTER JOIN `category` ON `enquirylistingcategory`.`category`=`category`.`id`
+        WHERE `enquiry`.`phone`='$number'";
 		     $queryselect=$this->db->query($queryselect);
              $data['allenquiries']=$queryselect->result();
-             $userdetailsquery=$this->db->query("SELECT * FROM `user` WHERE `id`='$userid'");
+             $userdetailsquery=$this->db->query("SELECT `id`, `name`, `email`, `phone`, `timestamp`, `deletestatus` FROM `enquiry` WHERE `phone`='$number'");
              $data['userdetail']=$userdetailsquery->row();
              return $data;
          }
          else
          {
-             $userpresentornot=$userpresentornot->row();
-             $userid=$userpresentornot->id;
-             $queryselect="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`enquiry`. `category`,`enquiry`. `type`, `enquiry`.`comment`,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname` ,`user`.`firstname`,`user`.`lastname`
-FROM `enquiry`
-LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
-LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing` 
-LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user` 
-WHERE  `enquiry`.`user` ='$userid'";
+             $userpresentornot=$enquirypresentornot->row();
+             $enquiryid=$userpresentornot->id;
+             $queryselect="SELECT `enquirylistingcategory`.`id`, `enquirylistingcategory`.`enquiryid`, `enquirylistingcategory`.`typeofenquiry`, `enquirylistingcategory`.`listing`, `enquirylistingcategory`.`category`,`enquirylistingcategory`. `comment`, `enquirylistingcategory`.`timestamp` ,IFNULL(`category`.`name`,'NA') AS `categoryname`,IFNULL(`listing`.`name`,'NA') AS `listingname`
+        FROM `enquirylistingcategory` 
+        LEFT OUTER JOIN `listing` ON `enquirylistingcategory`.`listing`=`listing`.`id`
+        INNER JOIN `enquiry` ON `enquirylistingcategory`.`enquiryid`=`enquiry`.`id`
+        LEFT OUTER JOIN `category` ON `enquirylistingcategory`.`category`=`category`.`id`
+        WHERE `enquiry`.`phone`='$number'";
 		     $queryselect=$this->db->query($queryselect);
              $data['allenquiries']=$queryselect->result();
-             $userdetailsquery=$this->db->query("SELECT * FROM `user` WHERE `id`='$userid'");
+             $userdetailsquery=$this->db->query("SELECT `id`, `name`, `email`, `phone`, `timestamp`, `deletestatus` FROM `enquiry` WHERE `phone`='$number'");
              $data['userdetail']=$userdetailsquery->row();
              return $data;
          }
 	}
     
-    
-    public function addcategorytoenquiry($user,$category)
+//    
+//     public function getdetailsorcreate($number)
+//	{
+//		$query="SELECT * FROM `user` WHERE  `contact` ='$number'";
+//		$userpresentornot=$this->db->query($query);
+//         if($userpresentornot->num_rows()==0)
+//         {
+//             $queryinsert=$this->db->query("INSERT INTO `user`(`contact`) VALUES('$number')");
+//             $userid=$this->db->insert_id();
+//             $queryselect="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`enquiry`. `category`,`enquiry`. `type`, `enquiry`.`comment`,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname` ,`user`.`firstname`,`user`.`lastname`
+//FROM `enquiry`
+//LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
+//LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing` 
+//LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user` 
+//WHERE  `enquiry`.`user` ='$userid'";
+//		     $queryselect=$this->db->query($queryselect);
+//             $data['allenquiries']=$queryselect->result();
+//             $userdetailsquery=$this->db->query("SELECT * FROM `user` WHERE `id`='$userid'");
+//             $data['userdetail']=$userdetailsquery->row();
+//             return $data;
+//         }
+//         else
+//         {
+//             $userpresentornot=$userpresentornot->row();
+//             $userid=$userpresentornot->id;
+//             $queryselect="SELECT `enquiry`.`id`, `enquiry`.`name`, `enquiry`.`listing`, `enquiry`.`email`, `enquiry`.`phone`, `enquiry`.`timestamp`, `enquiry`.`deletestatus`,`enquiry`. `category`,`enquiry`. `type`, `enquiry`.`comment`,`category`.`name` AS `categoryname`,`listing`.`name` AS `listingname` ,`user`.`firstname`,`user`.`lastname`
+//FROM `enquiry`
+//LEFT OUTER JOIN `category` ON `category`.`id`=`enquiry`.`category`
+//LEFT OUTER JOIN `listing` ON `listing`.`id`=`enquiry`.`listing` 
+//LEFT OUTER JOIN `user` ON `user`.`id`=`enquiry`.`user` 
+//WHERE  `enquiry`.`user` ='$userid'";
+//		     $queryselect=$this->db->query($queryselect);
+//             $data['allenquiries']=$queryselect->result();
+//             $userdetailsquery=$this->db->query("SELECT * FROM `user` WHERE `id`='$userid'");
+//             $data['userdetail']=$userdetailsquery->row();
+//             return $data;
+//         }
+//	}
+//    
+//    
+    public function addcategorytoenquiry($enquiryid,$category)
 	{
 		$data  = array(
 			'category' => $category,
-			'type' => 2,
-			'user' => $user
+			'typeofenquiry' => 2,
+			'enquiryid' => $enquiryid
 		);
         $queryselect =$this->db->where($data);
-        $queryselect = $this->db->get('enquiry');
+        $queryselect = $this->db->get('enquirylistingcategory');
         $num = $queryselect->num_rows();
         if($num==0)
         {
-		$query=$this->db->insert( 'enquiry', $data );
+		$query=$this->db->insert( 'enquirylistingcategory', $data );
         }
         
 //		$id=$this->db->insert_id();
@@ -284,19 +356,19 @@ WHERE  `enquiry`.`user` ='$userid'";
 			return  1;
 	}
     
-    public function addlistingtoenquiry($user,$listing)
+    public function addlistingtoenquiry($enquiryid,$listing)
 	{
 		$data  = array(
 			'listing' => $listing,
-			'type' => 1,
-			'user' => $user
+			'typeofenquiry' => 1,
+			'enquiryid' => $enquiryid
 		);
         $queryselect =$this->db->where($data);
-        $queryselect = $this->db->get('enquiry');
+        $queryselect = $this->db->get('enquirylistingcategory');
         $num = $queryselect->num_rows();
         if($num==0)
         {
-		$query=$this->db->insert( 'enquiry', $data );
+		$query=$this->db->insert( 'enquirylistingcategory', $data );
         }
         
 //		$id=$this->db->insert_id();
@@ -306,20 +378,16 @@ WHERE  `enquiry`.`user` ='$userid'";
 //		else
 			return  1;
 	}
-    public function adduserdetails($userid,$username,$useraddress,$usercity,$usercontact,$userdob,$useremail,$userpincode)
+    public function adduserdetails($enquiryid,$name,$phone,$email)
 	{
 		$data  = array(
-			'firstname' => $username,
-			'address' => $useraddress,
-			'city' => $usercity,
-			'contact' => $usercontact,
-			'dob' => $userdob,
-			'email' => $useremail,
-			'pincode' => $userpincode
+			'name' => $name,
+			'phone' => $phone,
+			'email' => $email
 		);
         
-        $query=$this->db->where( 'id', $userid );
-		$query=$this->db->update( 'user', $data );
+        $query=$this->db->where( 'id', $enquiryid );
+		$query=$this->db->update( 'enquiry', $data );
        
 		if(!$query)
 			return  0;

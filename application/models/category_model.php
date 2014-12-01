@@ -53,6 +53,22 @@ class Category_model extends CI_Model
 		ORDER BY `category`.`id` ASC")->result();
 		return $query;
 	}
+    function viewparentcategory()
+	{
+		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`logo`,`category`.`image`
+        FROM `category` 
+        WHERE `category`.`parent`=0
+		ORDER BY `category`.`id` ASC")->result();
+		return $query;
+	}
+    function getsubcategorybyparent($id)
+	{
+		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`logo`,`category`.`image`
+        FROM `category` 
+        WHERE `category`.`parent`='$id'
+		ORDER BY `category`.`id` ASC")->result();
+		return $query;
+	}
     
 	public function getstatusdropdown()
 	{

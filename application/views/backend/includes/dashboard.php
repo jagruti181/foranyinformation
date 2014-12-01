@@ -169,19 +169,19 @@
     
     $("#userdetailsformsubmitid").click(function () {
         console.log( $(".userdetailid").val());
-        alert("hello");
+//        alert("hello");
 //        console.log( $(".listingvalue").val());
         $.getJSON(
             "<?php echo base_url(); ?>index.php/site/submituserdetails", {
 //                listingvalue: $(".listingvalue").val(),
                 userid: $(".userdetailid").val(),
                 username: $(".userdetailname").val(),
-                useraddress: $(".userdetailaddress").val(),
-                usercity: $(".userdetailcity").val(),
-                usercontact: $(".userdetailcontact").val(),
-                userdob: $(".userdetaildob").val(),
+//                useraddress: $(".userdetailaddress").val(),
+//                usercity: $(".userdetailcity").val(),
+                userphone: $(".userdetailphone").val(),
+//                userdob: $(".userdetaildob").val(),
                 useremail: $(".userdetailemail").val(),
-                userpincode: $(".userdetailpincode").val()
+//                userpincode: $(".userdetailpincode").val()
                 
             },
             function (data) {
@@ -227,15 +227,12 @@
         $("#user .userdetails").html("");
             console.log(data['userdetail'].id);
             var id=data['userdetail'].id;
-            var address=data['userdetail'].address;
-            var city=data['userdetail'].city;
-            var contact=data['userdetail'].contact;
-            var dob=data['userdetail'].dob;
+//            var address=data['userdetail'].address;
+            var name=data['userdetail'].name;
+            var phone=data['userdetail'].phone;
             var email=data['userdetail'].email;
-            var firstname=data['userdetail'].firstname;
-            var pincode=data['userdetail'].pincode;
             document.getElementById("categoryid").value = id;
-             $("#user .userdetails").append("<table><tr><td>Name:</td><td><input type='text' name='name' value='"+firstname+"' class='form-control userdetailname'><input type='hidden' name='id' value='"+id+"' class='form-control userdetailid'></td></tr><tr><td>Address:</td><td><input type='text' name='address' value='"+address+"' class='form-control userdetailaddress'></td></tr><tr><td>City:</td><td><input type='text' name='city' value='"+city+"' class='form-control userdetailcity'></td></tr><tr><td>Contact:</td><td><input type='text' name='contact' value='"+contact+"' class='form-control userdetailcontact'></td></tr><tr><td>DOB:</td><td><input type='date' class='form-control userdetaildob' name='dob' value='"+dob+"'></td></tr><tr><td>Email:</td><td><input type='email' name='email' value='"+email+"' class='form-control userdetailemail'></td></tr><tr><td>Pincode:</td><td><input type='text' name='pincode' value='"+pincode+"' class='form-control userdetailpincode'></td></tr></table>");
+             $("#user .userdetails").append("<table><tr><td>Name:</td><td><input type='text' name='name' value='"+name+"' class='form-control userdetailname'><input type='hidden' name='id' value='"+id+"' class='form-control userdetailid'></td></tr><tr><td>Email:</td><td><input type='email' name='email' value='"+email+"' class='form-control userdetailemail'></td></tr><tr><td>Phone:</td><td><input type='text' name='phone' value='"+phone+"' class='form-control userdetailphone'></td></tr></table>");
 //        <tr><td><a class='btn btn-info userdetailsformsubmit' id='userdetailsformsubmitid'>Submit</a></td><td></td></tr>
         
 //             $("#user .userdetails").append("<div>Name:"+firstname+"</div><div>Address:"+address+"</div><div>City:"+city+"</div><div>Contact:"+contact+"</div><div>DOB:"+dob+"</div><div>Email:"+email+"</div><div>Pincode:"+pincode+"</div>");
