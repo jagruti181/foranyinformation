@@ -1694,11 +1694,14 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$this->enquiry_model->deleteenquiry($this->input->get('id'));
-		$data['table']=$this->enquiry_model->viewenquiry();
-		$data['alertsuccess']="enquiry Deleted Successfully";
-		$data['page']='viewenquiry';
-		$data['title']='View enquiry';
-		$this->load->view('template',$data);
+//		$data['table']=$this->enquiry_model->viewenquiry();
+//		$data['alertsuccess']="enquiry Deleted Successfully";
+//		$data['page']='viewenquiry';
+//		$data['title']='View enquiry';
+//		$this->load->view('template',$data);
+        $data['redirect']="site/viewenquiry";
+			//$data['other']="template=$template";
+			$this->load->view("redirect",$data);
 	}
 	function deleteenquirylistingcategory()
 	{
