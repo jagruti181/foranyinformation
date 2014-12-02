@@ -12,14 +12,14 @@
             </header>
             <ul>
                 <?php foreach($table as $row){?>
-                <div style="margin-left:20px;">
+                <div style="margin-left:20px;margin-top:10px;">
                 <li class="addsubcategoryclass">
-                    <a href="#" class="func"><input type="hidden" class="addsubcategory" value="<?php echo $row->id;?>">
+                    <a href="#" class="func" style="padding-right: 15px;vertical-align:bottom;"><input type="hidden" class="addsubcategory" value="<?php echo $row->id;?>">
                         <?php echo $row->name;?>
                        </a>
                        
-                       <a class="btn  btn-primary btn-xs" href="<?php echo site_url('site/editcategory?id=').$row->id;?>"><i class="icon-pencil"></i></a>
-                       <a  class="btn btn-danger btn-xs" href="<?php echo site_url('site/deletecategory?id=').$row->id;?>"><i class="icon-trash "></i></a>
+                       <a class="btn  btn-primary btn-xs" style="margin-right:6px,margin-top:3px;" href="<?php echo site_url('site/editcategory?id=').$row->id;?>"><i class="icon-pencil"></i></a>
+                       <a  class="btn btn-danger btn-xs"  style="margin-right:6px,margin-top:3px;"href="<?php echo site_url('site/deletecategory?id=').$row->id;?>"><i class="icon-trash "></i></a>
                        
                     <div class="showsubcategory" style="display:none;"></div>
                 </li>
@@ -69,7 +69,7 @@
             var id = data[i].id;
             var name = data[i].name;
             //            $("#enquiries .allenquiries").append(data['allenquiries'][i].id);
-            $(element).parent(".addsubcategoryclass").children(".showsubcategory").append("<li class='addsubcategoryclass' style='margin-left:20px'><a href='#' class='func'><input type='hidden' class='addsubcategory' value='" + id + "'>" + name + "</a><a class=' btn  btn-primary btn-xs' href='<?php echo site_url('site/editcategory?id=');?>"+id+"'><i class='icon-pencil'></i></a><a  class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletecategory?id=');?>"+id+"'><i class='icon-trash '></i></a><div class='showsubcategory' style='display:none;'></div></li>");
+            $(element).parent(".addsubcategoryclass").children(".showsubcategory").append("<li class='addsubcategoryclass' style='margin-left:30px;margin-top:5px;'><a href='#' class='func' style='padding-right: 15px;'><input type='hidden' class='addsubcategory' value='" + id + "'>" + name + "</a><a class=' btn  btn-primary btn-xs' style='margin-right:6px,margin-top:13px;' href='<?php echo site_url('site/editcategory?id=');?>"+id+"'><i class='icon-pencil'></i></a><a  class='btn btn-danger btn-xs' style='margin-right:6px,margin-top:13px;' href='<?php echo site_url('site/deletecategory?id=');?>"+id+"'><i class='icon-trash '></i></a><div class='showsubcategory' style='display:none;'></div></li>");
 
 
 
