@@ -225,5 +225,10 @@ class Json extends CI_Controller
 
         echo $this->email->print_debugger();
     }
+    
+    function getcategorytree() {
+        $data["message"]=$this->category_model->getcategorytree(0);
+		$this->load->view("json",$data);
+    }
 }
 ?>
