@@ -397,7 +397,7 @@ class Site extends CI_Controller
     
 	//category
     
-	function viewcategory()
+	function viewcategoryold()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
@@ -2914,7 +2914,7 @@ class Site extends CI_Controller
 		$data['title']='View Tree';
 		$this->load->view('template',$data);
 	}
-	function viewcategorytree()
+	function viewcategory()
 	{
 		$access = array("1");
 		$this->checkaccess($access);

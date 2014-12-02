@@ -1,6 +1,6 @@
 <div class="row"  >
     <div class="col-lg-5 col-sm-5">
-        <section class="panel1">
+        <section>
             
 					<div class="form-group">
 						<div class="col-sm-6">
@@ -28,38 +28,38 @@
        </div>
         <div class="col-md-6 formcategory" style="display:none;">
           
-          <div class="row">
-           <div class="col-md-6">
-                <section class="panel2">
-                    <div id="formcategory" class="form-group">
-                                <input type="hidden" name="categoryid" id="categoryid" class="categoryclass">
-                                 <?php
+          <div class="row panel">
+               <div class="col-md-6" style="margin-top:10px;">
+                    <section class="panel2">
+                        <div id="formcategory" class="form-group">
+                                    <input type="hidden" name="categoryid" id="categoryid" class="categoryclass">
+                                     <?php
 
-                            echo form_dropdown('category',$category,set_value('category'),'id="select1" class="chzn-select form-control categoryvalue" 	data-placeholder="Choose a Category..."');
-                        ?><br>
-                            <a class="btn btn-info categoryformsubmit">Enter</a>
-                      </div>
-                </section>
-            </div>
-            <div class="col-md-6 formlisting" style="display:none;">
-                <section class="panel3">
-                    <div id="formcategory" class="form-group">
-                                   <?php
+                                echo form_dropdown('category',$category,set_value('category'),'id="select1" class="chzn-select form-control categoryvalue" 	data-placeholder="Choose a Category..."');
+                            ?><br>
+                                <a class="btn btn-info categoryformsubmit">Enter</a>
+                          </div>
+                    </section>
+                </div>
+                <div class="col-md-6 formlisting" style="display:none;margin-top:10px;">
+                    <section class="panel3">
+                        <div id="formcategory" class="form-group">
+                                       <?php
 
-                            echo form_dropdown('listing',$listing,set_value('listing'),'id="select2" class="chzn-select form-control listingvalue" 	data-placeholder="Choose a Listing..."');
-                        ?>
-                           <br>
-                            <a class="btn btn-info listingformsubmit">Enter</a>
-                      </div>
-                </section>
-            </div>
+                                echo form_dropdown('listing',$listing,set_value('listing'),'id="select2" class="chzn-select form-control listingvalue" 	data-placeholder="Choose a Listing..."');
+                            ?>
+                               <br>
+                                <a class="btn btn-info listingformsubmit">Enter</a>
+                          </div>
+                    </section>
+                </div>
           </div>
           <br>
           <br>
-          <div class="row">
+          <div class="row panel">
                 <div class="col-lg-12 col-sm-12">
                     <section class="panel2">
-                        <div id="enquiries" class="form-group">
+                        <div id="enquiries" class="form-group" style="margin-top:10px;">
                             <div class="col-sm-12 allenquiries">
 
                             </div>
