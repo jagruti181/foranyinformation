@@ -77,7 +77,7 @@
                   </div>
                 </div>
                 <div class="submitbuttonforuserdetails" style="display:none;">
-                    <a class='btn btn-info userdetailsformsubmit' id='userdetailsformsubmitid'>Submit</a>
+                    <a class='btn btn-info userdetailsformsubmit'style='margin-left:64px;' id='userdetailsformsubmitid'>Submit</a>
                 </div>
             </section>
         </div>
