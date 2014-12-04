@@ -117,7 +117,7 @@ class Category_model extends CI_Model
        ")->result();
 		return $query;
 	}
-	public function beforeeditcategory( $id )
+	public function beforeeditcategory( $id )-
 	{
 		$this->db->where( 'id', $id );
 		$query=$this->db->get( 'category' )->row();
@@ -126,6 +126,10 @@ class Category_model extends CI_Model
 	
 	public function editcategory( $id,$name,$parent,$status,$logo,$image,$typeofimage)
 	{
+        if($logo=="")
+        {
+            $logo=$image;
+        }
 		$data = array(
 			'name' => $name,
 			'parent' => $parent,
