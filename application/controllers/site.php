@@ -518,9 +518,9 @@ class Site extends CI_Controller
 		{
 			$name=$this->input->post('name');
 			$parent=$this->input->post('parent');
-			$status=$this->input->post('status');
-			$logo=$this->input->post('logo');
 			$typeofimage=$this->input->post('typeofimage');
+			$status=$typeofimage;
+			$logo=$this->input->post('logo');
             
             $config['upload_path'] = './lib/images/png/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -606,11 +606,11 @@ class Site extends CI_Controller
 			$id=$this->input->post('id');
 			$name=$this->input->post('name');
 			$parent=$this->input->post('parent');
-			$status=$this->input->post('status');
-			$logo=$this->input->post('logo');
 			$typeofimage=$this->input->post('typeofimage');
+			$status=$typeofimage;
+			$logo=$this->input->post('logo');
 			
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = './lib/images/png/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
 			$filename="image";
@@ -626,7 +626,7 @@ class Site extends CI_Controller
                 $image=$this->category_model->getcategoryimagebyid($id);
                 $image=$image->image;
                 
-                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['source_image']   = './lib/images/png/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
                 $config_r['width']   = 800;
