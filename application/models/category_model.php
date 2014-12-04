@@ -82,8 +82,8 @@ class Category_model extends CI_Model
 	{
 		$typeofimage= array(
 			 "" => "SELECT TYPE",
-			 "1" => "Tag",
-			 "2" => "Image",
+			 "0" => "Tag",
+			 "1" => "Image",
 			);
 		return $typeofimage;
 	}
