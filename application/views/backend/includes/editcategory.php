@@ -74,7 +74,7 @@
 						 { }
 						 else
 						 { ?>
-							<img src="<?php echo base_url('uploads')."/".$before->image; ?>" width="140px" height="140px">
+							<img src="<?php echo base_url('lib/images/png')."/".$before->image; ?>" width="140px" height="140px">
 						<?php }
 					?>
 				  </div>

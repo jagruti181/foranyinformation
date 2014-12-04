@@ -72,12 +72,12 @@
      var nodata=9;
     function changeimageortag() {
         console.log($('#typeofimage').val());
-        if($('#typeofimage').val()==1)
+        if($('#typeofimage').val()==0)
         {
             $("#ontagselect").show();
             $("#onimageselect").hide();
         }
-        else if( $('#typeofimage').val()==2)
+        else if( $('#typeofimage').val()==1)
         {
             $("#onimageselect").show();
             $("#ontagselect").hide();
