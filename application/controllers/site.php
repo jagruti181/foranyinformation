@@ -522,7 +522,7 @@ class Site extends CI_Controller
 			$logo=$this->input->post('logo');
 			$typeofimage=$this->input->post('typeofimage');
             
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = './lib/images/png/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
 			$filename="image";
@@ -532,7 +532,7 @@ class Site extends CI_Controller
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
                 
-                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['source_image']   = './lib/images/png/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
                 $config_r['width']   = 800;
