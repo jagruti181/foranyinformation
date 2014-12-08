@@ -965,7 +965,7 @@ class Site extends CI_Controller
         $elements[2]->field="`listing`.`address`";
         $elements[2]->sort="1";
         $elements[2]->header="Address";
-        $elements[2]->alias="lastname";
+        $elements[2]->alias="address";
         
         $elements[3]=new stdClass();
         $elements[3]->field="`listing`.`email`";

@@ -49,22 +49,9 @@
 				  </div>
 				</div>
 				<div class=" form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">Latitude</label>
-				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="lat" value="<?php echo set_value('lat',$before->lat);?>">
-				  </div>
-				</div>
-				<div class=" form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">Longitude</label>
-				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="long" value="<?php echo set_value('long',$before->long);?>">
-				  </div>
-				</div>
-				
-				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Address</label>
 				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="address" value="<?php echo set_value('address',$before->address);?>">
+					<input type="text" id="normal-field" class="form-control addressclass" name="address" value="<?php echo set_value('address',$before->address);?>">
 				  </div>
 				</div>
 				
@@ -73,8 +60,38 @@
 				  <div class="col-sm-4">
 					<?php
 						
-						echo form_dropdown('city',$city,set_value('city',$before->city),'class="chzn-select form-control" 	data-placeholder="Choose a Accesslevel..."');
+						echo form_dropdown('city',$city,set_value('city',$before->city),'class="chzn-select form-control cityclass" 	data-placeholder="Choose a Accesslevel..."');
 					?>
+				  </div>
+				</div>
+				
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">state</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control stateclass" name="state" value="<?php echo set_value('state',$before->state);?>">
+				  </div>
+				</div>
+				
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">country</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control countryclass" name="country" value="<?php echo set_value('country',$before->country);?>">
+				  </div>
+				  <div class="col-sm-2">
+				    <a class="btn btn-primary pull-right latlongbutton">Add Lat/Long</a>
+				  </div>
+				</div>
+				
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">Latitude</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control latitudeclass" name="lat" value="<?php echo set_value('lat',$before->lat);?>">
+				  </div>
+				</div>
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">Longitude</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control longitudeclass" name="long" value="<?php echo set_value('long',$before->long);?>">
 				  </div>
 				</div>
 				
@@ -82,20 +99,6 @@
 				  <label class="col-sm-2 control-label" for="normal-field">Pincode</label>
 				  <div class="col-sm-4">
 					<input type="text" id="normal-field" class="form-control" name="pincode" value="<?php echo set_value('pincode',$before->pincode);?>">
-				  </div>
-				</div>
-				
-				<div class=" form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">state</label>
-				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="state" value="<?php echo set_value('state',$before->state);?>">
-				  </div>
-				</div>
-				
-				<div class=" form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">country</label>
-				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="country" value="<?php echo set_value('country',$before->country);?>">
 				  </div>
 				</div>
 				
@@ -220,3 +223,28 @@
 			  </form>
 			</div>
 		</section>
+
+<script>
+    $(".latlongbutton").click(function () {
+        console.log($( ".cityclass option:selected" ).text());
+        $.getJSON(
+            "https://maps.googleapis.com/maps/api/geocode/json?address="+$(".addressclass").val()+","+$( ".cityclass option:selected" ).text()+","+$(".stateclass").val()+","+$(".countryclass").val()+"&key=AIzaSyAvqKowJmLC_xd0N-8e6BoCZf4-gWThOZQ", {
+                address: $(".addressclass").val()
+            },
+            function (data) {
+                console.log(data.results[0]);
+                console.log(data.results[0].geometry.location.lat);
+                console.log(data.results[0].geometry.location.lng);
+                $('.latitudeclass').val(data.results[0].geometry.location.lat);
+                $('.longitudeclass').val(data.results[0].geometry.location.lng);
+//                console.log(parsxed.results[0].geometry);
+                nodata = data;
+                // $("#store").html(data);
+//                allenquiries(data);
+//                userdetails(data);
+
+            }
+        );
+//        return false;
+    });
+</script>

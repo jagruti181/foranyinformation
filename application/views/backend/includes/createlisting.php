@@ -58,10 +58,35 @@
 				  <label class="col-sm-2 control-label" for="normal-field">Address</label>
 				  <div class="col-sm-4">
 					<input type="text" id="normal-field" class="form-control addressclass" name="address" value="<?php echo set_value('address');?>">
-				    <a class="btn btn-primary pull-right latlongbutton">Add Lat/Long</a>
 				  </div>
 				</div>
 				
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label">city</label>
+				  <div class="col-sm-4">
+					<?php
+						
+						echo form_dropdown('city',$city,set_value('city'),'class="chzn-select form-control cityclass" 	data-placeholder="Choose a Accesslevel..."');
+					?>
+				  </div>
+				</div>
+				
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">state</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control stateclass" name="state" value="<?php echo set_value('state');?>">
+				  </div>
+				</div>
+				
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">country</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control countryclass" name="country" value="<?php echo set_value('country');?>">
+				  </div>
+				  <div class="col-sm-2">
+				    <a class="btn btn-primary pull-right latlongbutton">Add Lat/Long</a>
+				  </div>
+				</div>
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Latitude</label>
 				  <div class="col-sm-4">
@@ -76,35 +101,12 @@
 				</div>
 				
 				<div class=" form-group">
-				  <label class="col-sm-2 control-label">city</label>
-				  <div class="col-sm-4">
-					<?php
-						
-						echo form_dropdown('city',$city,set_value('city'),'class="chzn-select form-control" 	data-placeholder="Choose a Accesslevel..."');
-					?>
-				  </div>
-				</div>
-				
-				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Pincode</label>
 				  <div class="col-sm-4">
 					<input type="text" id="normal-field" class="form-control" name="pincode" value="<?php echo set_value('pincode');?>">
 				  </div>
 				</div>
 				
-				<div class=" form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">state</label>
-				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="state" value="<?php echo set_value('state');?>">
-				  </div>
-				</div>
-				
-				<div class=" form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">country</label>
-				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="country" value="<?php echo set_value('country');?>">
-				  </div>
-				</div>
 				
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Description</label>
@@ -224,8 +226,9 @@
 </div>
 <script>
     $(".latlongbutton").click(function () {
+        console.log($( ".cityclass option:selected" ).text());
         $.getJSON(
-            "https://maps.googleapis.com/maps/api/geocode/json?address="+$(".addressclass").val()+"&key=AIzaSyAvqKowJmLC_xd0N-8e6BoCZf4-gWThOZQ", {
+            "https://maps.googleapis.com/maps/api/geocode/json?address="+$(".addressclass").val()+","+$( ".cityclass option:selected" ).text()+","+$(".stateclass").val()+","+$(".countryclass").val()+"&key=AIzaSyAvqKowJmLC_xd0N-8e6BoCZf4-gWThOZQ", {
                 address: $(".addressclass").val()
             },
             function (data) {
