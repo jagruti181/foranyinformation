@@ -55,22 +55,23 @@
 				  </div>
 				</div>
 				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">Address</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control addressclass" name="address" value="<?php echo set_value('address');?>">
+				    <a class="btn btn-primary pull-right latlongbutton">Add Lat/Long</a>
+				  </div>
+				</div>
+				
+				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Latitude</label>
 				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="lat" value="<?php echo set_value('lat');?>">
+					<input type="text" id="normal-field latitudeid" class="form-control latitudeclass" name="lat" value="<?php echo set_value('lat');?>">
 				  </div>
 				</div>
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Longitude</label>
 				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="long" value="<?php echo set_value('long');?>">
-				  </div>
-				</div>
-				
-				<div class=" form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">Address</label>
-				  <div class="col-sm-4">
-					<input type="text" id="normal-field" class="form-control" name="address" value="<?php echo set_value('address');?>">
+					<input type="text" id="normal-field longitudeid" class="form-control longitudeclass" name="long" value="<?php echo set_value('long');?>">
 				  </div>
 				</div>
 				
@@ -221,3 +222,26 @@
 		</section>
 	</div>
 </div>
+<script>
+    $(".latlongbutton").click(function () {
+        $.getJSON(
+            "https://maps.googleapis.com/maps/api/geocode/json?address="+$(".addressclass").val()+"&key=AIzaSyAvqKowJmLC_xd0N-8e6BoCZf4-gWThOZQ", {
+                address: $(".addressclass").val()
+            },
+            function (data) {
+                console.log(data.results[0]);
+                console.log(data.results[0].geometry.location.lat);
+                console.log(data.results[0].geometry.location.lng);
+                $('.latitudeclass').val(data.results[0].geometry.location.lat);
+                $('.longitudeclass').val(data.results[0].geometry.location.lng);
+//                console.log(parsxed.results[0].geometry);
+                nodata = data;
+                // $("#store").html(data);
+//                allenquiries(data);
+//                userdetails(data);
+
+            }
+        );
+//        return false;
+    });
+</script>
