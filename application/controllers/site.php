@@ -1007,7 +1007,8 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$data['accesslevel']=$this->listing_model->getaccesslevels();
-		$data[ 'type' ] =$this->frontend_model->type();
+//		$data[ 'type' ] =$this->frontend_model->type();
+		$data[ 'type' ] =$this->listing_model->gettypedropdown();
 		$data[ 'isverified' ] =$this->listing_model->getisverifieddropdown();
 		$data[ 'user' ] =$this->listing_model->getuserdropdown();
         $data[ 'city' ] =$this->city_model->getcitydropdown();
