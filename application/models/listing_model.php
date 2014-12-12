@@ -4,7 +4,7 @@ if ( !defined( 'BASEPATH' ) )
 class Listing_model extends CI_Model
 {
 	
-	public function create($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)
+	public function create($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation,$pointer)
 	{
 		$data  = array(
 			'name' => $name,
@@ -30,6 +30,7 @@ class Listing_model extends CI_Model
             'credits' => $credits,
             'isverified' => $isverified,
             'video' => $video,
+            'pointer' => $pointer,
             'logo' => $logo
 		);
 		$query=$this->db->insert( 'listing', $data );
@@ -83,7 +84,7 @@ class Listing_model extends CI_Model
 	}
 	function viewlisting()
 	{
-		$query="SELECT `id`, `name`, `user`, `lat`, `long`, `address`, `city`, `pincode`, `state`, `country`, `description`, `logo`, `contactno`, `email`, `website`, `facebook`, `twitter`, `googleplus`, `yearofestablishment`, `timeofoperation_start`, `timeofoperation_end`, `type`, `credits`, `isverified`, `video`, `deletestatus` FROM `listing`  ";
+		$query="SELECT `id`, `name`, `user`, `lat`, `long`, `address`, `city`, `pincode`, `state`, `country`, `description`, `logo`, `contactno`, `email`, `website`, `facebook`, `twitter`, `googleplus`, `yearofestablishment`, `timeofoperation_start`, `timeofoperation_end`, `type`, `credits`, `isverified`, `video`, `deletestatus` FROM `listing` WHERE `deletestatus`=1 ";
 	   
 		$query=$this->db->query($query)->result();
 		return $query;
@@ -172,7 +173,7 @@ class Listing_model extends CI_Model
 		return $query;
 	}
 	
-	public function edit($id,$name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)
+	public function edit($id,$name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation,$pointer)
 	{
 		$data  = array(
 			'name' => $name,
@@ -198,6 +199,7 @@ class Listing_model extends CI_Model
             'credits' => $credits,
             'isverified' => $isverified,
             'video' => $video,
+            'pointer' => $pointer,
             'logo' => $logo
 		);
 		
@@ -222,7 +224,7 @@ class Listing_model extends CI_Model
 	}
 	function deletelisting($id)
 	{
-		$query=$this->db->query("DELETE FROM `listing` WHERE `id`='$id'");
+		$query=$this->db->query("UPDATE `listing` SET `deletestatus`=0");
 	}
 	function changepassword($id,$password)
 	{
@@ -407,6 +409,20 @@ WHERE `listing`.`city`='$cityid'")->result();
 	   
 		$query=$this->db->query($query)->row();
 		return $query;
+	}
+    
+    public function getlistingbycategorydropdown($id)
+	{
+		$query="SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` 
+FROM `listingcategory`
+LEFT OUTER JOIN `listing` ON `listing`.`id`=`listingcategory`.`listing`
+WHERE `listingcategory`.`category`='$id' ";
+		$listing=$this->db->query($query)->result();
+         if ($listing== NULL) {
+                return "No Listing";
+            }
+        else
+        return $listing;
 	}
 }
 ?>

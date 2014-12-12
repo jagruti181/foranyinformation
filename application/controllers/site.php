@@ -979,6 +979,12 @@ class Site extends CI_Controller
         $elements[4]->header="Contact No";
         $elements[4]->alias="contactno";
         
+        $elements[5]=new stdClass();
+        $elements[5]->field="`listing`.`pointer`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Pointer";
+        $elements[5]->alias="pointer";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -995,7 +1001,7 @@ class Site extends CI_Controller
             $orderorder="ASC";
         }
        
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements," FROM `listing`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements," FROM `listing`","WHERE `deletestatus`=1");
         
 		$this->load->view("json",$data);
 	} 
@@ -1049,6 +1055,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('credits','credits','trim');
 		$this->form_validation->set_rules('isverified','isverified','trim');
 		$this->form_validation->set_rules('video','video','trim');
+		$this->form_validation->set_rules('pointer','pointer','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -1090,6 +1097,7 @@ class Site extends CI_Controller
 			$credits=$this->input->post('credits');
 			$isverified=$this->input->post('isverified');
 			$video=$this->input->post('video');
+			$pointer=$this->input->post('pointer');
             
             $category=$this->input->post('category');
             $modeofpayment=$this->input->post('modeofpayment');
@@ -1130,7 +1138,7 @@ class Site extends CI_Controller
                 
 			}
             
-			if($this->listing_model->create($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)==0)
+			if($this->listing_model->create($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation,$pointer)==0)
 			$data['alerterror']="New listing could not be created.";
 			else
 			$data['alertsuccess']="listing created Successfully.";
@@ -1190,6 +1198,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('credits','credits','trim');
 		$this->form_validation->set_rules('isverified','isverified','trim');
 		$this->form_validation->set_rules('video','video','trim');
+		$this->form_validation->set_rules('pointer','pointer','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -1236,6 +1245,7 @@ class Site extends CI_Controller
 			$credits=$this->input->post('credits');
 			$isverified=$this->input->post('isverified');
 			$video=$this->input->post('video');
+			$pointer=$this->input->post('pointer');
             
             $category=$this->input->post('category');
             $modeofpayment=$this->input->post('modeofpayment');
@@ -1281,7 +1291,7 @@ class Site extends CI_Controller
                 $logo=$logo->logo;
             }
             
-			if($this->listing_model->edit($id,$name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation)==0)
+			if($this->listing_model->edit($id,$name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation,$pointer)==0)
 			$data['alerterror']="listing Editing was unsuccesful";
 			else
 			$data['alertsuccess']="listing edited Successfully.";
@@ -1787,6 +1797,12 @@ class Site extends CI_Controller
         $elements[4]->header="Timestamp";
         $elements[4]->alias="timestamp";
         
+        $elements[5]=new stdClass();
+        $elements[5]->field="`specialoffer`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Offer";
+        $elements[5]->alias="name";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -1833,7 +1849,8 @@ class Site extends CI_Controller
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
-			$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
+            $data[ 'category' ] =$this->category_model->getcategorydropdown();
+//			$data[ 'listing' ] =$this->listing_model->getlistingdropdown();
             $data[ 'listing' ] =$this->listing_model->getlistingforspecialofferdropdown();
             $data[ 'page' ] = 'createspecialoffer';
             $data[ 'title' ] = 'Create specialoffer';
@@ -2937,5 +2954,20 @@ class Site extends CI_Controller
 //        print_r($data);
         $this->load->view("json",$data);
     }
+    
+    
+    public function getlistingbycategory($id)
+    {
+   $data1=$this->listing_model->getlistingbycategorydropdown($id);
+        
+        
+            $data["message"]=$data1;
+//        print_r($data);
+            $this->load->view("json",$data);
+  
+            
+        
+    }
+    
 }
 ?>

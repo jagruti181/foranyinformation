@@ -305,12 +305,26 @@ class Category_model extends CI_Model
 		
 		return $query;
 	}
-    public function searchcategory($category)
+//    public function searchcategory($category)
+//	{
+//		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`tab2`.`name` as `parent` 
+//        FROM `category` 
+//		LEFT JOIN `category` as `tab2` ON `tab2`.`id`=`category`.`parent`
+//        WHERE `category`.`parent`!=0 AND `category`.`name`LIKE '$category%'
+//        LIMIT 0 , 10")->result();
+//		
+//		return $query;
+//	}
+    
+    public function searchcategory($category,$city)
 	{
-		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`tab2`.`name` as `parent` 
-        FROM `category` 
-		LEFT JOIN `category` as `tab2` ON `tab2`.`id`=`category`.`parent`
-        WHERE `category`.`parent`!=0 AND `category`.`name`LIKE '$category%'
+		$query=$this->db->query("SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` ,`city`.`name` AS `cityname`,`category`.`name` AS `categoryname`,`listing`.`deletestatus`
+FROM `listingcategory`
+LEFT OUTER JOIN `listing` ON `listing`.`id`=`listingcategory`.`listing`
+LEFT OUTER JOIN `category` ON `category`.`id`=`listingcategory`.`category`
+LEFT OUTER JOIN `city` ON `city`.`id`=`listing`.`city`
+WHERE `category`.`name`LIKE '$category%' AND `city`.`name` LIKE '$city%' AND `listing`.`deletestatus`='1'
+ORDER BY `listing`.`pointer` DESC
         LIMIT 0 , 10")->result();
 		
 		return $query;

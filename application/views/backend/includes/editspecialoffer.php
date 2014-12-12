@@ -7,7 +7,7 @@
 				<input type="text" id="normal-field" class="form-control" name="id" value="<?php echo set_value('id',$before->id);?>" style="display:none;">
 				
 				<div class="form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">Name</label>
+				  <label class="col-sm-2 control-label" for="normal-field">Offer</label>
 				  <div class="col-sm-4">
 					<input type="text" id="normal-field" class="form-control" name="name" value="<?php echo set_value('name',$before->name);?>">
 				  </div>

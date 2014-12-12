@@ -205,6 +205,12 @@
 					  <input type="text" id="" name="video" class="form-control" value="<?php echo set_value('video'); ?>">
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Pointer</label>
+					<div class="col-sm-4">
+					  <input type="text" id="pointer" name="pointer" class="form-control" value="<?php echo set_value('pointer'); ?>">
+					</div>
+				</div>
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Logo</label>
 				  <div class="col-sm-4">

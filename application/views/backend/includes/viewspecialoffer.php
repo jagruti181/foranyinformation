@@ -17,6 +17,7 @@
                 <thead>
                     <tr>
                         <th data-field="id">Id</th>
+                        <th data-field="name">Offer</th>
                         <th data-field="categoryname">category</th>
                         <th data-field="email">Email</th>
                         <th data-field="phone">Phone No</th>
@@ -37,7 +38,7 @@
 //                {
 //                    resultrow.address="";
 //                }
-                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.categoryname + "</td><td>" + resultrow.email + "</td><td>" + resultrow.phone + "</td><td>" + resultrow.timestamp + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editspecialoffer?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletespecialoffer?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.categoryname + "</td><td>" + resultrow.email + "</td><td>" + resultrow.phone + "</td><td>" + resultrow.timestamp + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editspecialoffer?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletespecialoffer?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
             }
             generatejquery('<?php echo $base_url;?>');
         </script>

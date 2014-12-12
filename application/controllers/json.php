@@ -159,7 +159,8 @@ class Json extends CI_Controller
     public function searchcategory()
     {
         $category=$this->input->get_post('categoryname');
-        $data['message']=$this->category_model->searchcategory($category);
+        $city=$this->input->get_post('cityname');
+        $data['message']=$this->category_model->searchcategory($category,$city);
 		$this->load->view('json',$data);
     }
 
