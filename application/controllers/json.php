@@ -184,8 +184,8 @@ class Json extends CI_Controller
     }
      public function sendemail()
     {
-        $userid=$this->input->get('userid');
-        $listingid=$this->input->get('listingid');
+        $userid=$this->input->get_post('userid');
+        $listingid=$this->input->get_post('listingid');
         $user=$this->user_model->getallinfoofuser($userid);
 //        print_r($user);
         $touser=$user->email;
@@ -231,5 +231,12 @@ class Json extends CI_Controller
         $data["message"]=$this->category_model->getcategorytree(0);
 		$this->load->view("json",$data);
     }
+    public function getspecialoffersbycategory()
+    {
+        $id=$this->input->get_post('categoryid');
+        $data['message']=$this->specialoffer_model->getspecialoffersbycategory($id);
+        $this->load->view('json',$data);
+    }
+    
 }
 ?>

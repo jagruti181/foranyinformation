@@ -215,6 +215,15 @@ class Specialoffer_model extends CI_Model
 		);
 		$query2=$this->db->insert( 'userlog', $data2 );
 	}
-    
+     
+    public function getspecialoffersbycategory($categoryid)
+	{
+		$query=$this->db->query("SELECT `specialoffer`.`id`, `specialoffer`.`name`, `specialoffer`.`category`, `specialoffer`.`email`, `specialoffer`.`phone`, `specialoffer`.`timestamp`, `specialoffer`.`deletestatus` ,`category`.`name` AS `categoryname`
+FROM `specialoffer`
+LEFT OUTER JOIN `category` ON `category`.`id`=`specialoffer`.`category`
+WHERE `specialoffer`.`category`='$categoryid'")->result();
+		
+		return $query;
+	}
 }
 ?>
