@@ -4,6 +4,7 @@
 		    <header class="panel-heading">
 				 Category Details
 			</header>
+			
 			<div class="panel-body">
 				<form class="form-horizontal row-fluid" method="post" action="<?php echo site_url('site/editcategorysubmit');?>" enctype= "multipart/form-data">
 					<div class="form-row control-group row-fluid" style="display:none;">
@@ -74,7 +75,7 @@
 						 { }
 						 else
 						 { ?>
-							<img src="<?php echo base_url('lib/images/png')."/".$before->image; ?>" width="140px" height="140px">
+							<img src="<?php echo base_url('uploads')."/".$before->image; ?>" width="140px" height="140px">
 						<?php }
 					?>
 				  </div>
@@ -83,6 +84,21 @@
                     <?php
                     }
                     ?>
+                        
+				<div class=" form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">Banner</label>
+				  <div class="col-sm-4">
+					<input type="file" id="normal-field" class="form-control" name="banner" value="<?php echo set_value('banner',$before->banner);?>">
+					<?php if($before->banner == "")
+						 { }
+						 else
+						 { ?>
+							<img src="<?php echo base_url('uploads')."/".$before->banner; ?>" width="140px" height="140px">
+						<?php }
+					?>
+				  </div>
+				</div>
+
 					<div class="form-group">
 						<label class="col-sm-2 control-label">&nbsp;</label>
 						<div class="col-sm-4">	

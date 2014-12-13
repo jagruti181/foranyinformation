@@ -4,7 +4,7 @@ if ( !defined( 'BASEPATH' ) )
 class Category_model extends CI_Model
 {
 	//category
-	public function createcategory($name,$parent,$status,$logo,$image,$typeofimage)
+	public function createcategory($name,$parent,$status,$logo,$image,$typeofimage,$banner)
 	{
 		$data  = array(
 			'name' => $name,
@@ -12,6 +12,7 @@ class Category_model extends CI_Model
 			'status' => $status,
 			'logo' => $logo,
 			'image' => $image,
+			'banner' => $banner,
 			'typeofimage' => $typeofimage
 		);
 		$query=$this->db->insert( 'category', $data );
@@ -92,6 +93,11 @@ class Category_model extends CI_Model
 		$query=$this->db->query("SELECT `image` FROM `category` WHERE `id`='$id'")->row();
 		return $query;
 	}
+    public function getcategorybannerbyid($id)
+	{
+		$query=$this->db->query("SELECT `banner` FROM `category` WHERE `id`='$id'")->row();
+		return $query;
+	}
     function viewmaincategory()
 	{
 		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`logo`,`category`.`status`,`tab2`.`name` as `parent` FROM `category` 
@@ -124,7 +130,7 @@ class Category_model extends CI_Model
 		return $query;
 	}
 	
-	public function editcategory( $id,$name,$parent,$status,$logo,$image,$typeofimage)
+	public function editcategory( $id,$name,$parent,$status,$logo,$image,$typeofimage,$banner)
 	{
         if($logo=="")
         {
@@ -136,6 +142,7 @@ class Category_model extends CI_Model
 			'status' => $status,
 			'logo' => $logo,
 			'image' => $image,
+			'banner' => $banner,
 			'typeofimage' => $typeofimage
 		
 		);
