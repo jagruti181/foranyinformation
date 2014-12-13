@@ -218,7 +218,7 @@ class Specialoffer_model extends CI_Model
      
     public function getspecialoffersbycategory($categoryid)
 	{
-		$query=$this->db->query("SELECT `specialoffer`.`id`, `specialoffer`.`name`, `specialoffer`.`category`, `specialoffer`.`email`, `specialoffer`.`phone`, `specialoffer`.`timestamp`, `specialoffer`.`deletestatus` ,`category`.`name` AS `categoryname`
+		$query=$this->db->query("SELECT `specialoffer`.`id`, `specialoffer`.`name`, `specialoffer`.`category`, `specialoffer`.`email`, `specialoffer`.`phone`, `specialoffer`.`timestamp`, `specialoffer`.`deletestatus` ,`category`.`name` AS `categoryname`,`category`.`banner` AS `banner`
 FROM `specialoffer`
 LEFT OUTER JOIN `category` ON `category`.`id`=`specialoffer`.`category`
 WHERE `specialoffer`.`category`='$categoryid'")->result();

@@ -359,9 +359,10 @@ class Listing_model extends CI_Model
     
 	public function getlistingbycategory($id)
 	{
-		$query=$this->db->query("SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` 
+		$query=$this->db->query("SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video`,`category`.`banner`,`category`.`name` AS `categoryname` 
 FROM `listingcategory`
 LEFT OUTER JOIN `listing` ON `listing`.`id`=`listingcategory`.`listing`
+LEFT OUTER JOIN `category` ON `listingcategory`.`category`=`category`.`id`
 WHERE `listingcategory`.`category`='$id'")->result();
 		return $query;
 	}
@@ -371,7 +372,7 @@ WHERE `listingcategory`.`category`='$id'")->result();
 FROM `listing`
 WHERE `listing`.`id`='$id'")->row();
         
-		$query['categories']=$this->db->query("SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`category`.`name` AS `categoryname` 
+		$query['categories']=$this->db->query("SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`category`.`name` AS `categoryname` ,`category`.`banner` AS `banner`
 FROM `listingcategory`
 LEFT OUTER JOIN `category` ON `category`.`id`=`listingcategory`.`category`
 WHERE `listingcategory`.`listing`='$id'")->result();
@@ -413,9 +414,10 @@ WHERE `listing`.`city`='$cityid'")->result();
     
     public function getlistingbycategorydropdown($id)
 	{
-		$query="SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` 
+		$query="SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` ,`category`.`name` AS `categoryname`,`category`.`banner` AS `banner`
 FROM `listingcategory`
 LEFT OUTER JOIN `listing` ON `listing`.`id`=`listingcategory`.`listing`
+LEFT OUTER JOIN `category` ON `category`.`id`=`listingcategory`.`category`
 WHERE `listingcategory`.`category`='$id' ";
 		$listing=$this->db->query($query)->result();
          if ($listing== NULL) {

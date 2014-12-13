@@ -168,7 +168,7 @@ class Json extends CI_Controller
     {
         $id=$this->input->get_post('id');
         $data['message']=$this->category_model->getcategoryinfo($id);
-	$this->load->view('json',$data);
+        $this->load->view('json',$data);
     }
     
     public function getallcity()

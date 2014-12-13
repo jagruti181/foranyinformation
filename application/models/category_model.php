@@ -300,7 +300,7 @@ class Category_model extends CI_Model
     
     function getallparentcategories()
 	{
-		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`status`,`tab2`.`name` as `parent`,`category`.`logo` 
+		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`status`,`category`.`banner`,`tab2`.`name` as `parent`,`category`.`logo` 
         FROM `category` 
 		LEFT JOIN `category` as `tab2` ON `tab2`.`id`=`category`.`parent`
         WHERE `category`.`parent`=0")->result();
@@ -325,7 +325,7 @@ class Category_model extends CI_Model
     
     public function searchcategory($category,$city)
 	{
-		$query=$this->db->query("SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` ,`city`.`name` AS `cityname`,`category`.`name` AS `categoryname`,`listing`.`deletestatus`
+		$query=$this->db->query("SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` ,`city`.`name` AS `cityname`,`category`.`name` AS `categoryname`,`category`.`banner` AS `banner`,`listing`.`deletestatus`
 FROM `listingcategory`
 LEFT OUTER JOIN `listing` ON `listing`.`id`=`listingcategory`.`listing`
 LEFT OUTER JOIN `category` ON `category`.`id`=`listingcategory`.`category`
