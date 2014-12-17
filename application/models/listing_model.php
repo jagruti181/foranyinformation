@@ -55,6 +55,11 @@ class Listing_model extends CI_Model
 		else
 			return  1;
 	}
+    public function getlistingarray($ids)
+    {
+        $query=$this->db->query("SELECT * from `listing` WHERE `id` IN ($ids)")->result();
+        return $query;
+    }
     public function createcategorybylisting($value,$listingid)
 	{
 		$data  = array(

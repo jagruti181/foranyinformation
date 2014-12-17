@@ -171,6 +171,22 @@ class Json extends CI_Controller
         $this->load->view('json',$data);
     }
     
+    public function getlistingarray()
+    {
+        
+//        $eid=explode(",", $ids);
+//        foreach($eid as $id)
+//        {
+//        $email= $this->db->query("SELECT `id`,`uid`, `eid`, `email` FROM `email` WHERE `id`='$id'")->row();
+//        $query=$this->db->query("DELETE FROM `email` WHERE `id`='$id'");
+//        }
+//        return $email;
+        
+        $ids=$this->input->get_post('ids');
+        $data['message']=$this->listing_model->getlistingarray($ids);
+        $this->load->view('json',$data);
+    }
+    
     public function getallcity()
     {
         $data['message']=$this->city_model->viewcity();
