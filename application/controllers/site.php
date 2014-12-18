@@ -686,7 +686,7 @@ class Site extends CI_Controller
                 }
             }
             
-            $config['upload_path'] = './lib/images/png/';
+            $config['upload_path'] = './lib/images/ad/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
 			$filename="banner";
@@ -700,7 +700,7 @@ class Site extends CI_Controller
 				$uploaddata = $this->upload->data();
 				$banner=$uploaddata['file_name'];
                 
-                $config_r['source_image']   = './lib/images/png/' . $uploaddata['file_name'];
+                $config_r['source_image']   = './lib/images/ad/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
                 $config_r['width']   = 800;

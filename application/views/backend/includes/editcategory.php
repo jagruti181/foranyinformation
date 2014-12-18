@@ -49,11 +49,8 @@
 					  </div>
 					</div>
 -->
-					<?php
-                        if($before->image=="")
-                        {
-                     ?>
-					<div class="form-group">
+					
+					<div class="form-group" id="ontagselect">
 						User Font Awesome Icons >> 
 						Example : fa fa-money fa-3x
 						<label class="col-sm-2 control-label">Logo(in tag)</label>
@@ -61,13 +58,8 @@
 						  <input type="text" id="normal-field" class="form-control" name="logo" value="<?php echo set_value('logo',$before->logo);?>">
 						</div>
 					</div>
-                    <?php
-                    }
-                    else
-                    {
-                    ?>
-                    
-				<div class=" form-group">
+                   
+				<div class="form-group" id="onimageselect">
 				  <label class="col-sm-2 control-label" for="normal-field">Image</label>
 				  <div class="col-sm-4">
 					<input type="file" id="normal-field" class="form-control" name="image" value="<?php echo set_value('image',$before->image);?>">
@@ -81,9 +73,7 @@
 				  </div>
 				</div>
 
-                    <?php
-                    }
-                    ?>
+                   
                         
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Banner</label>
@@ -115,16 +105,17 @@
      var nodata=9;
     function changeimageortag() {
         console.log($('#typeofimage').val());
-        if($('#typeofimage').val()==1)
+        if($('#typeofimage').val()==0)
         {
             $("#ontagselect").show();
             $("#onimageselect").hide();
         }
-        else if( $('#typeofimage').val()==2)
+        else if( $('#typeofimage').val()==1)
         {
             $("#onimageselect").show();
             $("#ontagselect").hide();
         }
        
     }
+    changeimageortag();
 </script>
