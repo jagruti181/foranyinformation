@@ -254,5 +254,16 @@ class Json extends CI_Controller
         $this->load->view('json',$data);
     }
     
+    public function addenquiryoflistingfromfrontend()
+    {
+        $listingid=$this->input->get_post('listingid');
+        $name=$this->input->get_post('name');
+        $email=$this->input->get_post('email');
+        $phone=$this->input->get_post('phone');
+        $comment=$this->input->get_post('comment');
+        $data['message']=$this->enquiry_model->addenquiryoflistingfromfrontend($listingid,$name,$email,$phone,$comment);
+        $this->load->view('json',$data);
+    }
+    
 }
 ?>

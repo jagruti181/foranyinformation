@@ -1060,6 +1060,12 @@ class Site extends CI_Controller
         $elements[5]->header="Pointer";
         $elements[5]->alias="pointer";
         
+        $elements[6]=new stdClass();
+        $elements[6]->field="`listing`.`area`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Area";
+        $elements[6]->alias="area";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -1131,6 +1137,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('isverified','isverified','trim');
 		$this->form_validation->set_rules('video','video','trim');
 		$this->form_validation->set_rules('pointer','pointer','trim');
+		$this->form_validation->set_rules('area','area','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -1173,6 +1180,7 @@ class Site extends CI_Controller
 			$isverified=$this->input->post('isverified');
 			$video=$this->input->post('video');
 			$pointer=$this->input->post('pointer');
+			$area=$this->input->post('area');
             
             $category=$this->input->post('category');
             $modeofpayment=$this->input->post('modeofpayment');
@@ -1213,7 +1221,7 @@ class Site extends CI_Controller
                 
 			}
             
-			if($this->listing_model->create($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation,$pointer)==0)
+			if($this->listing_model->create($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation,$pointer,$area)==0)
 			$data['alerterror']="New listing could not be created.";
 			else
 			$data['alertsuccess']="listing created Successfully.";
@@ -1274,6 +1282,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('isverified','isverified','trim');
 		$this->form_validation->set_rules('video','video','trim');
 		$this->form_validation->set_rules('pointer','pointer','trim');
+		$this->form_validation->set_rules('area','area','trim');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -1321,6 +1330,7 @@ class Site extends CI_Controller
 			$isverified=$this->input->post('isverified');
 			$video=$this->input->post('video');
 			$pointer=$this->input->post('pointer');
+			$area=$this->input->post('area');
             
             $category=$this->input->post('category');
             $modeofpayment=$this->input->post('modeofpayment');
@@ -1366,7 +1376,7 @@ class Site extends CI_Controller
                 $logo=$logo->logo;
             }
             
-			if($this->listing_model->edit($id,$name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation,$pointer)==0)
+			if($this->listing_model->edit($id,$name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$isverified,$video,$logo,$category,$modeofpayment,$daysofoperation,$pointer,$area)==0)
 			$data['alerterror']="listing Editing was unsuccesful";
 			else
 			$data['alertsuccess']="listing edited Successfully.";

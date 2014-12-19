@@ -293,6 +293,51 @@ class Enquiry_model extends CI_Model
          }
 	}
     
+     public function addenquiryoflistingfromfrontend($listingid,$name,$email,$phone,$comment)
+	{
+		$query="SELECT * FROM `enquiry` WHERE  `phone` ='$phone'";
+		$enquirypresentornot=$this->db->query($query);
+         if($enquirypresentornot->num_rows()==0)
+         {
+                $data  = array(
+                    'name' => $name,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'timestamp'=>NULL
+                );
+                $query=$this->db->insert( 'enquiry', $data );
+                $enquiryid=$this->db->insert_id();
+                
+                $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$enquiryid',1,'$listing','$comment')");
+
+                if(!$query)
+                    return  0;
+                else
+                    return  1;
+         }
+         else
+         {
+             $userpresentornot=$enquirypresentornot->row();
+             $enquiryid=$userpresentornot->id;
+             
+             $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$enquiryid',1,'$listing','$comment')");
+             
+             return 1;
+             
+//             $queryselect="SELECT `enquirylistingcategory`.`id`, `enquirylistingcategory`.`enquiryid`, `enquirylistingcategory`.`typeofenquiry`, `enquirylistingcategory`.`listing`, `enquirylistingcategory`.`category`,`enquirylistingcategory`. `comment`, `enquirylistingcategory`.`timestamp` ,IFNULL(`category`.`name`,'NA') AS `categoryname`,IFNULL(`listing`.`name`,'NA') AS `listingname`
+//        FROM `enquirylistingcategory` 
+//        LEFT OUTER JOIN `listing` ON `enquirylistingcategory`.`listing`=`listing`.`id`
+//        INNER JOIN `enquiry` ON `enquirylistingcategory`.`enquiryid`=`enquiry`.`id`
+//        LEFT OUTER JOIN `category` ON `enquirylistingcategory`.`category`=`category`.`id`
+//        WHERE `enquiry`.`phone`='$number'";
+//		     $queryselect=$this->db->query($queryselect);
+//             $data['allenquiries']=$queryselect->result();
+//             $userdetailsquery=$this->db->query("SELECT `id`, `name`, `email`, `phone`, `timestamp`, `deletestatus` FROM `enquiry` WHERE `phone`='$number'");
+//             $data['userdetail']=$userdetailsquery->row();
+//             return $data;
+         }
+	}
+    
 //    
 //     public function getdetailsorcreate($number)
 //	{

@@ -65,6 +65,12 @@
 				  </div>
 				</div>
 				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Area</label>
+					<div class="col-sm-4">
+					  <input type="text" id="area" name="area" class="form-control" value="<?php echo set_value('area',$before->area); ?>">
+					</div>
+				</div>
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">state</label>
 				  <div class="col-sm-4">
