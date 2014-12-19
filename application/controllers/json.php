@@ -160,7 +160,10 @@ class Json extends CI_Controller
     {
         $category=$this->input->get_post('categoryname');
         $city=$this->input->get_post('cityname');
-        $data['message']=$this->category_model->searchcategory($category,$city);
+        $area=$this->input->get_post('area');
+        $lat=$this->input->get_post('lat');
+        $long=$this->input->get_post('long');
+        $data['message']=$this->category_model->searchcategory($category,$city,$area,$lat,$long);
 		$this->load->view('json',$data);
     }
 
