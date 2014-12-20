@@ -28,6 +28,7 @@ class Json extends CI_Controller
 			$lat=$data['latitude'];
 			$long=$data['longitude'];
             $address=$data['address'];
+            $area=$data['area'];
             $city=$data['city'];
             $pincode=$data['pincode'];
             $state=$data['state'];
@@ -51,7 +52,7 @@ class Json extends CI_Controller
             $daysofoperation=$data['daysofoperation'];
             $logo=$data['logo'];
             
-			if($this->frontend_model->createlisting($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$video,$logo,$category,$modeofpayment,$daysofoperation)==0)
+			if($this->frontend_model->createlisting($name,$user,$lat,$long,$address,$area,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$video,$logo,$category,$modeofpayment,$daysofoperation)==0)
 			$data['message']="0";
 			else
 			$data['message']="1";

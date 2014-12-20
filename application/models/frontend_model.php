@@ -39,7 +39,7 @@ class Frontend_model extends CI_Model
 		return $query;
 	}
     
-    public function createlisting($name,$user,$lat,$long,$address,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$video,$logo,$category,$modeofpayment,$daysofoperation)
+    public function createlisting($name,$user,$lat,$long,$address,$area,$city,$pincode,$state,$country,$description,$contact,$email,$website,$facebookuserid,$googleplus,$twitter,$yearofestablishment,$timeofoperation_start,$timeofoperation_end,$type,$credits,$video,$logo,$category,$modeofpayment,$daysofoperation)
 	{
 		$data  = array(
 			'name' => $name,
@@ -47,6 +47,7 @@ class Frontend_model extends CI_Model
 			'lat' => $lat,
 			'long' => $long,
             'address'=>$address,
+            'area' =>$area,
             'city'=>$city,
             'pincode'=>$pincode,
             'state' => $state,
