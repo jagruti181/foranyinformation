@@ -310,7 +310,7 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
         $query=$this->db->query("SELECT `id` FROM `user` WHERE `email`='$email'");
         if($query->num_rows == 0)
         {
-            $this->db->query("INSERT INTO `user`(`firstname`, `lastname`, `password`, `email`, `website`, `contact`, `address`, `city`, `pincode`, `dob`, `accesslevel`, `facebookuserid`, `status`, `photo`, `phoneno`, `google`, `state`, `country`, `deletestatus`) VALUES ($firstname,$lastname,'$password','$email',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,$phoneno,NULL,NULL,NULL,0)");
+            $this->db->query("INSERT INTO `user`(`firstname`, `lastname`, `password`, `email`, `website`, `contact`, `address`, `city`, `pincode`, `dob`, `accesslevel`, `facebookuserid`, `status`, `photo`, `phoneno`, `google`, `state`, `country`, `deletestatus`) VALUES ('$firstname','$lastname','$password','$email',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$phoneno',NULL,NULL,NULL,0)");
             $user=$this->db->insert_id();
             $newdata = array(
                 'firstname' => $firstname,
