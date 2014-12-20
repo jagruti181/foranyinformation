@@ -92,9 +92,10 @@ class Json extends CI_Controller
     {
         $firstname=$this->input->get_post("firstname");
         $lastname=$this->input->get_post("lastname");
+        $phoneno=$this->input->get_post("phoneno");
         $email=$this->input->get_post("email");
         $password=$this->input->get_post("password");
-        $data['message']=$this->user_model->frontendsignup($firstname, $lastname, $email, $password);
+        $data['message']=$this->user_model->frontendsignup($firstname, $lastname, $phoneno, $email, $password);
         $this->load->view('json',$data);
         
     }
