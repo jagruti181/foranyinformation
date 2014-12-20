@@ -90,9 +90,11 @@ class Json extends CI_Controller
     }
     public function signup()
     {
+        $firstname=$this->input->get_post("firstname");
+        $lastname=$this->input->get_post("lastname");
         $email=$this->input->get_post("email");
         $password=$this->input->get_post("password");
-        $data['message']=$this->user_model->frontendsignup($email,$password);
+        $data['message']=$this->user_model->frontendsignup($firstname, $lastname, $email, $password);
         $this->load->view('json',$data);
         
     }
