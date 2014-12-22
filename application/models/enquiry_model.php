@@ -308,7 +308,7 @@ class Enquiry_model extends CI_Model
                 $query=$this->db->insert( 'enquiry', $data );
                 $enquiryid=$this->db->insert_id();
                 
-                $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$enquiryid',1,'$listing','$comment')");
+                $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$enquiryid',1,'$listingid','$comment')");
 
                 if(!$query)
                     return  0;
