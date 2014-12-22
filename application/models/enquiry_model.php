@@ -320,7 +320,7 @@ class Enquiry_model extends CI_Model
              $userpresentornot=$enquirypresentornot->row();
              $enquiryid=$userpresentornot->id;
              
-             $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$enquiryid',1,'$listing','$comment')");
+             $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$enquiryid',1,'$listingid','$comment')");
              
              return 1;
              
