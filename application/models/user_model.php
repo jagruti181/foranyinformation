@@ -395,6 +395,12 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
         }
     }
     
+    function getuser($id)
+    {
+        $query=$this->db->query("SELECT * FROM `user` WHERE `id`='$id'")->row();
+        return $query;
+    }
+    
 	function getallinfoofuser($id)
 	{
 		$user = $this->session->userdata('accesslevel');

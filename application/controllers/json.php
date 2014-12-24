@@ -260,6 +260,12 @@ class Json extends CI_Controller
         $data['message']=$this->specialoffer_model->getspecialoffersbycategory($id);
         $this->load->view('json',$data);
     }
+    public function getuser()
+    {
+        $id=$this->input->get_post('id');
+        $data['message']=$this->user_model->getuser($id);
+        $this->load->view('json',$data);
+    }
     
     public function addenquiryoflistingfromfrontend()
     {
