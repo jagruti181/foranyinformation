@@ -6,7 +6,7 @@
 	
 	<div class="col-md-2">
 	
-		<a class="btn btn-primary"  href="<?php echo site_url('site/uploadlistingcsv'); ?>"><i class="icon-upload"></i>Upload Listing In Mall</a> &nbsp; 
+		<a class="btn btn-primary"  href="<?php echo site_url('site/uploadlistingcsv'); ?>"><i class="icon-upload"></i>Upload Listing</a> &nbsp; 
 	</div>
 </div>
 <div class="row">

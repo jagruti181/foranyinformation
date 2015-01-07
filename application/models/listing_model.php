@@ -468,6 +468,7 @@ WHERE `listingcategory`.`category`='$id' ";
             
             $data  = array(
                 'name' => $row['name'],
+                'user' => 1,
                 'address' => $address,
                 'city' => $cityid,
                 'area' => $row['address3'],
