@@ -433,5 +433,57 @@ WHERE `listingcategory`.`category`='$id' ";
         else
         return $listing;
 	}
+    
+	public function createbycsv($file)
+	{
+        foreach ($file as $row)
+        {
+//            echo $row['name'];
+            $address=$row['address1']."".$row['address2']."".$row['address3'];
+            if($row['tel2']=="" && $row['mobile']=="")
+            {
+            $contact=$row['tel1'];
+            }
+            elseif($row['mobile']=="")
+            {
+            $contact=$row['tel1']."/".$row['tel2'];
+            }
+            else
+            {
+            $contact=$row['tel1']."/".$row['tel2']."/".$row['mobile'];
+            }
+            
+            $city=$row['city'];
+            $cityquery=$this->db->query("SELECT * FROM `city` where `name`LIKE '$city'")->row();
+            if(empty($cityquery))
+            {
+                $this->db->query("INSERT INTO `city`(`name`) VALUES ('$city')");
+                $cityid=$this->db->insert_id();
+            }
+            else
+            {
+                $cityid=$cityquery->id;
+            }
+            
+            
+            $data  = array(
+                'name' => $row['name'],
+                'address' => $address,
+                'city' => $cityid,
+                'area' => $row['address3'],
+                'pincode' => $row['pincode'],
+                'state' => 'Maharashtra',
+                'country' => 'India',
+                'contactno' => $contact
+            );
+
+            $query=$this->db->insert( 'listing', $data );
+        }
+		if(!$query)
+			return  0;
+		else
+			return  1;
+	}
+    
 }
 ?>
