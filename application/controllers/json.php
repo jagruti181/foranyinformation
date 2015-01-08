@@ -19,6 +19,37 @@ class Json extends CI_Controller
         $data['message']=$this->category_model->getallparentcategories();
 		$this->load->view('json',$data);
     }
+    
+    
+    function saveprofile()
+	{
+        $data = json_decode(file_get_contents('php://input'), true);
+//        print_r($data);
+            $firstname=$data['firstname'];
+			$lastname=$data['lastname'];
+			$email=$data['email'];
+			$contact=$data['contact'];
+            $dob=$data['dob'];
+            $website=$data['website'];
+            $address=$data['address'];
+            $city=$data['city'];
+            $pincode=$data['pincode'];
+			$state=$data['state'];
+            $country=$data['country'];
+			$google=$data['google'];
+			$facebookuserid=$data['facebookuserid'];
+            $id=$data['id'];
+            
+			if($this->frontend_model->saveprofile($id,$firstname,$lastname,$email,$contact,$dob,$website,$address,$city,$pincode,$state,$country,$google,$facebookuserid)==0)
+			$data['message']=0;
+			else
+			$data['message']=1;
+        
+        $this->load->view('json',$data);
+		
+	}
+    
+    
     function createlisting()
 	{
         $data = json_decode(file_get_contents('php://input'), true);

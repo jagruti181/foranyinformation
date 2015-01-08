@@ -18,6 +18,32 @@ class Frontend_model extends CI_Model
 		return $status;
 	}
     
+    public function saveprofile($id,$firstname,$lastname,$email,$contact,$dob,$website,$address,$city,$pincode,$state,$country,$google,$facebookuserid){
+        
+        $data  = array(
+			'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
+            'contact' => $contact,
+            'dob' => $dob,
+            'website' => $website,
+            'address' => $address,
+            'city' => $city,
+            'pincode' => $pincode,
+            'state' => $state,
+            'country' => $country,
+            'google' => $google,
+            'facebookuserid' => $facebookuserid
+		);
+		$this->db->where('id',$id);
+		$query=$this->db->update( 'user', $data );
+		if(!$query)
+			return  0;
+		else
+			return  1;
+        
+    }
+    
     public function isverified()
 	{
 		$status= array(
