@@ -1588,8 +1588,8 @@ class Site extends CI_Controller
         
         if($orderby=="")
         {
-            $orderby="id";
-            $orderorder="ASC";
+            $orderby="timestamp";
+            $orderorder="DESC";
         }
        
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements," FROM `enquiry`");
