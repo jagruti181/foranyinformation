@@ -26,6 +26,14 @@
 				</div>
 				
 				<div class=" form-group">
+				  <label class="col-sm-2 control-label">Category</label>
+				  <div class="col-sm-4">
+					<?php
+						echo form_multiselect('category[]', $category,set_value('category'),'id="select2" class="form-control"');
+					?>
+				  </div>
+				</div>
+				<div class=" form-group">
 				  <label class="col-sm-2 control-label">&nbsp;</label>
 				  <div class="col-sm-4">
 				  <button type="submit" class="btn btn-primary">Save</button>

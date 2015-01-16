@@ -11,6 +11,14 @@ function generatejquery(url)
             var maxrow = 20;
             $(".drawchintantable .maxrow").val(maxrow);
             
+			$(".chintantablesearch").keyup(function(event) {
+			
+				if(event.which==13)
+				{
+					$(".chintantablesearchgo").click();
+				}
+				
+			});
 
             function fillchintandata() {
                 $(".drawchintantable .loader").show();

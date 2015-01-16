@@ -434,7 +434,7 @@ WHERE `listingcategory`.`category`='$id' ";
         return $listing;
 	}
     
-	public function createbycsv($file)
+	public function createbycsv($file,$category)
 	{
         foreach ($file as $row)
         {
@@ -479,6 +479,11 @@ WHERE `listingcategory`.`category`='$id' ";
             );
 
             $query=$this->db->insert( 'listing', $data );
+            $listingid=$this->db->insert_id();
+            foreach($category AS $key=>$value)
+            {
+               $this->listing_model->createcategorybylisting($value,$listingid);
+            }
         }
 		if(!$query)
 			return  0;

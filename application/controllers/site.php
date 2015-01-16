@@ -3058,6 +3058,7 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
+        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
 		$data[ 'page' ] = 'uploadlistingcsv';
 		$data[ 'title' ] = 'Upload Listing';
 		$this->load->view( 'template', $data );
@@ -3080,8 +3081,10 @@ class Site extends CI_Controller
         }
         $fullfilepath=$filepath."".$file;
         $file = $this->csvreader->parse_file($fullfilepath);
-        $id1=$this->listing_model->createbycsv($file);
+        $category=$this->input->get_post('category');
+        $id1=$this->listing_model->createbycsv($file,$category);
 //        echo $id1;
+        
         if($id1==0)
         $data['alerterror']="New listings could not be Uploaded.";
 		else
