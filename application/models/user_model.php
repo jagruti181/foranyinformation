@@ -386,7 +386,7 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
     }
     function authenticate() {
         $is_logged_in = $this->session->userdata('logged_in');
-        print_r($this->session->userdata);
+//        print_r($this->session->userdata);
         //print_r($is_logged_in);
         if ( $is_logged_in != 'true' || !isset($is_logged_in) ) {
             return false;
