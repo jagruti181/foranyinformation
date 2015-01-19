@@ -361,7 +361,7 @@ ORDER BY `listing`.`pointer`,`dist` DESC
         
         if($query->num_rows()==0)
         {
-            
+               
         }
         else
         {
