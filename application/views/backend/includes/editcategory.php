@@ -76,6 +76,7 @@
                    
                         
 				<div class=" form-group">
+                      Upload category banner Image of size 1140 X 160px.
 				  <label class="col-sm-2 control-label" for="normal-field">Banner</label>
 				  <div class="col-sm-4">
 					<input type="file" id="normal-field" class="form-control" name="banner" value="<?php echo set_value('banner',$before->banner);?>">

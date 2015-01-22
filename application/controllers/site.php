@@ -575,8 +575,8 @@ class Site extends CI_Controller
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
-                $config_r['width']   = 800;
-                $config_r['height'] = 800;
+                $config_r['width']   = 1140;
+                $config_r['height'] = 160;
                 $config_r['quality']    = 100;
                 //end of configs
 
@@ -710,8 +710,8 @@ class Site extends CI_Controller
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
-                $config_r['width']   = 800;
-                $config_r['height'] = 800;
+                $config_r['width']   = 1140;
+                $config_r['height'] = 160;
                 $config_r['quality']    = 100;
                 //end of configs
 
