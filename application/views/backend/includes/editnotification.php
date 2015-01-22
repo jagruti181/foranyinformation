@@ -6,7 +6,7 @@
 			</header>
 			
 			<div class="panel-body">
-				<form class="form-horizontal row-fluid" method="post" action="<?php echo site_url('site/editcategorysubmit');?>" enctype= "multipart/form-data">
+				<form class="form-horizontal row-fluid" method="post" action="<?php echo site_url('site/editnotificationsubmit');?>" enctype= "multipart/form-data">
 					<div class="form-row control-group row-fluid" style="display:none;">
 						<label class="control-label span3" for="normal-field">ID</label>
 						<div class="controls span9">
@@ -14,11 +14,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Name</label>
+						<label class="col-sm-2 control-label">Category</label>
 						<div class="col-sm-4">
-						  <input type="text" id="normal-field" class="form-control" name="name" value="<?php echo set_value('name',$before->name);?>">
+<!--						  <input type="text" id="normal-field" class="form-control" name="name" value="<?php echo set_value('name',$before->name);?>">-->
+                    <?php echo $before->name; ?>
 						</div>
 					</div>		
+<!--
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Parent</label>
 						<div class="col-sm-4">
@@ -38,6 +40,7 @@
 							?>
 						</div>
 					</div>
+-->
 <!--
 					<div class=" form-group">
 					  <label class="col-sm-2 control-label">Status</label>
@@ -49,6 +52,7 @@
 					  </div>
 					</div>
 -->
+<!--
 					
 					<div class="form-group" id="ontagselect">
 						User Font Awesome Icons >> 
@@ -74,6 +78,7 @@
 				</div>
 
                    
+-->
                         
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Banner</label>

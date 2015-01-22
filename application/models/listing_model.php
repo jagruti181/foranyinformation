@@ -231,7 +231,7 @@ class Listing_model extends CI_Model
 	}
 	function deletelisting($id)
 	{
-		$query=$this->db->query("UPDATE `listing` SET `deletestatus`=0");
+		$query=$this->db->query("UPDATE `listing` SET `deletestatus`=0 WHERE `id`='$id'");
 	}
 	function changepassword($id,$password)
 	{

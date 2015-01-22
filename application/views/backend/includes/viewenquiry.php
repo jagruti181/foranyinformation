@@ -25,7 +25,7 @@
                         <th data-field="email">Email</th>
                         <th data-field="phone">Phone</th>
                         <th data-field="timestamp">Timestamp</th>
-                        <th data-field="listingcategory">View All</th>
+                        <th data-field="listingcategory">Listings</th>
                         <th data-field="action"> Actions </th>
                     </tr>
                 </thead>

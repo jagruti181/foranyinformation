@@ -197,7 +197,7 @@ class Site extends CI_Controller
             $orderorder="ASC";
         }
        
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `user` INNER JOIN `accesslevel` ON `user`.`accesslevel`=`accesslevel`.`id`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `user` INNER JOIN `accesslevel` ON `user`.`accesslevel`=`accesslevel`.`id`","WHERE `user`.`accesslevel`=1");
         
 		$this->load->view("json",$data);
 	} 
@@ -504,6 +504,8 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('status','status','trim|');
 		$this->form_validation->set_rules('logo','logo','trim|');
 		$this->form_validation->set_rules('typeofimage','typeofimage','trim|');
+		$this->form_validation->set_rules('startdateofbanner','startdateofbanner','trim|');
+		$this->form_validation->set_rules('enddateofbanner','enddateofbanner','trim|');
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
@@ -519,10 +521,12 @@ class Site extends CI_Controller
 			$name=$this->input->post('name');
 			$parent=$this->input->post('parent');
 			$typeofimage=$this->input->post('typeofimage');
+			$startdateofbanner=$this->input->post('startdateofbanner');
+			$enddateofbanner=$this->input->post('enddateofbanner');
 			$status=$typeofimage;
 			$logo=$this->input->post('logo');
             
-            $config['upload_path'] = './lib/images/png/';
+            $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
 			$filename="image";
@@ -532,7 +536,7 @@ class Site extends CI_Controller
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
                 
-                $config_r['source_image']   = './lib/images/png/' . $uploaddata['file_name'];
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
                 $config_r['width']   = 800;
@@ -558,7 +562,7 @@ class Site extends CI_Controller
                 
 			}
             
-            $config['upload_path'] = './lib/images/png/';
+            $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
 			$filename="banner";
@@ -568,7 +572,7 @@ class Site extends CI_Controller
 				$uploaddata = $this->upload->data();
 				$banner=$uploaddata['file_name'];
                 
-                $config_r['source_image']   = './lib/images/png/' . $uploaddata['file_name'];
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
                 $config_r['width']   = 800;
@@ -594,7 +598,7 @@ class Site extends CI_Controller
                 
 			}
             
-			if($this->category_model->createcategory($name,$parent,$status,$logo,$image,$typeofimage,$banner)==0)
+			if($this->category_model->createcategory($name,$parent,$status,$logo,$image,$typeofimage,$banner,$startdateofbanner,$enddateofbanner)==0)
 			$data['alerterror']="New category could not be created.";
 			else
 			$data['alertsuccess']="category  created Successfully.";
@@ -626,6 +630,8 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('status','status','trim|');
 		$this->form_validation->set_rules('logo','logo','trim|');
 		$this->form_validation->set_rules('typeofimage','typeofimage','trim|');
+		$this->form_validation->set_rules('startdateofbanner','startdateofbanner','trim|');
+		$this->form_validation->set_rules('enddateofbanner','enddateofbanner','trim|');
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
@@ -643,10 +649,12 @@ class Site extends CI_Controller
 			$name=$this->input->post('name');
 			$parent=$this->input->post('parent');
 			$typeofimage=$this->input->post('typeofimage');
+			$startdateofbanner=$this->input->post('startdateofbanner');
+			$enddateofbanner=$this->input->post('enddateofbanner');
 			$status=$typeofimage;
 			$logo=$this->input->post('logo');
 			
-            $config['upload_path'] = './lib/images/png/';
+            $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
 			$filename="image";
@@ -655,14 +663,10 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-			}
+//			}
             
-            if($image=="")
-            {
-                $image=$this->category_model->getcategoryimagebyid($id);
-                $image=$image->image;
                 
-                $config_r['source_image']   = './lib/images/png/' . $uploaddata['file_name'];
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
                 $config_r['width']   = 800;
@@ -686,7 +690,13 @@ class Site extends CI_Controller
                 }
             }
             
-            $config['upload_path'] = './lib/images/ad/';
+            if($image=="")
+            {
+                $image=$this->category_model->getcategoryimagebyid($id);
+                $image=$image->image;
+            }
+            
+            $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
 			$filename="banner";
@@ -694,13 +704,10 @@ class Site extends CI_Controller
 			if (  $this->upload->do_upload($filename))
 			{
                 
-                $banner=$this->category_model->getcategorybannerbyid($id);
-                $banner=$image->banner;
-                
 				$uploaddata = $this->upload->data();
 				$banner=$uploaddata['file_name'];
                 
-                $config_r['source_image']   = './lib/images/ad/' . $uploaddata['file_name'];
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
                 $config_r['width']   = 800;
@@ -725,13 +732,20 @@ class Site extends CI_Controller
                 
                 
 			}
-			if($this->category_model->editcategory($id,$name,$parent,$status,$logo,$image,$typeofimage,$banner)==0)
+            if($banner=="")
+            {
+                
+                $banner=$this->category_model->getcategorybannerbyid($id);
+                $banner=$banner->banner;
+                
+            }
+			if($this->category_model->editcategory($id,$name,$parent,$status,$logo,$image,$typeofimage,$banner,$startdateofbanner,$enddateofbanner)==0)
 			$data['alerterror']="category Editing was unsuccesful";
 			else
 			$data['alertsuccess']="category edited Successfully.";
-			$data['table']=$this->category_model->viewcategory();
+//			$data['table']=$this->category_model->viewcategory();
 			$data['redirect']="site/viewcategory";
-			//$data['other']="template=$template";
+////			//$data['other']="template=$template";
 			$this->load->view("redirect",$data);
 			/*$data['page']='viewusers';
 			$data['title']='View Users';
@@ -1393,11 +1407,11 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$this->listing_model->deletelisting($this->input->get('id'));
-		$data['table']=$this->listing_model->viewlisting();
+//		$data['table']=$this->listing_model->viewlisting();
 		$data['alertsuccess']="listing Deleted Successfully";
-		$data['page']='viewlisting';
-		$data['title']='View listing';
-		$this->load->view('template',$data);
+		$data['redirect']="site/viewlisting";
+			//$data['other']="template=$template";
+		$this->load->view("redirect",$data);
 	}
 	
     //mode of payment
@@ -3093,6 +3107,438 @@ class Site extends CI_Controller
         $data['redirect']="site/viewlisting";
         $this->load->view("redirect",$data);
     }
+    
+    
+    function viewnormalusers()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data['page']='viewnormalusers';
+        
+        
+        $data['base_url'] = site_url("site/viewnormaluserjson");
+        
+        
+		$data['title']='View user';
+		$this->load->view('template',$data);
+	} 
+    
+    function viewnormaluserjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT DISTINCT `user`.`id` as `id`,`user`.`firstname` as `firstname`,`user`.`lastname` as `lastname`,`accesslevel`.`name` as `accesslevel`	,`user`.`email` as `email`,`user`.`contact` as `contact`,`user`.`status` as `status`,`user`.`accesslevel` as `access`
+//		FROM `user`
+//	   INNER JOIN `accesslevel` ON `user`.`accesslevel`=`accesslevel`.`id` 
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`user`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        $elements[1]=new stdClass();
+        $elements[1]->field="`user`.`firstname`";
+        $elements[1]->sort="1";
+        $elements[1]->header="First Name";
+        $elements[1]->alias="firstname";
+        
+        $elements[2]=new stdClass();
+        $elements[2]->field="`user`.`lastname`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Last Name";
+        $elements[2]->alias="lastname";
+        
+        $elements[3]=new stdClass();
+        $elements[3]->field="`accesslevel`.`name`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Accesslevel";
+        $elements[3]->alias="accesslevel";
+        
+        $elements[4]=new stdClass();
+        $elements[4]->field="`user`.`email`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Email";
+        $elements[4]->alias="email";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`user`.`contact`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Contact";
+        $elements[5]->alias="contact";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `user` INNER JOIN `accesslevel` ON `user`.`accesslevel`=`accesslevel`.`id`","WHERE `user`.`accesslevel`=3");
+        
+		$this->load->view("json",$data);
+	} 
+    public function createnormaluser()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data['accesslevel']=$this->user_model->getaccesslevels();
+		$data[ 'status' ] =$this->user_model->getstatusdropdown();
+		$data[ 'page' ] = 'createnormaluser';
+		$data[ 'title' ] = 'Create Frontend User';
+		$this->load->view( 'template', $data );	
+	}
+	function createnormalusersubmit()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->form_validation->set_rules('firstname','First Name','trim|required|max_length[30]');
+		$this->form_validation->set_rules('lastname','Last Name','trim|max_length[30]');
+		$this->form_validation->set_rules('password','Password','trim|required|min_length[6]|max_length[30]');
+		$this->form_validation->set_rules('confirmpassword','Confirm Password','trim|required|matches[password]');
+//		$this->form_validation->set_rules('accessslevel','Accessslevel','trim');
+		$this->form_validation->set_rules('status','status','trim|');
+		$this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[user.email]');
+		$this->form_validation->set_rules('contact','contactno','trim');
+		$this->form_validation->set_rules('phoneno','phoneno','trim');
+//		$this->form_validation->set_rules('website','Website','trim|max_length[50]');
+//		$this->form_validation->set_rules('description','Description','trim|');
+		$this->form_validation->set_rules('address','Address','trim|');
+		$this->form_validation->set_rules('city','City','trim|max_length[30]');
+		$this->form_validation->set_rules('pincode','Pincode','trim|max_length[20]');
+		$this->form_validation->set_rules('state','state','trim|max_length[20]');
+		$this->form_validation->set_rules('country','country','trim|max_length[20]');
+		$this->form_validation->set_rules('facebookuserid','facebookuserid','trim|max_length[20]');
+		$this->form_validation->set_rules('google','google','trim|max_length[20]');
+		$this->form_validation->set_rules('email','Email','trim|valid_email');
+		$this->form_validation->set_rules('status','Status','trim');
+		$this->form_validation->set_rules('dob','DOB','trim');
+		if($this->form_validation->run() == FALSE)	
+		{
+			$data['alerterror'] = validation_errors();
+			$data['accesslevel']=$this->user_model->getaccesslevels();
+            $data[ 'status' ] =$this->user_model->getstatusdropdown();
+            $data[ 'page' ] = 'createnormaluser';
+            $data[ 'title' ] = 'Create Frontend User';
+            $this->load->view( 'template', $data );		
+		}
+		else
+		{
+            $website=$this->input->post('website');
+            $dob=$this->input->post('dob');
+            $description=$this->input->post('description');
+            $address=$this->input->post('address');
+            $city=$this->input->post('city');
+            $pincode=$this->input->post('pincode');
+			$password=$this->input->post('password');
+			if($dob != "")
+			{
+				$dob = date("Y-m-d",strtotime($dob));
+			}
+//			$accesslevel=$this->input->post('accesslevel');
+			$accesslevel=3;
+			$email=$this->input->post('email');
+			$contact=$this->input->post('contact');
+			$phoneno=$this->input->post('phoneno');
+			$google=$this->input->post('google');
+			$state=$this->input->post('state');
+			$country=$this->input->post('country');
+			$status=$this->input->post('status');
+			$facebookuserid=$this->input->post('facebookuserid');
+			$firstname=$this->input->post('firstname');
+			$lastname=$this->input->post('lastname');
+			if($this->user_model->create($firstname,$lastname,$dob,$password,$accesslevel,$email,$contact,$status,$facebookuserid,$website,$description,$address,$city,$pincode,$phoneno,$google,$state,$country)==0)
+			$data['alerterror']="Normal user could not be created.";
+			else
+			$data['alertsuccess']="User created Successfully.";
+			
+//			$data['table']=$this->user_model->viewusers();
+			$data['redirect']="site/viewnormalusers";
+			//$data['other']="template=$template";
+			$this->load->view("redirect",$data);
+		}
+	}
    
+	function editnormaluser()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data[ 'status' ] =$this->user_model->getstatusdropdown();
+		$data['accesslevel']=$this->user_model->getaccesslevels();
+		$data['before']=$this->user_model->beforeedit($this->input->get('id'));
+		$data['page']='editnormaluser';
+		$data['page2']='block/userblock';
+		$data['title']='Edit User';
+		$this->load->view('template',$data);
+	}
+	function editnormalusersubmit()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->form_validation->set_rules('password','Password','trim|min_length[6]|max_length[30]');
+		$this->form_validation->set_rules('confirmpassword','Confirm Password','trim|matches[password]');
+//		$this->form_validation->set_rules('accessslevel','Accessslevel','trim');
+		$this->form_validation->set_rules('status','status','trim|');
+		$this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[user.email]');
+		$this->form_validation->set_rules('contact','contactno','trim');
+		$this->form_validation->set_rules('phoneno','phoneno','trim');
+		$this->form_validation->set_rules('google','google','trim');
+		$this->form_validation->set_rules('state','state','trim');
+		$this->form_validation->set_rules('country','country','trim');
+		$this->form_validation->set_rules('website','Website','trim|max_length[50]');
+//		$this->form_validation->set_rules('description','Description','trim|');
+		$this->form_validation->set_rules('address','Address','trim|');
+		$this->form_validation->set_rules('city','City','trim|max_length[30]');
+		$this->form_validation->set_rules('pincode','Pincode','trim|max_length[20]');
+        
+		$this->form_validation->set_rules('fname','First Name','trim|required|max_length[30]');
+		$this->form_validation->set_rules('lname','Last Name','trim|max_length[30]');
+		$this->form_validation->set_rules('email','Email','trim|valid_email');
+		$this->form_validation->set_rules('status','Status','trim');
+		$this->form_validation->set_rules('dob','DOB','trim');
+		if($this->form_validation->run() == FALSE)	
+		{
+			$data['alerterror'] = validation_errors();
+			$data[ 'status' ] =$this->user_model->getstatusdropdown();
+            $data['accesslevel']=$this->user_model->getaccesslevels();
+            $data['before']=$this->user_model->beforeedit($this->input->get_post('id'));
+            $data['page']='editnormaluser';
+            $data['page2']='block/userblock';
+            $data['title']='Edit User';
+            $this->load->view('template',$data);
+		}
+		else
+		{
+            $website=$this->input->post('website');
+            $description=$this->input->post('description');
+            $address=$this->input->post('address');
+            $city=$this->input->post('city');
+            $pincode=$this->input->post('pincode');
+			$id=$this->input->post('id');
+			$password=$this->input->post('password');
+			$dob=$this->input->post('dob');
+			if($dob != "")
+			{
+				$dob = date("Y-m-d",strtotime($dob));
+			}
+			$accesslevel=3;
+			$contact=$this->input->post('contact');
+			$phoneno=$this->input->post('phoneno');
+			$google=$this->input->post('google');
+			$state=$this->input->post('state');
+			$country=$this->input->post('country');
+			$status=$this->input->post('status');
+			$facebookuserid=$this->input->post('facebookuserid');
+			$fname=$this->input->post('fname');
+			$lname=$this->input->post('lname');
+			if($this->user_model->edit($id,$fname,$lname,$dob,$password,$accesslevel,$contact,$status,$facebookuserid,$website,$description,$address,$city,$pincode,$phoneno,$google,$state,$country)==0)
+			$data['alerterror']="Frontend User Editing was unsuccesful";
+			else
+			$data['alertsuccess']="Frontend User edited Successfully.";
+			
+			$data['redirect']="site/viewnormalusers";
+			//$data['other']="template=$template";
+			$this->load->view("redirect",$data);
+			
+		}
+	}
+	
+	function deletenormaluser()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->user_model->deleteuser($this->input->get('id'));
+		$data['alertsuccess']="Frontend User Deleted Successfully";
+		$data['redirect']="site/viewnormalusers";
+		$this->load->view("redirect",$data);
+	}
+     
+	function viewnotification()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data['monthbefore']=$this->category_model->getmonthbeforenotifications();
+		$data['fivedaysbefore']=$this->category_model->getfivedaysbeforenotifications();
+		$data['page']='viewnotification';
+		$data['title']='View Notifications';
+		$this->load->view('template',$data);
+	}
+    
+	function editnotification()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$data['before']=$this->category_model->beforeeditcategory($this->input->get('id'));
+		$data['category']=$this->category_model->getcategorydropdown();
+		$data[ 'status' ] =$this->category_model->getstatusdropdown();
+		$data['typeofimage']=$this->category_model->gettypeofimagedropdown();
+		$data['page']='editnotification';
+		$data['title']='Edit Notification';
+		$this->load->view('template',$data);
+	}
+	function editnotificationsubmit()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->form_validation->set_rules('startdateofbanner','startdateofbanner','trim|');
+		$this->form_validation->set_rules('enddateofbanner','enddateofbanner','trim|');
+		if($this->form_validation->run() == FALSE)	
+		{
+			$data['alerterror'] = validation_errors();
+			$data[ 'status' ] =$this->category_model->getstatusdropdown();
+			$data['category']=$this->category_model->getcategorydropdown();
+            $data['typeofimage']=$this->category_model->gettypeofimagedropdown();
+			$data['before']=$this->category_model->beforeeditcategory($this->input->post('id'));
+			$data['page']='editcategory';
+			$data['title']='Edit category';
+			$this->load->view('template',$data);
+		}
+		else
+		{
+			$id=$this->input->post('id');
+			
+			$startdateofbanner=$this->input->post('startdateofbanner');
+			$enddateofbanner=$this->input->post('enddateofbanner');
+			
+            
+            $config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+			$this->load->library('upload', $config);
+			$filename="banner";
+			$banner="";
+			if (  $this->upload->do_upload($filename))
+			{
+                
+				$uploaddata = $this->upload->data();
+				$banner=$uploaddata['file_name'];
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $banner=$this->image_lib->dest_image;
+                    //return false;
+                }
+                
+                
+			}
+            if($banner=="")
+            {
+                
+                $banner=$this->category_model->getcategorybannerbyid($id);
+                $banner=$banner->banner;
+                
+            }
+			if($this->category_model->editnotification($id,$banner,$startdateofbanner,$enddateofbanner)==0)
+			$data['alerterror']="Notification Dates Editing was unsuccesful";
+			else
+			$data['alertsuccess']="Notification Dates edited Successfully.";
+			$data['redirect']="site/viewnotification";
+			$this->load->view("redirect",$data);
+		}
+	}
+    
+//    function viewnotification()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$data['page']='viewnotification';
+//        
+//        
+//        $data['base_url'] = site_url("site/viewnotificationjson");
+//        
+//        
+//		$data['title']='View Notifications';
+//		$this->load->view('template',$data);
+//	} 
+//    
+//    function viewnotificationjson()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//         
+////        SELECT `id`, `name`, `parent`, `status`, `typeofimage`, `logo`, `image`, `banner`, `startdateofbanner`, `enddateofbanner` ,NOW() AS `today`,DATE(DATE_SUB(NOW(), INTERVAL 1 day)) AS `monthbefore`
+////FROM `category` 
+////HAVING `enddateofbanner`=`monthbefore`
+//        
+//        
+//        $elements=array();
+//        $elements[0]=new stdClass();
+//        $elements[0]->field="`category`.`id`";
+//        $elements[0]->sort="1";
+//        $elements[0]->header="ID";
+//        $elements[0]->alias="id";
+//        
+//        $elements[1]=new stdClass();
+//        $elements[1]->field="`category`.`banner`";
+//        $elements[1]->sort="1";
+//        $elements[1]->header="Banner";
+//        $elements[1]->alias="banner";
+//        
+//        $elements[2]=new stdClass();
+//        $elements[2]->field="`category`.`startdateofbanner`";
+//        $elements[2]->sort="1";
+//        $elements[2]->header="Start Date";
+//        $elements[2]->alias="startdateofbanner";
+//        
+//        $elements[3]=new stdClass();
+//        $elements[3]->field="`category`.`enddateofbanner`";
+//        $elements[3]->sort="1";
+//        $elements[3]->header="End Date";
+//        $elements[3]->alias="enddateofbanner";
+//        
+//        $elements[4]=new stdClass();
+//        $elements[4]->field="DATE(DATE_SUB(NOW(), INTERVAL 1 day))";
+//        $elements[4]->sort="1";
+//        $elements[4]->header="monthbefore";
+//        $elements[4]->alias="monthbefore";
+//        
+//        $search=$this->input->get_post("search");
+//        $pageno=$this->input->get_post("pageno");
+//        $orderby=$this->input->get_post("orderby");
+//        $orderorder=$this->input->get_post("orderorder");
+//        $maxrow=$this->input->get_post("maxrow");
+//        if($maxrow=="")
+//        {
+//            $maxrow=20;
+//        }
+//        
+//        if($orderby=="")
+//        {
+//            $orderby="id";
+//            $orderorder="ASC";
+//        }
+//       
+//        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `category`","","","HAVING `enddateofbanner`=`monthbefore`");
+//        
+//		$this->load->view("json",$data);
+//	} 
+    
 }
 ?>

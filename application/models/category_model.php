@@ -4,7 +4,7 @@ if ( !defined( 'BASEPATH' ) )
 class Category_model extends CI_Model
 {
 	//category
-	public function createcategory($name,$parent,$status,$logo,$image,$typeofimage,$banner)
+	public function createcategory($name,$parent,$status,$logo,$image,$typeofimage,$banner,$startdateofbanner,$enddateofbanner)
 	{
 		$data  = array(
 			'name' => $name,
@@ -13,6 +13,8 @@ class Category_model extends CI_Model
 			'logo' => $logo,
 			'image' => $image,
 			'banner' => $banner,
+			'startdateofbanner' => $startdateofbanner,
+			'enddateofbanner' => $enddateofbanner,
 			'typeofimage' => $typeofimage
 		);
 		$query=$this->db->insert( 'category', $data );
@@ -32,6 +34,28 @@ class Category_model extends CI_Model
         function getcategoryinfo($id)
         {
         	$query=$this->db->query("SELECT * FROM category WHERE `id`='$id'")->row();
+		return $query;
+        }
+        
+        function getmonthbeforenotifications()
+        { 
+        	$query=$this->db->query("SELECT `id`, `name`, `parent`, `status`, `typeofimage`, `logo`, `image`, `banner`, `startdateofbanner`, `enddateofbanner` ,NOW() AS `today`,DATE(NOW()+INTERVAL 30 DAY) AS `monthbefore`
+FROM `category` 
+HAVING `enddateofbanner`=`monthbefore`")->result();
+		return $query;
+        }
+//        function getmonthbeforenotifications()
+//        { 
+//        	$query=$this->db->query("SELECT `id`, `name`, `parent`, `status`, `typeofimage`, `logo`, `image`, `banner`, `startdateofbanner`, `enddateofbanner` ,NOW() AS `today`,DATE(DATE_SUB(NOW(), INTERVAL 30 day)) AS `monthbefore`
+//FROM `category` 
+//HAVING `enddateofbanner`=`monthbefore`")->result();
+//		return $query;
+//        }
+        function getfivedaysbeforenotifications()
+        { 
+        	$query=$this->db->query("SELECT `id`, `name`, `parent`, `status`, `typeofimage`, `logo`, `image`, `banner`, `startdateofbanner`, `enddateofbanner` ,NOW() AS `today`,DATE(NOW()+INTERVAL 5 DAY) AS `fivedaysbefore`
+FROM `category` 
+HAVING `enddateofbanner`=`fivedaysbefore`")->result();
 		return $query;
         }
         
@@ -130,7 +154,7 @@ class Category_model extends CI_Model
 		return $query;
 	}
 	
-	public function editcategory( $id,$name,$parent,$status,$logo,$image,$typeofimage,$banner)
+	public function editcategory( $id,$name,$parent,$status,$logo,$image,$typeofimage,$banner,$startdateofbanner,$enddateofbanner)
 	{
         if($logo=="")
         {
@@ -143,7 +167,22 @@ class Category_model extends CI_Model
 			'logo' => $logo,
 			'image' => $image,
 			'banner' => $banner,
+			'startdateofbanner' => $startdateofbanner,
+			'enddateofbanner' => $enddateofbanner,
 			'typeofimage' => $typeofimage
+		
+		);
+		$this->db->where( 'id', $id );
+		$query=$this->db->update( 'category', $data );
+		
+		return 1;
+	}
+	public function editnotification( $id,$banner,$startdateofbanner,$enddateofbanner)
+	{
+		$data = array(
+			'banner' => $banner,
+			'startdateofbanner' => $startdateofbanner,
+			'enddateofbanner' => $enddateofbanner
 		
 		);
 		$this->db->where( 'id', $id );
@@ -334,7 +373,7 @@ LEFT OUTER JOIN `listing` ON `listing`.`id`=`listingcategory`.`listing`
 LEFT OUTER JOIN `category` ON `category`.`id`=`listingcategory`.`category`
 LEFT OUTER JOIN `city` ON `city`.`id`=`listing`.`city`
 WHERE `category`.`name`LIKE '$category%' AND `city`.`id` = '$city' AND `listing`.`deletestatus`='1' AND `listing`.`area` LIKE '%$area%'
-ORDER BY `listing`.`pointer`,`dist` DESC
+ORDER BY `dist` ASC
         LIMIT 0 , 10")->result();
 		
 		return $query;
