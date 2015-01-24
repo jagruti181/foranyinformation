@@ -66,7 +66,7 @@
 					<?php if($before->image == "")
 						 { }
 						 else
-						 { ?>./lib/images/png/
+						 { ?>
 							<img src="<?php echo base_url('lib')."/images/png/".$before->image; ?>" width="140px" height="140px">
 						<?php }
 					?>
