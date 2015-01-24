@@ -362,17 +362,14 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
     function login($email,$password) 
     {
         $password=md5($password);
-        $realquery="SELECT `id`,`firstname`,`lastname` FROM `user` WHERE `email`='$email' AND `password`= '$password'";
-        $query=$this->db->query($realquery);
+        $query=$this->db->query("SELECT `id`,`firstname`,`lastname` FROM `user` WHERE `email`='$email' AND `password`= '$password'");
         
-//        echo $realquery;
         if($query->num_rows > 0)
         {
             $user=$query->row();
             $userid=$user->id;
             $firstname=$user->firstname;
             $lastname=$user->lastname;
-//            echo $fisname;
 
             $newdata = array(
                 'email'     => $email,
@@ -384,7 +381,6 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
             );
 
             $this->session->set_userdata($newdata);
-            //print_r($newdata);
             return $this->session->userdata;
         }
         else
