@@ -362,16 +362,20 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
     function login($email,$password) 
     {
         $password=md5($password);
-        $query=$this->db->query("SELECT `id` FROM `user` WHERE `email`='$email' AND `password`= '$password'");
+        $query=$this->db->query("SELECT `id`,`firstname`,`lastname` FROM `user` WHERE `email`='$email' AND `password`= '$password'");
         if($query->num_rows > 0)
         {
             $user=$query->row();
             $user=$user->id;
+            $firstname=$user->firstname;
+            $lastname=$user->lastname;
             
 
             $newdata = array(
                 'email'     => $email,
                 'password' => $password,
+                'firstname' => $firstname,
+                'lastname' => $lastname,
                 'logged_in' => true,
                 'id'=> $user
             );
