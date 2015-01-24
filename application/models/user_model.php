@@ -372,8 +372,7 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
             $userid=$user->id;
             $firstname=$user->firstname;
             $lastname=$user->lastname;
-            echo $firstname;
-            echo $lastname;
+//            echo $fisname;
 
             $newdata = array(
                 'email'     => $email,
