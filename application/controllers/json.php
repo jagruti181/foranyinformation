@@ -93,14 +93,52 @@ class Json extends CI_Controller
 	}
     public function enquiryuser()
     {
-        $name=$this->input->get("name");
-        $listing=$this->input->get("listing");
-        $email=$this->input->get("email");
-        $phone=$this->input->get("phone");
-        $type=$this->input->get("type");
-        $comment=$this->input->get("comment");
-        $data['message']=$this->enquiry_model->enquiryuser($name,$listing,$email,$phone,$type,$comment);
-        $this->load->view('json',$data);
+        $name=$this->input->get_post("name");
+        $listingid=$this->input->get_post("listing");
+        $email=$this->input->get_post("email");
+        $phone=$this->input->get_post("phone");
+        $type=$this->input->get_post("type");
+        $comment=$this->input->get_post("comment");
+        
+        
+            $listing=$this->listing_model->getallinfooflisting($listingid);
+            $tolisting= $listing->email;
+            $listingname= $listing->name;
+            $listingaddress= $listing->address;
+            $listingstate= $listing->state;
+            $listingcontactno= $listing->contactno;
+            $listingemail= $listing->email;
+            $listingyearofestablishment= $listing->yearofestablishment;
+            
+            $usermsg="<h3>All Details Of Listings which you makes an Enquiry</h3><br>Listing Name:'$listingname' <br>Listing address:'$listingaddress' <br>Listing state:'$listingstate' <br>Listing contactno:'$listingcontactno' <br>Listing email:'$listingemail' <br>Listing yearofestablishment:'$listingyearofestablishment' <br>";
+            
+            $this->load->library('email');
+            $this->email->from('avinash@wohlig.com', 'For Any Information To User');
+            $this->email->to($email);
+            $this->email->subject('Listing Details');
+            $this->email->message($usermsg);
+
+            $this->email->send();
+            echo $usermsg."<br>";
+            //to listing
+//            $firstname=$user->firstname;
+//            $lastname=$user->lastname;
+//            $email=$user->email;
+//            $contact=$user->contact;
+            $listingmsg="<h3>All Details Of user</h3><br>user Name:'$name' <br>user Email:'$email' <br>user contact:'$phone'<br>user Comment:'$comment'";
+echo $listingmsg;
+            $this->load->library('email');
+            $this->email->from('avinash@wohlig.com', 'For Any Information Listing');
+            $this->email->to($listingemail);
+            $this->email->subject('User Details');
+            $this->email->message($listingmsg);
+
+            $this->email->send();
+
+//            echo $this->email->print_debugger();
+        
+//        $data['message']=$this->enquiry_model->enquiryuser($name,$listingid,$email,$phone,$type,$comment);
+//        $this->load->view('json',$data);
     }
     public function login()
     {

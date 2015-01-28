@@ -51,7 +51,7 @@ $active_record = TRUE;
 
 $myserver=$_SERVER['SERVER_NAME'];
 
-if($myserver=="www.mafiawarloots.com" || $myserver=="mafiawarloots.com" || $myserver=="www.wohlig.biz" || $myserver=="wohlig.biz")
+if($myserver!="localhost")
 {
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'mafiawar_getall';

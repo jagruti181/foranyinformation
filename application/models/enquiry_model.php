@@ -14,14 +14,17 @@ class Enquiry_model extends CI_Model
         
 		$data  = array(
 			'name' => $name,
-			'listing' => $listing,
+//			'listing' => $listing,
 			'email' => $email,
 			'phone' => $phone,
-            'type'=> $type,
-            'comment' => $comment
+//            'type'=> $type,
+            'enquiryfrom'=> 1,
+//            'comment' => $comment
 		);
 		$query=$this->db->insert( 'enquiry', $data );
 		$id=$this->db->insert_id();
+		
+        $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$id','1','$listing','$comment')");
 		
 		if(!$query)
 			return  0;
@@ -36,6 +39,7 @@ class Enquiry_model extends CI_Model
 			'name' => $name,
 			'email' => $email,
 			'phone' => $phone,
+			'enquiryfrom' => 2,
             'timestamp'=>NULL
 		);
 		$query=$this->db->insert( 'enquiry', $data );

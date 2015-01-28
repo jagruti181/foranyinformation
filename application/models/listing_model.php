@@ -419,6 +419,20 @@ WHERE `listing`.`city`='$cityid'")->result();
 		return $query;
 	}
     
+	function getallinfooflistingbycategory($categoryid)
+	{
+		$query="SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` ,`category`.`name` AS `categoryname`,`category`.`banner` AS `banner`, `listing`.`area`
+FROM `listingcategory`
+LEFT OUTER JOIN `listing` ON `listing`.`id`=`listingcategory`.`listing`
+LEFT OUTER JOIN `category` ON `category`.`id`=`listingcategory`.`category`
+WHERE `listingcategory`.`category`='$listingid'
+ORDER BY `listing`.`pointer` DESC
+LIMIT 0 , 5";
+	   
+		$query=$this->db->query($query)->result();
+		return $query;
+	}
+    
     public function getlistingbycategorydropdown($id)
 	{
 		$query="SELECT `listingcategory`.`listing`, `listingcategory`.`category`,`listing`.`name`,`listing`.`id` AS `listingid`, `listing`. `user`, `listing`.`lat`, `listing`.`long`, `listing`.`address`, `listing`.`city`, `listing`.`pincode`, `listing`.`state`, `listing`.`country`, `listing`.`description`, `listing`.`logo`, `listing`.`contactno`, `listing`.`email`, `listing`.`website`, `listing`.`facebook`, `listing`.`twitter`, `listing`.`googleplus`, `listing`.`yearofestablishment`, `listing`.`timeofoperation_start`, `listing`.`timeofoperation_end`, `listing`.`type`, `listing`.`credits`, `listing`.`isverified`, `listing`.`video` ,`category`.`name` AS `categoryname`,`category`.`banner` AS `banner`, `listing`.`area`

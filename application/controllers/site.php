@@ -1590,6 +1590,12 @@ class Site extends CI_Controller
         $elements[4]->header="Timestamp";
         $elements[4]->alias="timestamp";
         
+        $elements[5]=new stdClass();
+        $elements[5]->field="`enquiry`.`enquiryfrom`";
+        $elements[5]->sort="1";
+        $elements[5]->header="enquiryfrom";
+        $elements[5]->alias="enquiryfrom";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -1721,6 +1727,81 @@ class Site extends CI_Controller
 			$typeofenquiry=$this->input->post('typeofenquiry');
 			$comment=$this->input->post('comment');
 //			$user=$this->input->post('user');
+            
+            if($typeofenquiry==1)
+            {
+            $listing=$this->listing_model->getallinfooflisting($listing);
+            $tolisting= $listing->email;
+            $listingname= $listing->name;
+            $listingaddress= $listing->address;
+            $listingstate= $listing->state;
+            $listingcontactno= $listing->contactno;
+            $listingemail= $listing->email;
+            $listingyearofestablishment= $listing->yearofestablishment;
+            
+            $usermsg="<h3>All Details Of Listings which you makes an Enquiry</h3><br>Listing Name:'$listingname' <br>Listing address:'$listingaddress' <br>Listing state:'$listingstate' <br>Listing contactno:'$listingcontactno' <br>Listing email:'$listingemail' <br>Listing yearofestablishment:'$listingyearofestablishment' <br>";
+            
+            $this->load->library('email');
+            $this->email->from('avinash@wohlig.com', 'For Any Information To User');
+            $this->email->to($email);
+            $this->email->subject('Listing Details');
+            $this->email->message($usermsg);
+
+            $this->email->send();
+//            echo $this->email->print_debugger();
+            
+            //to listing
+//            $firstname=$user->firstname;
+//            $lastname=$user->lastname;
+//            $email=$user->email;
+//            $contact=$user->contact;
+            $listingmsg="<h3>All Details Of user</h3><br>user Name:'$name' <br>user Email:'$email' <br>user contact:'$phone'<br>user Comment:'$comment'";
+
+            $this->load->library('email');
+            $this->email->from('avinash@wohlig.com', 'For Any Information Listing');
+            $this->email->to($listingemail);
+            $this->email->subject('User Details');
+            $this->email->message($listingmsg);
+
+            $this->email->send();
+
+            }
+            if($typeofenquiry==2)
+            {
+                $listingdetails=$this->listing_model->getallinfooflistingbycategory($category);
+                foreach($listingdetails as $listing)
+                {
+                    $tolisting= $listing->email;
+                    $listingname= $listing->name;
+                    $listingaddress= $listing->address;
+                    $listingstate= $listing->state;
+                    $listingcontactno= $listing->contactno;
+                    $listingemail= $listing->email;
+                    $listingyearofestablishment= $listing->yearofestablishment;
+                    
+                    
+                    $usermsg="<h3>All Details Of Listings which you makes an Enquiry</h3><br>Listing Name:'$listingname' <br>Listing address:'$listingaddress' <br>Listing state:'$listingstate' <br>Listing contactno:'$listingcontactno' <br>Listing email:'$listingemail' <br>Listing yearofestablishment:'$listingyearofestablishment' <br>";
+
+                    $this->load->library('email');
+                    $this->email->from('avinash@wohlig.com', 'For Any Information To User');
+                    $this->email->to($email);
+                    $this->email->subject('Listing Details');
+                    $this->email->message($usermsg);
+
+                    $this->email->send();
+                    
+                    $listingmsg="<h3>All Details Of user</h3><br>user Name:'$name' <br>user Email:'$email' <br>user contact:'$phone'<br>user Comment:'$comment'";
+
+                    $this->load->library('email');
+                    $this->email->from('avinash@wohlig.com', 'For Any Information Listing');
+                    $this->email->to($listingemail);
+                    $this->email->subject('User Details');
+                    $this->email->message($listingmsg);
+
+                    $this->email->send();
+                }
+            
+            }
             
 			if($this->enquiry_model->create($name,$listing,$email,$phone,$category,$typeofenquiry,$comment)==0)
 			$data['alerterror']="New enquiry could not be created.";
@@ -2814,6 +2895,7 @@ class Site extends CI_Controller
 		{
             $order=$this->input->post('order');
             $listing=$this->input->post('listing');
+            
 			$config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -2824,6 +2906,7 @@ class Site extends CI_Controller
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
 			}
+            //echo $image;
 			if($this->listing_model->createlistingimages($listing,$order,$image)==0)
 			$data['alerterror']="New Image could not be created.";
 			else
@@ -2831,7 +2914,7 @@ class Site extends CI_Controller
 			
 			$data['table']=$this->listing_model->viewlistingimages($listing);
             $data['redirect']="site/viewlistingimages?id=".$listing;
-			$this->load->view("redirect",$data);
+			$this->load->view("redirect2",$data);
 //            $data['page']='viewlistingimages';
 //            $data['title']='View listingimages';
 //            $this->load->view('template',$data);
@@ -2902,7 +2985,7 @@ class Site extends CI_Controller
 			
 			$data['table']=$this->listing_model->viewlistingimages($listing);
             $data['redirect']="site/viewlistingimages?id=".$listing;
-			$this->load->view("redirect",$data);
+			$this->load->view("redirect2",$data);
 			
 		}
 	}
@@ -2916,7 +2999,7 @@ class Site extends CI_Controller
         $data['alerterror']="Image Deleted Successfully.";
 		$data['table']=$this->listing_model->viewlistingimages($listing);
         $data['redirect']="site/viewlistingimages?id=".$listing;
-        $this->load->view("redirect",$data);
+        $this->load->view("redirect2",$data);
 	}
      //email
     
