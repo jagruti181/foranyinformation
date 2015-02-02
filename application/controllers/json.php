@@ -119,14 +119,14 @@ class Json extends CI_Controller
             $this->email->message($usermsg);
 
             $this->email->send();
-            echo $usermsg."<br>";
+//            echo $usermsg."<br>";
             //to listing
 //            $firstname=$user->firstname;
 //            $lastname=$user->lastname;
 //            $email=$user->email;
 //            $contact=$user->contact;
             $listingmsg="<h3>All Details Of user</h3><br>user Name:'$name' <br>user Email:'$email' <br>user contact:'$phone'<br>user Comment:'$comment'";
-echo $listingmsg;
+//echo $listingmsg;
             $this->load->library('email');
             $this->email->from('avinash@wohlig.com', 'For Any Information Listing');
             $this->email->to($listingemail);
@@ -137,8 +137,8 @@ echo $listingmsg;
 
 //            echo $this->email->print_debugger();
         
-//        $data['message']=$this->enquiry_model->enquiryuser($name,$listingid,$email,$phone,$type,$comment);
-//        $this->load->view('json',$data);
+        $data['message']=$this->enquiry_model->enquiryuser($name,$listingid,$email,$phone,$type,$comment);
+        $this->load->view('json',$data);
     }
     public function login()
     {
