@@ -416,5 +416,25 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
 		$query=$this->db->query($query)->row();
 		return $query;
 	}
+    
+	function changefrontendpassword($id,$oldpassword,$newpassword)
+	{
+        $oldpasswordencrypt=md5($oldpassword);
+        $newpassword=md5($newpassword);
+		$query="SELECT `password`
+		FROM `user`
+       WHERE `user`.`id`='$id'";
+		$query=$this->db->query($query)->row();
+        $prevpass=$query->password;
+        if($oldpasswordencrypt==$prevpass)
+        {
+            $changepassquery=$this->db->query("UPDATE `user` SET `password`='$newpassword' WHERE `id`='$id'");
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+	}
 }
 ?>

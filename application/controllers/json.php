@@ -347,5 +347,16 @@ class Json extends CI_Controller
         $this->load->view('json',$data);
     }
     
+    public function changepassword()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $id=$data['id'];
+        $oldpassword=$data['oldpassword'];
+        $newpassword=$data['newpassword'];
+        $data['message']=$this->user_model->changefrontendpassword($id,$oldpassword,$newpassword);
+        $this->load->view('json',$data);
+    
+    }
+    
 }
 ?>
