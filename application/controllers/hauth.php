@@ -40,9 +40,6 @@ class HAuth extends CI_Controller {
                     $region=$user_profile->region;
                     $city=$user_profile->city;
                     $zip=$user_profile->zip;
-                    echo $newid;
-                    echo $email;
-                    print_r($user_profile);
 //                    $this->load->helper('url'); 
                     $checkfacebook=$this->db->query("SELECT count(*) as `count1` FROM `user` WHERE `facebookuserid`='$newid'")->row();
                     if($checkfacebook->count1=='0')
