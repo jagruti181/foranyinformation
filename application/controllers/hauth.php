@@ -26,12 +26,64 @@ class HAuth extends CI_Controller {
 					log_message('debug', 'controller.HAuth.login: user authenticated.');
 
 					$user_profile = $service->getUserProfile();
+                    
+                    $fullname=$user_profile->firstName.' '.$user_profile->lastName;
+                    $firstname=$user_profile->firstName;
+                    $lastname=$user_profile->lastName;
+                    $dob=$user_profile->birthYear.'-'.$user_profile->birthMonth.'-'.$user_profile->birthDay;
+                    $newid=$user_profile->identifier;
+                    $photo=$user_profile->photoURL;
+                    $email=$user_profile->email;
+                    $phone=$user_profile->phone;
+                    $address=$user_profile->address;
+                    $country=$user_profile->country;
+                    $region=$user_profile->region;
+                    $city=$user_profile->city;
+                    $zip=$user_profile->zip;
+                    echo $newid;
+                    echo $email;
+                    print_r($user_profile);
+//                    $this->load->helper('url'); 
+                    $checkfacebook=$this->db->query("SELECT count(*) as `count1` FROM `user` WHERE `facebookuserid`='$newid'")->row();
+                    if($checkfacebook->count1=='0')
+                    {
+                        $insertuserquery=$this->db->query("INSERT INTO `user`(`firstname`, `lastname`, `email`, `contact`, `address`, `city`, `pincode`, `dob`, `accesslevel`, `timestamp`, `facebookuserid`, `status`, `photo`, `phoneno`, `state`, `country`, `deletestatus`) VALUES ('$firstname','$lastname','$email','$phone','$address','$city','$zip','$dob',3,NULL,'$newid',1,'$photo','$phone','$state','$country',1)");
+                        $userid=$this->db->insert_id();
+                    $newdata = array(
+                        'email'     => $email,
+                        'firstname' => $firstname,
+                        'lastname' => $lastname,
+                        'logged_in' => true,
+                        'id'=> $userid
+                        );
 
+                        $this->session->set_userdata($newdata);
+                        redirect('http://www.mafiawarloots.com/anyinform');
+                    }
+                    else
+                    {
+                        $selectquery=$this->db->query("SELECT * FROM `user` WHERE `facebookuserid`='$newid'")->row();
+                        $userid=$selectquery->id;
+                        $email=$selectquery->email;
+                        $firstname=$selectquery->firstname;
+                        $lastname=$selectquery->lastname;
+                        
+                        $newdata = array(
+                        'email'     => $email,
+                        'firstname' => $firstname,
+                        'lastname' => $lastname,
+                        'logged_in' => true,
+                        'id'=> $userid
+                        );
+                        
+                        $this->session->set_userdata($newdata);
+                        redirect('http://www.mafiawarloots.com/anyinform');
+                    }
 					log_message('info', 'controllers.HAuth.login: user profile:'.PHP_EOL.print_r($user_profile, TRUE));
 
-					$data['user_profile'] = $user_profile;
-
-					$this->load->view('hauth/done',$data);
+//					$data['user_profile'] = $user_profile;
+//
+//					$this->load->view('hauth/done',$data);
 				}
 				else // Cannot authenticate user
 				{
