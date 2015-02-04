@@ -1166,7 +1166,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('country','country','trim|max_length[20]');
         $this->form_validation->set_rules('description','Description','trim|');
 		$this->form_validation->set_rules('contact','contactno','trim');
-		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
+		$this->form_validation->set_rules('email','Email','trim|valid_email');
         $this->form_validation->set_rules('website','Website','trim');
 		$this->form_validation->set_rules('facebookuserid','facebookuserid','trim');
 		$this->form_validation->set_rules('googleplus','googleplus','trim');
@@ -1311,7 +1311,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('country','country','trim|max_length[20]');
         $this->form_validation->set_rules('description','Description','trim|');
 		$this->form_validation->set_rules('contact','contactno','trim');
-		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
+		$this->form_validation->set_rules('email','Email','trim|valid_email');
         $this->form_validation->set_rules('website','Website','trim');
 		$this->form_validation->set_rules('facebookuserid','facebookuserid','trim');
 		$this->form_validation->set_rules('googleplus','googleplus','trim');
