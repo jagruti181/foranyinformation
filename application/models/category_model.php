@@ -215,12 +215,17 @@ HAVING `enddateofbanner`=`fivedaysbefore`")->result();
 	}
 	public function getcategoryforlistingdropdown()
 	{
-		$query=$this->db->query("SELECT * FROM `category`  ORDER BY `id` ASC")->result();
+		$query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`tab2`.`name` as `parent` FROM `category` 
+		LEFT JOIN `category` as `tab2` ON `tab2`.`id`=`category`.`parent` ")->result();
 		$return=array(
 		);
 		foreach($query as $row)
 		{
-			$return[$row->id]=$row->name;
+//            if($row->parent=="")
+//            {
+//                $value=
+//            }
+			$return[$row->id]=$row->name." (".$row->parent.")";
 		}
 		
 		return $return;
