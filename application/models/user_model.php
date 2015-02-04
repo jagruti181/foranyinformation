@@ -381,7 +381,7 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
             );
 
             $this->session->set_userdata($newdata);
-            return $this->session->userdata;
+            return $this->session->all_userdata();
         }
         else
         return false;
@@ -396,7 +396,7 @@ INNER JOIN  `accesslevel` ON  `user`.`accesslevel` =  `accesslevel`.`id` WHERE `
             return false;
         } //$is_logged_in !== 'true' || !isset( $is_logged_in )
         else {
-            return $this->session->userdata;
+            return $this->session->all_userdata();
         }
     }
     
