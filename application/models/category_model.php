@@ -412,6 +412,62 @@ ORDER BY `dist` ASC
         }
         return $return;
     }
+    public function getcategorytreeforlisting($id) 
+    {
+        $return=new stdClass();
+        if($id!=0)
+        {
+            $querymain=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`logo`,`category`.`image`,`tab2`.`name` as `parentname` FROM `category` 
+		LEFT JOIN `category` as `tab2` ON `tab2`.`id`=`category`.`parent` WHERE `category`.`id`='$id'")->row();
+        }
+        else
+        {
+            $querymain=new stdClass();
+            $querymain->id=0;
+            $querymain->name="Root";
+            $querymain->parentname="Parent";
+        }
+        $query=$this->db->query("SELECT `category`.`id`,`category`.`name`,`category`.`logo`,`category`.`image`,`tab2`.`name` as `parentname` FROM `category` 
+		LEFT JOIN `category` as `tab2` ON `tab2`.`id`=`category`.`parent` WHERE `category`.`parent`='$id' ");
+        
+        $return->id=$querymain->id;
+        $return->name=$querymain->name;
+        $return->parentname=$querymain->parentname;
+        $return->children=array();
+        
+        if($query->num_rows()==0)
+        {
+               
+        }
+        else
+        {
+            $query=$query->result();
+            foreach($query as $row)
+            {
+                array_push($return->children,$this->getcategorytreeforlisting($row->id));
+            }
+        }
+        return $return;
+    }
+    
+     public function getarray($data)
+    {
+        $ret=array();
+        for($i=0;$i<sizeof($data->children);$i++)
+        {
+           
+//            print_r($data->children[$i]->children);
+            if(empty($data->children[$i]->children))
+            {
+//                print_r($data->children[$i]);
+                array_push($ret,$data->children[$i]);
+            }else{
+                $this->getarray($data->children[$i]);
+            }
+        }
+             
+        return $ret;
+    }
     
     
 }

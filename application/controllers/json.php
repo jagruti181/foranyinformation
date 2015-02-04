@@ -323,6 +323,32 @@ class Json extends CI_Controller
         $data["message"]=$this->category_model->getcategorytree(0);
 		$this->load->view("json",$data);
     }
+    
+    function getcategorydemotree() {
+        $data=$this->category_model->getcategorytreeforlisting(0);
+        $this->getarray($data);
+        
+//        print_r($data);
+    }
+    public function getarray($data)
+    {
+        $ret = array();
+        for($i=0;$i<sizeof($data->children);$i++)
+        {
+           
+//            print_r($data->children[$i]->children);
+            if(empty($data->children[$i]->children))
+            {
+//                print_r($data->children[$i]);
+                array_push($ret,$data->children[$i]);
+            }else{
+                $this->getarray($data->children[$i]);
+            }
+        }
+        return $ret;
+    }
+    
+    
     public function getspecialoffersbycategory()
     {
         $id=$this->input->get_post('categoryid');
