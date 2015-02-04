@@ -1112,7 +1112,7 @@ class Site extends CI_Controller
             if(empty($data->children[$i]->children))
             {
 //                print_r($data->children[$i]);
-                array_push($ret,$data->children[$i]);
+                array_push($ret[$data->id[$i]],(array)$data->children[$i]);
             }else{
                 $this->getarray($data->children[$i]);
             }
@@ -1132,19 +1132,23 @@ class Site extends CI_Controller
 		$data[ 'user' ] =$this->listing_model->getuserdropdown();
         $data[ 'city' ] =$this->city_model->getcitydropdown();
         
-//        $cat=$this->category_model->getcategorytreeforlisting(0);
-//        $cat1=$this->getarray($cat);
-//        $data['category']=$cat1;
-//        print_r($data['category']);
-        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
-        
-        $data[ 'modeofpayment' ] =$this->modeofpayment_model->getmodeofpaymentforlistingdropdown();
-        $data[ 'daysofoperation' ] =$this->modeofpayment_model->getdaysofoperationforlistingdropdown();
-		$data[ 'page' ] = 'createlisting';
-		$data[ 'title' ] = 'Create listing';
-		$this->load->view( 'template', $data );	
+        $cat=$this->category_model->getcategorytreeforlisting(0);
+        $cat1=$this->getarray($cat);
+        $data['category']=$cat1;
+        print_r($data['category']);
+//        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
+//        
+//        $data[ 'modeofpayment' ] =$this->modeofpayment_model->getmodeofpaymentforlistingdropdown();
+//        $data[ 'daysofoperation' ] =$this->modeofpayment_model->getdaysofoperationforlistingdropdown();
+//		$data[ 'page' ] = 'createlisting';
+//		$data[ 'title' ] = 'Create listing';
+//		$this->load->view( 'template', $data );	
 	}
-    
+    public function cattt()
+    {
+    $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
+        print_r($data[ 'category' ]);
+    }
 	function createlistingsubmit()
 	{
 //        print_r($_POST);
