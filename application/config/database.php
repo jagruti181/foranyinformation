@@ -54,8 +54,8 @@ $myserver=$_SERVER['SERVER_NAME'];
 if($myserver!="localhost")
 {
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
+$db['default']['username'] = 'mafiawar_getall';
+$db['default']['password'] = 'chintan123';
 $db['default']['database'] = 'mafiawar_getall';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
