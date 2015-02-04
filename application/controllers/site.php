@@ -1132,17 +1132,17 @@ class Site extends CI_Controller
 		$data[ 'user' ] =$this->listing_model->getuserdropdown();
         $data[ 'city' ] =$this->city_model->getcitydropdown();
         
-        $cat=$this->category_model->getcategorytreeforlisting(0);
-        $cat1=$this->getarray($cat);
-        $data['category']=$cat1;
-        print_r($data['category']);
-//        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
-//        
-//        $data[ 'modeofpayment' ] =$this->modeofpayment_model->getmodeofpaymentforlistingdropdown();
-//        $data[ 'daysofoperation' ] =$this->modeofpayment_model->getdaysofoperationforlistingdropdown();
-//		$data[ 'page' ] = 'createlisting';
-//		$data[ 'title' ] = 'Create listing';
-//		$this->load->view( 'template', $data );	
+//        $cat=$this->category_model->getcategorytreeforlisting(0);
+//        $cat1=$this->getarray($cat);
+//        $data['category']=$cat1;
+//        print_r($data['category']);
+        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
+        
+        $data[ 'modeofpayment' ] =$this->modeofpayment_model->getmodeofpaymentforlistingdropdown();
+        $data[ 'daysofoperation' ] =$this->modeofpayment_model->getdaysofoperationforlistingdropdown();
+		$data[ 'page' ] = 'createlisting';
+		$data[ 'title' ] = 'Create listing';
+		$this->load->view( 'template', $data );	
 	}
     public function cattt()
     {
