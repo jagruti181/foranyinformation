@@ -11,6 +11,7 @@ class Site extends CI_Controller
 	{
 		$is_logged_in = $this->session->userdata( 'logged_in' );
 		if ( $is_logged_in !== 'true' || !isset( $is_logged_in ) ) {
+            $this->session->sess_destroy();
 			redirect( base_url() . 'index.php/login', 'refresh' );
 		} //$is_logged_in !== 'true' || !isset( $is_logged_in )
 	}
