@@ -29,6 +29,7 @@ class Json extends CI_Controller
 			$lastname=$data['lastname'];
 			$email=$data['email'];
 			$contact=$data['contact'];
+			$phoneno=$data['phoneno'];
             $dob=$data['dob'];
             $website=$data['website'];
             $address=$data['address'];
@@ -40,7 +41,7 @@ class Json extends CI_Controller
 			$facebookuserid=$data['facebookuserid'];
             $id=$data['id'];
             
-			if($this->frontend_model->saveprofile($id,$firstname,$lastname,$email,$contact,$dob,$website,$address,$city,$pincode,$state,$country,$google,$facebookuserid)==0)
+			if($this->frontend_model->saveprofile($id,$firstname,$lastname,$email,$contact,$phoneno,$dob,$website,$address,$city,$pincode,$state,$country,$google,$facebookuserid)==0)
 			$data['message']=0;
 			else
 			$data['message']=1;

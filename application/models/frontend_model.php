@@ -18,13 +18,14 @@ class Frontend_model extends CI_Model
 		return $status;
 	}
     
-    public function saveprofile($id,$firstname,$lastname,$email,$contact,$dob,$website,$address,$city,$pincode,$state,$country,$google,$facebookuserid){
+    public function saveprofile($id,$firstname,$lastname,$email,$contact,$phoneno,$dob,$website,$address,$city,$pincode,$state,$country,$google,$facebookuserid){
         
         $data  = array(
 			'firstname' => $firstname,
             'lastname' => $lastname,
             'email' => $email,
             'contact' => $contact,
+            'phoneno' => $phoneno,
             'dob' => $dob,
             'website' => $website,
             'address' => $address,
