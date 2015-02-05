@@ -465,16 +465,13 @@ class Enquiry_model extends CI_Model
 //         }
 //	}
     
-    public function sendenquiryemail($listingid,$name,$email,$phone,$comment)
+    public function enquiryemail($listingid,$name,$email,$phone,$comment)
     {
-//        $userid=$this->input->get_post('userid');
-//        $listingid=$this->input->get_post('listingid');
-        $user=$this->user_model->getallinfoofuser($userid);
-//        print_r($user);
-        $touser=$user->email;
+        $touser=$email;
         $listing=$this->listing_model->getallinfooflisting($listingid);
-//        print_r($user);
         $tolisting= $listing->email;
+        $tolisting = explode(",", $tolisting);
+        
         $listingname= $listing->name;
         $listingaddress= $listing->address;
         $listingstate= $listing->state;
@@ -482,31 +479,25 @@ class Enquiry_model extends CI_Model
         $listingemail= $listing->email;
         $listingyearofestablishment= $listing->yearofestablishment;
         $usermsg="<h3>All Details Of Listing</h3><br>Listing Name:'$listingname' <br>Listing address:'$listingaddress' <br>Listing state:'$listingstate' <br>Listing contactno:'$listingcontactno' <br>Listing email:'$listingemail' <br>Listing yearofestablishment:'$listingyearofestablishment' <br>";
-//        echo $msg;
-        //to user
+        
         $this->load->library('email');
         $this->email->from('avinash@wohlig.com', 'For Any Information To User');
         $this->email->to($touser);
         $this->email->subject('Listing Details');
         $this->email->message($usermsg);
-
         $this->email->send();
         
-        //to listing
-        $firstname=$user->firstname;
-        $lastname=$user->lastname;
-        $email=$user->email;
-        $contact=$user->contact;
-        $listingmsg="<h3>All Details Of user</h3><br>user Name:'$name' <br>user Email:'$email' <br>user contact:'$contact'";
+        $listingmsg="<h3>All Details Of user</h3><br>user Name:'$name' <br>user Email:'$email' <br>user contact:'$contact'<br>Comment:'$comment'";
         
         $this->load->library('email');
-        $this->email->from('avinash@wohlig.com', 'For Any Information Listing');
+        $this->email->from("avinash@wohlig.com", "For Any Information (User Information Who Enquiry For Listing '$listingname')");
         $this->email->to($tolisting);
         $this->email->subject('User Details');
         $this->email->message($listingmsg);
 
         $this->email->send();
 
+//        echo $this->email->print_debugger();
     }
 }
 ?>
