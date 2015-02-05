@@ -313,7 +313,7 @@ class Enquiry_model extends CI_Model
                 $enquiryid=$this->db->insert_id();
                 
                 $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$enquiryid',1,'$listingid','$comment')");
-
+                $this->enquiryemail($listingid,$name,$email,$phone,$comment);
                 if(!$query)
                     return  0;
                 else
@@ -326,19 +326,9 @@ class Enquiry_model extends CI_Model
              
              $queryenquirylistingcategory=$this->db->query("INSERT INTO `enquirylistingcategory`(`enquiryid`, `typeofenquiry`, `listing`, `comment`) VALUES ('$enquiryid',1,'$listingid','$comment')");
              
+             $this->enquiryemail($listingid,$name,$email,$phone,$comment);
              return 1;
              
-//             $queryselect="SELECT `enquirylistingcategory`.`id`, `enquirylistingcategory`.`enquiryid`, `enquirylistingcategory`.`typeofenquiry`, `enquirylistingcategory`.`listing`, `enquirylistingcategory`.`category`,`enquirylistingcategory`. `comment`, `enquirylistingcategory`.`timestamp` ,IFNULL(`category`.`name`,'NA') AS `categoryname`,IFNULL(`listing`.`name`,'NA') AS `listingname`
-//        FROM `enquirylistingcategory` 
-//        LEFT OUTER JOIN `listing` ON `enquirylistingcategory`.`listing`=`listing`.`id`
-//        INNER JOIN `enquiry` ON `enquirylistingcategory`.`enquiryid`=`enquiry`.`id`
-//        LEFT OUTER JOIN `category` ON `enquirylistingcategory`.`category`=`category`.`id`
-//        WHERE `enquiry`.`phone`='$number'";
-//		     $queryselect=$this->db->query($queryselect);
-//             $data['allenquiries']=$queryselect->result();
-//             $userdetailsquery=$this->db->query("SELECT `id`, `name`, `email`, `phone`, `timestamp`, `deletestatus` FROM `enquiry` WHERE `phone`='$number'");
-//             $data['userdetail']=$userdetailsquery->row();
-//             return $data;
          }
 	}
     
@@ -475,5 +465,48 @@ class Enquiry_model extends CI_Model
 //         }
 //	}
     
+    public function sendenquiryemail($listingid,$name,$email,$phone,$comment)
+    {
+//        $userid=$this->input->get_post('userid');
+//        $listingid=$this->input->get_post('listingid');
+        $user=$this->user_model->getallinfoofuser($userid);
+//        print_r($user);
+        $touser=$user->email;
+        $listing=$this->listing_model->getallinfooflisting($listingid);
+//        print_r($user);
+        $tolisting= $listing->email;
+        $listingname= $listing->name;
+        $listingaddress= $listing->address;
+        $listingstate= $listing->state;
+        $listingcontactno= $listing->contactno;
+        $listingemail= $listing->email;
+        $listingyearofestablishment= $listing->yearofestablishment;
+        $usermsg="<h3>All Details Of Listing</h3><br>Listing Name:'$listingname' <br>Listing address:'$listingaddress' <br>Listing state:'$listingstate' <br>Listing contactno:'$listingcontactno' <br>Listing email:'$listingemail' <br>Listing yearofestablishment:'$listingyearofestablishment' <br>";
+//        echo $msg;
+        //to user
+        $this->load->library('email');
+        $this->email->from('avinash@wohlig.com', 'For Any Information To User');
+        $this->email->to($touser);
+        $this->email->subject('Listing Details');
+        $this->email->message($usermsg);
+
+        $this->email->send();
+        
+        //to listing
+        $firstname=$user->firstname;
+        $lastname=$user->lastname;
+        $email=$user->email;
+        $contact=$user->contact;
+        $listingmsg="<h3>All Details Of user</h3><br>user Name:'$name' <br>user Email:'$email' <br>user contact:'$contact'";
+        
+        $this->load->library('email');
+        $this->email->from('avinash@wohlig.com', 'For Any Information Listing');
+        $this->email->to($tolisting);
+        $this->email->subject('User Details');
+        $this->email->message($listingmsg);
+
+        $this->email->send();
+
+    }
 }
 ?>

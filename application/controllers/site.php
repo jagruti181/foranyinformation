@@ -1101,25 +1101,42 @@ class Site extends CI_Controller
 		$this->load->view("json",$data);
 	} 
     
-    
-     public function getarray($data)
+     //$ret = array();
+     public function getarray($data,$parents)
     {
         $ret = array();
-        for($i=0;$i<sizeof($data->children);$i++)
+        if($parents=="")
         {
-           
-//            print_r($data->children[$i]->children);
-            if(empty($data->children[$i]->children))
-            {
-//                print_r($data->children[$i]);
-                array_push($ret[$data->id[$i]],(array)$data->children[$i]);
-            }else{
-                $this->getarray($data->children[$i]);
-            }
+            $name=$data->name;
         }
-//         print_r($ret);
-        return $ret;
+        else
+        {
+            $name=$parents." :: ".ucfirst($data->name);
+        }
+        $childrens=$data->children;
+        $num=sizeof($childrens); 
+        if($num>0)
+        {
+            for($i=0;$i<sizeof($data->children);$i++)
+            {
+                $newret=$this->getarray($data->children[$i],$name);
+                $ret=array_merge($ret,$newret);   
+            }
+            
+            return $ret;
+        }
+        else
+        {
+            $sinret=array();
+            $sinret[$data->id]=$name;
+            
+            array_push($ret,$sinret);
+            return $ret;
+        }
     }
+    
+    
+    
     
 	public function createlisting()
 	{
@@ -1132,11 +1149,13 @@ class Site extends CI_Controller
 		$data[ 'user' ] =$this->listing_model->getuserdropdown();
         $data[ 'city' ] =$this->city_model->getcitydropdown();
         
-//        $cat=$this->category_model->getcategorytreeforlisting(0);
-//        $cat1=$this->getarray($cat);
-//        $data['category']=$cat1;
+        $cat=$this->category_model->getcategorytreeforlisting(0);
+        $cat1=$this->getarray($cat,"");
+        
+        $data['category']=$cat1;
 //        print_r($data['category']);
-        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
+//        $this->load->view( 'json', $data );
+//        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
         
         $data[ 'modeofpayment' ] =$this->modeofpayment_model->getmodeofpaymentforlistingdropdown();
         $data[ 'daysofoperation' ] =$this->modeofpayment_model->getdaysofoperationforlistingdropdown();
@@ -1284,7 +1303,13 @@ class Site extends CI_Controller
         $data[ 'user' ] =$this->listing_model->getuserdropdown();
         $data[ 'city' ] =$this->city_model->getcitydropdown();
 		$data['before']=$this->listing_model->beforeedit($this->input->get('id'));
-        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
+//        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
+        
+        $cat=$this->category_model->getcategorytreeforlisting(0);
+        $cat1=$this->getarray($cat,"");
+        
+        $data['category']=$cat1;
+        
         $data[ 'selectedcategory' ] =$this->category_model->getselectedcategoryforlistingdropdown($this->input->get('id'));
         $data[ 'modeofpayment' ] =$this->modeofpayment_model->getmodeofpaymentforlistingdropdown();
         $data[ 'selectedmodeofpayment' ] =$this->modeofpayment_model->getselectedmodeofpaymentforlistingdropdown($this->input->get('id'));
