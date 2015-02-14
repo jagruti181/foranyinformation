@@ -3209,7 +3209,12 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
+//        $data[ 'category' ] =$this->category_model->getcategoryforlistingdropdown();
+        
+        $cat=$this->category_model->getcategorytreeforlisting(0);
+        $cat1=$this->getarray($cat,"");
+        
+        $data['category']=$cat1;
 		$data[ 'page' ] = 'uploadlistingcsv';
 		$data[ 'title' ] = 'Upload Listing';
 		$this->load->view( 'template', $data );
