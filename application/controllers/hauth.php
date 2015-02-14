@@ -55,7 +55,7 @@ class HAuth extends CI_Controller {
                         );
 
                         $this->session->set_userdata($newdata);
-                        redirect('http://mafiawarloots.com/anyinform');
+                        redirect('http://www.foranyinformation.com');
                     }
                     else
                     {
@@ -74,7 +74,7 @@ class HAuth extends CI_Controller {
                         );
                         
                         $this->session->set_userdata($newdata);
-                        redirect('http://mafiawarloots.com/anyinform');
+                        redirect('http://www.foranyinformation.com');
                     }
 					log_message('info', 'controllers.HAuth.login: user profile:'.PHP_EOL.print_r($user_profile, TRUE));
 
